@@ -1,4 +1,6 @@
 # user-app
+[![Build Status](https://travis-ci.org/fabnumdef/e-chauffeur_user.svg?branch=master)](https://travis-ci.org/fabnumdef/e-chauffeur_user) 
+[![Coverage Status](https://coveralls.io/repos/github/fabnumdef/e-chauffeur_user/badge.svg?branch=master)](https://coveralls.io/github/fabnumdef/e-chauffeur_user?branch=master)
 
 > User app
 
