@@ -19,8 +19,8 @@
     "node-sass": "^4.10.0",
     "nuxt": "^2.0.0",
     "nuxt-leaflet": "0.0.10",
-    "qonfucius-nuxt-bulma": "0.0.2",
-    "qonfucius-nuxt-fontawesome": "0.0.3",
+    "qonfucius-nuxt-bulma": "0.0.3",
+    "qonfucius-nuxt-fontawesome": "^1.0.1",
     "sass-loader": "^7.1.0",
     "vue-float-label": "^1.6.1",
     "vue-socket.io": "^3.0.4"
@@ -32,8 +32,7 @@
     "eslint-import-resolver-webpack": "^0.10.1",
     "eslint-loader": "^2.0.0",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-vue": "^4.0.0",
-    "nodemon": "^1.11.0"
+    "eslint-plugin-vue": "^4.0.0"
   },
   "peerDependencies": {
     "vue": "2.x"
