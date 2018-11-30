@@ -1,0 +1,44 @@
+/**************
+ *   Colors   *
+ **************/
+$blue-medium: #0053b3;
+$blue-light: #006be6;
+$blue-dark: #003b80;
+
+$white: hsl(0, 0%, 100%);
+$white-20: rgba($white, 0.2);
+$black: #1c1c1c;
+$gray: hsl(0, 0%, 90%);
+$light-gray: hsl(0, 0%, 94%);
+$dark-gray: hsl(0, 0%, 65%);
+
+/*************
+ *   Bulma   *
+ *************/
+$text: $white;
+$text-strong: $white;
+$background: $blue-light;
+$primary: $blue-medium;
+$family-sans-serif: 'Source Sans Pro', sans-serif;
+$link: $white;
+$link-hover: darken($white, 15%);
+$title-color: $text;
+$menu-item-radius: 0;
+
+// Forms
+$radius: 0;
+$input-background-color: transparent;
+$input-border-color: $text;
+$input-hover-border-color: $text;
+$input-color: $text;
+$input-hover-color: $text;
+$input-icon-color: $text;
+$input-icon-active-color: $text;
+$input-shadow: none;
+$input-focus-box-shadow-size: 0;
+$input-focus-border-color: $link-hover;
+
+// Buttons
+
+$button-color: $primary;
+$button-hover-color: $button-color;
