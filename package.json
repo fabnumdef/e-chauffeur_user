@@ -1,0 +1,41 @@
+{
+  "name": "user-app",
+  "version": "0.0.1",
+  "description": "User app",
+  "author": "Gaël",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "precommit": "npm run lint"
+  },
+  "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^5.5.0",
+    "@nuxtjs/axios": "^5.3.6",
+    "cross-env": "^5.2.0",
+    "node-sass": "^4.10.0",
+    "nuxt": "^2.0.0",
+    "nuxt-leaflet": "0.0.10",
+    "qonfucius-nuxt-bulma": "0.0.2",
+    "qonfucius-nuxt-fontawesome": "0.0.3",
+    "sass-loader": "^7.1.0",
+    "vue-float-label": "^1.6.1",
+    "vue-socket.io": "^3.0.4"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "eslint": "^5.0.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-import-resolver-webpack": "^0.10.1",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-vue": "^4.0.0",
+    "nodemon": "^1.11.0"
+  },
+  "peerDependencies": {
+    "vue": "2.x"
+  }
+}
