@@ -11,14 +11,28 @@
         </l-map>
       </no-ssr>
     </section>
-    <section class="elements">
+    <section class="elements container">
+      <ec-notif primary>{{rideId}}</ec-notif>
+      {{ride}}
       {{ rideId }}
+      <ec-box>
+        <hr />
+        <ec-button danger inverted fullwidth>Annuler la course</ec-button>
+      </ec-box>
     </section>
   </main>
 </template>
 
 <script>
+import ecNotif from '~/components/elements/notification.vue';
+import ecBox from '~/components/elements/box.vue';
+import ecButton from '~/components/elements/button.vue';
 export default {
+  components: {
+    ecNotif,
+    ecBox,
+    ecButton,
+  },
   asyncData: ({ params: { ride_id: rideId } }) => ({
     rideId,
   }),
@@ -26,6 +40,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  @import "~assets/css/head";
+
   .map {
     position: fixed;
     height: 100%;
@@ -35,6 +51,10 @@ export default {
   .elements {
     z-index: 1;
     position: relative;
-    color: red;
+    padding-top: $size-small
+  }
+
+  hr {
+    background: $light-gray;
   }
 </style>
