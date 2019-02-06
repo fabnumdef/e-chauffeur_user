@@ -49,6 +49,7 @@ module.exports = {
   modules: [
     'nuxt-leaflet',
     '@nuxtjs/axios',
+    '@nuxtjs/toast',
     ['qonfucius-nuxt-bulma', { css: false, postcss: false }],
     'qonfucius-nuxt-fontawesome',
   ],
@@ -64,5 +65,10 @@ module.exports = {
         icons: [],
       },
     ],
+  },
+
+  toast: {
+    position: 'bottom-right',
+    duration: 15000,
   },
 };
