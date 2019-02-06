@@ -21,9 +21,11 @@
     "nuxt-leaflet": "0.0.10",
     "qonfucius-nuxt-bulma": "0.0.3",
     "qonfucius-nuxt-fontawesome": "^1.0.1",
+    "qs": "^6.6.0",
     "sass-loader": "^7.1.0",
+    "socket.io-client": "^2.2.0",
     "vue-float-label": "^1.6.1",
-    "vue-socket.io": "^3.0.4"
+    "vue-socket.io-extended": "^3.2.1"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
