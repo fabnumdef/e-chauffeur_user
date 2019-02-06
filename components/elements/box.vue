@@ -1,22 +1,19 @@
 <template>
-  <div class="box" :class="classes">
+  <div class="box">
     <slot />
   </div>
 </template>
-<script>
-export default {
-  props: {
-  },
-  computed: {
-    classes() {
-      return {
-      };
-    },
-  },
-};
-</script>
-<style lang="scss">
+
+<style scoped lang="scss">
   @import "~assets/css/head";
+
+  $box-radius: 0;
+  $box-background-color: $white;
+  $box-color: findColorInvert($box-background-color);
+
   @import "~bulma/sass/elements/box.sass";
 
+  /deep/ strong {
+    color: $box-color;
+  }
 </style>
