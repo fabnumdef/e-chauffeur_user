@@ -38,6 +38,8 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/api',
+    '~/plugins/axios.js',
     '~/plugins/socket.js',
   ],
 
