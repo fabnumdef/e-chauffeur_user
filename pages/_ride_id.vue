@@ -33,8 +33,8 @@
           </l-marker>
 
           <l-marker
-            v-if="center"
-            :lat-lng="center"
+            v-if="userLocation"
+            :lat-lng="userLocation"
           >
             <l-icon>
               <fa-icon :icon="['fas', 'dot-circle']" class="current-position" />
@@ -49,8 +49,8 @@
           />
 
           <l-polyline
-            v-if="center && departureCoordinates"
-            :lat-lngs="[center, departureCoordinates]"
+            v-if="userLocation && departureCoordinates"
+            :lat-lngs="[userLocation, departureCoordinates]"
             class-name="dotted-line"
             :fill="false"
           />
@@ -132,16 +132,10 @@ export default {
 
       const { data: ride } = await rideAPI.getRide(rideId, token);
       const { data: driverPosition } = await rideAPI.getDriverPosition(rideId, token);
-      let center = null;
-      if (driverPosition && driverPosition.position && driverPosition.position.coordinates) {
-        const [lon, lat] = driverPosition.position.coordinates;
-        center = [lat, lon];
-      }
 
       return {
         ride,
         driverPosition,
-        center,
         userLocation: null,
         routePolyLine: null,
       };
@@ -176,7 +170,7 @@ export default {
 
     if (navigator && navigator.geolocation && navigator.geolocation.watchPosition) {
       this.listener = navigator.geolocation.watchPosition(({ coords: { latitude, longitude } }) => {
-        this.center = [latitude, longitude];
+        this.userLocation = [latitude, longitude];
       });
     }
   },
