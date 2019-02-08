@@ -59,7 +59,7 @@
     </section>
     <section class="elements container">
       <ec-notif primary>
-        <fa-icon :icon="['fas', 'flag']" />{{ ride }}
+        <fa-icon :icon="['fas', 'map-marker-alt']" /> Retrouvez votre chauffeur à <em>{{ ride.departure.label }}</em>.
       </ec-notif>
       <ec-box>
         <div class="columns">
@@ -258,6 +258,11 @@ export default {
     &-line {
       stroke: $primary;
     }
+  }
+
+  /deep/ .notification .svg-inline--fa {
+    margin-right: $size-small;
+
   }
 
   .current-position {
