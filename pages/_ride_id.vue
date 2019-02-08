@@ -1,15 +1,15 @@
 <template>
   <main>
-    <section class="map">
+    <section class="map" v-if="ride">
       <no-ssr>
         <l-map
-          v-if="center && ride"
           ref="map"
           :zoom="13"
-          :center="center"
+          :center="arrivalCoordinates"
           @leaflet:load="setRouting"
         >
           <l-tile-layer url="//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
           <l-marker
             v-if="departureCoordinates"
             :lat-lng="departureCoordinates"
@@ -18,6 +18,7 @@
               <fa-icon :icon="['fas', 'map-marker-alt']" class="primary-bubble" />
             </l-icon>
           </l-marker>
+
           <l-marker
             v-if="arrivalCoordinates"
             :lat-lng="arrivalCoordinates"
@@ -26,13 +27,31 @@
              <fa-icon :icon="['fas', 'flag']" class="primary-bubble" />
             </l-icon>
           </l-marker>
+
           <l-marker :lat-lng="carPosition">
             <l-icon icon-url="/icon.svg" />
           </l-marker>
+
+          <l-marker
+            v-if="center"
+            :lat-lng="center"
+          >
+            <l-icon>
+              <fa-icon :icon="['fas', 'dot-circle']" class="current-position" />
+            </l-icon>
+          </l-marker>
+
           <l-polyline
             v-if="routePolyLine"
             :lat-lngs="routePolyLine"
-            class="primary-line"
+            class-name="primary-line"
+            :fill="false"
+          />
+
+          <l-polyline
+            v-if="center && departureCoordinates"
+            :lat-lngs="[center, departureCoordinates]"
+            class-name="dotted-line"
             :fill="false"
           />
         </l-map>
@@ -157,7 +176,7 @@ export default {
 
     if (navigator && navigator.geolocation && navigator.geolocation.watchPosition) {
       this.listener = navigator.geolocation.watchPosition(({ coords: { latitude, longitude } }) => {
-        this.$refs.map.mapObject.flyTo([latitude, longitude], 16);
+        this.center = [latitude, longitude];
       });
     }
   },
@@ -235,7 +254,7 @@ export default {
     text-align: center;
   }
 
-  .primary {
+  /deep/ .primary {
     &-bubble {
       background: $primary;
       border-radius: 100%;
@@ -243,7 +262,20 @@ export default {
       box-sizing: content-box;
     }
     &-line {
-      fill: $primary;
+      stroke: $primary;
     }
+  }
+
+  .current-position {
+    background: $black;
+    color: $white;
+    border-radius: 100%;
+    box-sizing: content-box;
+    box-shadow: 0 0 0 5px rgba($primary, 0.6);
+  }
+
+  /deep/ .dotted-line {
+    stroke: $black;
+    stroke-dasharray: 1, 10;
   }
 </style>
