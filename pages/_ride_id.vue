@@ -76,14 +76,6 @@
         <div class="is-strong">
           {{ ride.driver.name }}
         </div>
-        <hr>
-        <ec-button
-          danger
-          inverted
-          fullwidth
-        >
-          Annuler la course
-        </ec-button>
       </ec-box>
     </section>
   </main>
