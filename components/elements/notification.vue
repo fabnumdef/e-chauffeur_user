@@ -1,18 +1,22 @@
 <template>
-  <div class="notification" :class="classes">
+  <div
+    :class="classes"
+    class="notification"
+  >
     <slot />
   </div>
 </template>
 <script>
-  const classModifiers = ['primary'];
+const classModifiers = ['primary'];
+
 export default {
   props: {
-    ...classModifiers.reduce((acc, curr) => Object.assign(acc, {[curr]: {type: Boolean, default: false}}), {})
+    ...classModifiers.reduce((acc, curr) => Object.assign(acc, { [curr]: { type: Boolean, default: false } }), {}),
   },
   computed: {
     classes() {
       return {
-        ...classModifiers.reduce((acc, curr) => Object.assign(acc, {[`is-${curr}`]: !!this[curr]}), {})
+        ...classModifiers.reduce((acc, curr) => Object.assign(acc, { [`is-${curr}`]: !!this[curr] }), {}),
       };
     },
   },

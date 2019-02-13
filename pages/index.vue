@@ -2,19 +2,32 @@
   <div class="container has-text-centered">
     <img
       src="~/static/logo.svg"
-      alt="E-chauffeur">
-    <form @submit.prevent="loadRide(rideId)">
+      alt="E-chauffeur"
+    >
+    <form @submit.prevent="loadRide(rideId, token)">
       <ec-field>
         <input
           v-model="rideId"
           class="input"
           type="text"
-          placeholder="Identifiant de course">
+          placeholder="Identifiant de course"
+        >
+      </ec-field>
+      <ec-field>
+        <input
+          v-model="token"
+          class="input"
+          type="text"
+          placeholder="Jeton de course"
+        >
       </ec-field>
       <button
         :disabled="!rideId"
         class="button"
-        type="submit">Voir la course</button>
+        type="submit"
+      >
+        Voir la course
+      </button>
     </form>
   </div>
 </template>
@@ -26,10 +39,10 @@ export default {
   components: {
     ecField,
   },
-  data: () => ({ rideId: null }),
+  data: () => ({ rideId: null, token: null }),
   methods: {
-    loadRide(rideId) {
-      this.$router.push({ name: 'ride_id', params: { ride_id: rideId } });
+    loadRide(rideId, token) {
+      this.$router.push({ name: 'ride_id', params: { ride_id: rideId }, query: { token } });
     },
   },
 };

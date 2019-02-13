@@ -38,6 +38,8 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/api',
+    '~/plugins/axios.js',
     '~/plugins/socket.js',
   ],
 
@@ -47,6 +49,7 @@ module.exports = {
   modules: [
     'nuxt-leaflet',
     '@nuxtjs/axios',
+    '@nuxtjs/toast',
     ['qonfucius-nuxt-bulma', { css: false, postcss: false }],
     'qonfucius-nuxt-fontawesome',
   ],
@@ -59,8 +62,13 @@ module.exports = {
     packs: [
       {
         package: '@fortawesome/free-solid-svg-icons',
-        icons: [],
+        icons: ['faFlag', 'faMapMarkerAlt', 'faDotCircle'],
       },
     ],
+  },
+
+  toast: {
+    position: 'bottom-right',
+    duration: 15000,
   },
 };
