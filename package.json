@@ -13,7 +13,7 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "@fortawesome/free-solid-svg-icons": "^5.7.1",
+    "@fortawesome/free-solid-svg-icons": "^5.7.2",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/toast": "^3.0.2",
     "cross-env": "^5.2.0",
@@ -34,12 +34,12 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
-    "eslint": "^5.13.0",
+    "eslint": "^5.14.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-import-resolver-webpack": "^0.11.0",
     "eslint-loader": "^2.1.2",
     "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-vue": "^5.1.0"
+    "eslint-plugin-vue": "^5.2.2"
   },
   "peerDependencies": {
     "vue": "2.x",

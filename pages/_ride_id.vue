@@ -1,6 +1,9 @@
 <template>
   <main>
-    <section class="map" v-if="ride">
+    <section
+      v-if="ride"
+      class="map"
+    >
       <no-ssr>
         <l-map
           ref="map"
@@ -15,7 +18,10 @@
             :lat-lng="departureCoordinates"
           >
             <l-icon>
-              <fa-icon :icon="['fas', 'map-marker-alt']" class="primary-bubble" />
+              <fa-icon
+                :icon="['fas', 'map-marker-alt']"
+                class="primary-bubble"
+              />
             </l-icon>
           </l-marker>
 
@@ -24,7 +30,10 @@
             :lat-lng="arrivalCoordinates"
           >
             <l-icon>
-             <fa-icon :icon="['fas', 'flag']" class="primary-bubble" />
+              <fa-icon
+                :icon="['fas', 'flag']"
+                class="primary-bubble"
+              />
             </l-icon>
           </l-marker>
 
@@ -37,7 +46,10 @@
             :lat-lng="userLocation"
           >
             <l-icon>
-              <fa-icon :icon="['fas', 'dot-circle']" class="current-position" />
+              <fa-icon
+                :icon="['fas', 'dot-circle']"
+                class="current-position"
+              />
             </l-icon>
           </l-marker>
 
@@ -84,7 +96,6 @@
 <script>
 import ecNotif from '~/components/elements/notification.vue';
 import ecBox from '~/components/elements/box.vue';
-import ecButton from '~/components/elements/button.vue';
 
 import 'polyline-encoded';
 import { L } from 'vue2-leaflet';
@@ -108,8 +119,24 @@ export default {
   components: {
     ecNotif,
     ecBox,
-    ecButton,
   },
+
+  computed: {
+    carPosition() {
+      if (
+        this.driverPosition
+        && this.driverPosition.position
+        && this.driverPosition.position.coordinates
+      ) {
+        const [lon, lat] = this.driverPosition.position.coordinates;
+        return [lat, lon];
+      }
+      return null;
+    },
+    departureCoordinates: reverseCoordinates('departure'),
+    arrivalCoordinates: reverseCoordinates('arrival'),
+  },
+
   async asyncData({
     app,
     $api,
@@ -136,22 +163,6 @@ export default {
       redirect('/');
       return {};
     }
-  },
-
-  computed: {
-    carPosition() {
-      if (
-        this.driverPosition
-        && this.driverPosition.position
-        && this.driverPosition.position.coordinates
-      ) {
-        const [lon, lat] = this.driverPosition.position.coordinates;
-        return [lat, lon];
-      }
-      return null;
-    },
-    departureCoordinates: reverseCoordinates('departure'),
-    arrivalCoordinates: reverseCoordinates('arrival'),
   },
 
   mounted() {
