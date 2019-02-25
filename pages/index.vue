@@ -2,7 +2,7 @@
   <div class="container has-text-centered">
     <img
       src="~/static/logo.svg"
-      alt="E-chauffeur"
+      alt="e-Chauffeur"
     >
     <form @submit.prevent="loadRide(rideId, token)">
       <ec-field>
