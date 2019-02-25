@@ -47,6 +47,7 @@ module.exports = {
     'nuxt-leaflet',
     '@nuxtjs/axios',
     '@nuxtjs/toast',
+    '@nuxtjs/pwa',
     ['qonfucius-nuxt-bulma', { css: false, postcss: false }],
     'qonfucius-nuxt-fontawesome',
   ],
