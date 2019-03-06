@@ -146,7 +146,7 @@ export default {
   }) {
     try {
       const rideAPI = $api
-        .rides('departure(label,location(coordinates)),arrival(label,location(coordinates)),'
+        .rides('id,departure(label,location(coordinates)),arrival(label,location(coordinates)),'
           + 'driver(id,name),car(id,model(label)),position');
 
       const { data: ride } = await rideAPI.getRide(rideId, token);
@@ -167,6 +167,7 @@ export default {
 
   mounted() {
     this.$socket.connect();
+    this.$socket.emit('roomJoinRide', { id: this.ride.id });
     this.$options.sockets.positionUpdate = (data) => {
       this.driverPosition = data;
     };
