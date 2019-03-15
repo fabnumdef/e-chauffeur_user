@@ -47,7 +47,7 @@ export default {
   },
 
   watch: {
-    '$route.path': function() {
+    '$route.path': function () {
       this.init();
     },
   },

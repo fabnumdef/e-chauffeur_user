@@ -1,8 +1,8 @@
 <template>
   <main>
     <section
-        id="ec-pres"
-        class="section"
+      id="ec-pres"
+      class="section"
     >
       <div class="columns">
         <div class="column is-6">
@@ -21,27 +21,27 @@
         </div>
         <div class="column">
           <img
-              src="smart_tab.png"
-              alt="E-chauffeur sur smartphone et tablette"
-              class="is-hidden-mobile"
+            src="smart_tab.png"
+            alt="E-chauffeur sur smartphone et tablette"
+            class="is-hidden-mobile"
           >
         </div>
       </div>
     </section>
 
     <section
-        id="ec-bn"
-        class="section"
+      id="ec-bn"
+      class="section"
     >
       <div class="bn-link">
         <a
-            v-for="campuse in campuses"
-            :key="campuse.id"
-            class="button"
-            :class="{
+          v-for="campuse in campuses"
+          :key="campuse.id"
+          class="button"
+          :class="{
             'is-active': btnActive[campuse.id]
           }"
-            @click="setInformations(campuse.id)"
+          @click="setInformations(campuse.id)"
         >
           {{ campuse.id }}
         </a>
@@ -57,9 +57,9 @@
 
         <div class="column">
           <img
-              :src="image"
-              width="770"
-              height="540px"
+            :src="image"
+            width="770"
+            height="540px"
           >
         </div>
       </div>
@@ -68,48 +68,48 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        campuses: null,
-        informations: '',
-        image: '',
-        btnActive: {},
-      };
-    },
+export default {
+  data() {
+    return {
+      campuses: null,
+      informations: '',
+      image: '',
+      btnActive: {},
+    };
+  },
 
-    async created() {
-      this.campuses = await this.getCampuses();
-      Object.keys(this.campuses).forEach((id) => {
-        this.btnActive[id] = false;
+  async created() {
+    this.campuses = await this.getCampuses();
+    Object.keys(this.campuses).forEach((id) => {
+      this.btnActive[id] = false;
+    });
+    this.setInformations(Object.keys(this.campuses)[0]);
+  },
+
+  methods: {
+    async getCampuses() {
+      const response = await this.$api.campuses.getCampuses('id,informations');
+      const campuses = response.data;
+
+      const campusesObject = {};
+      campuses.forEach((campuse) => {
+        campusesObject[campuse.id] = campuse;
       });
-      this.setInformations(Object.keys(this.campuses)[0]);
+
+      return campusesObject;
     },
 
-    methods: {
-      async getCampuses() {
-        const response = await this.$api.campuses.getCampuses('id,informations');
-        const campuses = response.data;
+    setInformations(id) {
+      Object.keys(this.btnActive).forEach((key) => {
+        this.btnActive[key] = false;
+      });
 
-        const campusesObject = {};
-        campuses.forEach((campuse) => {
-          campusesObject[campuse.id] = campuse;
-        });
-
-        return campusesObject;
-      },
-
-      setInformations(id) {
-        Object.keys(this.btnActive).forEach((key) => {
-          this.btnActive[key] = false;
-        });
-
-        this.btnActive[id] = true;
-        this.informations = this.campuses[id].informations;
-        this.image = `${id}.png`;
-      },
+      this.btnActive[id] = true;
+      this.informations = this.campuses[id].informations;
+      this.image = `${id}.png`;
     },
-  };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

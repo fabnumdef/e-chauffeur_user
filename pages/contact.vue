@@ -155,11 +155,10 @@
               name="message"
               :class="{ 'is-danger': errors.has('message') }"
               :placeholder="firstLetterCapitalize('tapez votre message')"
-            >
+            />
             <p class="help is-danger">
               {{ errors.first('message') }}
             </p>
-            </textarea>
           </ec-field>
         </div>
       </div>
@@ -195,7 +194,7 @@
         class="delete"
         @click="closeNotification()"
       >
-      {{ notification.mess }}
+        {{ notification.mess }}
       </button>
     </div>
   </main>
