@@ -124,11 +124,10 @@ export default {
   computed: {
     carPosition() {
       if (
-        this.driverPosition
-        && this.driverPosition.position
-        && this.driverPosition.position.coordinates
+        this.$store.state.driverPosition
+        && this.$store.state.driverPosition.coordinates
       ) {
-        const [lon, lat] = this.driverPosition.position.coordinates;
+        const [lon, lat] = this.$store.state.driverPosition.coordinates;
         return [lat, lon];
       }
       return null;
@@ -143,6 +142,7 @@ export default {
     query: { token = null } = {},
     params: { ride_id: rideId },
     redirect,
+    store,
   }) {
     try {
       const rideAPI = $api
@@ -151,10 +151,12 @@ export default {
 
       const { data: ride } = await rideAPI.getRide(rideId, token);
       const { data: driverPosition } = await rideAPI.getDriverPosition(rideId, token);
+      if (driverPosition && driverPosition.position) {
+        store.commit('setDriverPosition', driverPosition.position);
+      }
 
       return {
         ride,
-        driverPosition,
         userLocation: null,
         routePolyLine: null,
       };
@@ -166,11 +168,7 @@ export default {
   },
 
   mounted() {
-    this.$socket.connect();
-    this.$socket.emit('roomJoinRide', { id: this.ride.id });
-    this.$options.sockets.positionUpdate = (data) => {
-      this.driverPosition = data;
-    };
+    this.$store.commit('setRideId', this.ride.id);
 
     if (navigator && navigator.geolocation && navigator.geolocation.watchPosition) {
       this.listener = navigator.geolocation.watchPosition(({ coords: { latitude, longitude } }) => {
