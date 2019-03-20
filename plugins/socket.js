@@ -8,7 +8,7 @@ export default function ({ env, store }, inject) {
   Vue.use(VueSocketio, ioInstance, { store });
   inject('io', ioInstance);
   ioInstance.on('connect', () => {
-    ioInstance.emit('roomJoinRide', { id: store.state.rideId });
+    ioInstance.emit('roomJoinRide', { id: store.state.ride.ride.id });
   });
   const autoConnect = (rideId) => {
     if (rideId) {
@@ -17,6 +17,6 @@ export default function ({ env, store }, inject) {
       ioInstance.close();
     }
   };
-  autoConnect(store.state.rideId);
-  store.watch(state => state.rideId, autoConnect);
+  autoConnect(store.state.ride.ride.id);
+  store.watch(state => state.ride.ride.id, autoConnect);
 }

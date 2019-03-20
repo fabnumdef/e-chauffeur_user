@@ -1,24 +1,15 @@
 /* eslint-disable no-param-reassign */
 
-export const state = () => ({
-  rideId: '',
-  driverPosition: null,
-});
-
-export const mutations = {
-  setRideId(s, rideId) {
-    s.rideId = rideId;
-  },
-  setDriverPosition(s, position) {
-    s.driverPosition = position;
-  },
-};
+export const state = () => ({});
 
 export const actions = {
-  socket_positionUpdate({ commit }, payload) {
-    const position = {
-      coordinates: payload.position,
+  socket_positionUpdate({ commit }, { position, date }) {
+    const pos = {
+      coordinates: position,
     };
-    commit('setDriverPosition', position);
+    commit('driver/setDriverPosition', { position: pos, date });
+  },
+  socket_rideUpdate({ commit }, payload) {
+    commit('ride/setRide', payload);
   },
 };
