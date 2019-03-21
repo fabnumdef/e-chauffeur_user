@@ -42,7 +42,7 @@
           </l-marker>
 
           <l-marker
-            v-if="userLocation && ride.status !== 'progress' && ride.status !== 'delivered'"
+            v-if="userLocation && !inCar"
             :lat-lng="userLocation"
           >
             <l-icon>
@@ -61,7 +61,7 @@
           />
 
           <l-polyline
-            v-if="userLocation && departureCoordinates && ride.status !== 'progress' && ride.status !== 'delivered'"
+            v-if="userLocation && departureCoordinates && !inCar"
             :lat-lngs="[userLocation, departureCoordinates]"
             class-name="dotted-line"
             :fill="false"
@@ -71,7 +71,7 @@
     </section>
     <section class="elements container">
       <ec-notif
-        v-if="ride.status !== 'progress' && ride.status !== 'delivered'"
+        v-if="!inCar"
         primary
       >
         <fa-icon :icon="['fas', 'map-marker-alt']" /> Retrouvez votre chauffeur à <em>{{ ride.departure.label }}</em>.
@@ -97,6 +97,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { DELIVERED, IN_PROGRESS } from '~/api/status';
 import ecNotif from '~/components/elements/notification.vue';
 import ecBox from '~/components/elements/box.vue';
 
@@ -125,20 +127,12 @@ export default {
   },
 
   computed: {
-    carPosition() {
-      if (
-        this.$store.state.driver.position
-        && this.$store.state.driver.position.coordinates
-      ) {
-        const [lon, lat] = this.$store.state.driver.position.coordinates;
-        return [lat, lon];
-      }
-      return null;
-    },
+    ...mapGetters('ride', ['ride']),
+    ...mapGetters('driver', ['carPosition']),
     departureCoordinates: reverseCoordinates('departure'),
     arrivalCoordinates: reverseCoordinates('arrival'),
-    ride() {
-      return this.$store.state.ride.ride;
+    inCar() {
+      return this.ride.status === IN_PROGRESS || this.ride.status === DELIVERED;
     },
   },
 

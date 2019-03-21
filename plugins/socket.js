@@ -3,12 +3,13 @@ import VueSocketio from 'vue-socket.io-extended';
 import io from 'socket.io-client';
 
 
-export default function ({ env, store }, inject) {
+export default function ({ env, store, query }, inject) {
   const ioInstance = io(env.apiUrl, { autoConnect: false });
   Vue.use(VueSocketio, ioInstance, { store });
   inject('io', ioInstance);
   ioInstance.on('connect', () => {
-    ioInstance.emit('roomJoinRide', { id: store.state.ride.ride.id });
+    const { token = null } = query;
+    ioInstance.emit('roomJoinRide', { id: store.getters['ride/rideId'], token });
   });
   const autoConnect = (rideId) => {
     if (rideId) {
@@ -17,6 +18,6 @@ export default function ({ env, store }, inject) {
       ioInstance.close();
     }
   };
-  autoConnect(store.state.ride.ride.id);
-  store.watch(state => state.ride.ride.id, autoConnect);
+  autoConnect(store.getters['ride/rideId']);
+  store.watch((state, getters) => getters['ride/rideId'], autoConnect);
 }

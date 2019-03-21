@@ -6,6 +6,19 @@ export const state = () => ({
   position: {},
 });
 
+export const getters = {
+  position: s => s.position,
+  carPosition: (s) => {
+    if (
+      s.position
+      && s.position.coordinates
+    ) {
+      const [lon, lat] = s.position.coordinates;
+      return [lat, lon];
+    }
+    return null;
+  },
+};
 
 export const mutations = {
   setUser(s, user) {

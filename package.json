@@ -43,6 +43,7 @@
     "eslint-plugin-vue": "^5.2.2"
   },
   "peerDependencies": {
+    "vuex": "3.x",
     "vue": "2.x",
     "vue2-leaflet": "1.x"
   }
