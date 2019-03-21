@@ -4,10 +4,10 @@
       <div class="navbar-brand">
         <nuxt-link
           class="navbar-item"
-          to="/"
+          :to="{name: 'index'}"
         >
           <img
-            :src="logoPath"
+            :src="logoPath[$route.name]"
             alt="E-chauffeur"
           >
         </nuxt-link>
@@ -32,13 +32,13 @@
         <div class="navbar-end">
           <nuxt-link
             class="navbar-item"
-            to="/"
+            :to="{name: 'index'}"
           >
             Accueil
           </nuxt-link>
           <nuxt-link
             class="navbar-item"
-            to="/contact"
+            :to="{name: 'contact'}"
           >
             Nous contacter
           </nuxt-link>
@@ -49,46 +49,27 @@
 </template>
 
 <script>
+const LOGO = 'logo_ec.svg';
+const LOGO_BLUE = 'logo_ec_blue.svg';
+
 export default {
-  name: 'Header',
-
-  props: {
-    logoPath: {
-      type: String,
-      default: null,
-    },
-  },
-
   data() {
     return {
-      isBurgerMenu: null,
-      isBurgerMenuBlueColor: null,
+      logoPath: {
+        index: LOGO,
+        contact: LOGO_BLUE,
+      },
+      isBurgerMenu: false,
+      isBurgerMenuBlueColor: this.$route.name !== 'index',
     };
-  },
-
-  watch: {
-    '$route.path': function () {
-      this.init();
-    },
-  },
-
-  created() {
-    this.init();
   },
 
   methods: {
     toogleBurgerMenu() {
       this.isBurgerMenu = !this.isBurgerMenu;
     },
-
-    init() {
-      this.isBurgerMenu = false;
-      this.isBurgerMenuBlueColor = this.$route.name !== 'index';
-    },
   },
 };
-
-
 </script>
 
 <style lang="scss" scoped>
@@ -121,5 +102,4 @@ export default {
       }
     }
   }
-
 </style>

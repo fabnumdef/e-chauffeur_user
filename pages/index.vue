@@ -1,78 +1,90 @@
 <template>
-  <main>
-    <section
-      id="ec-pres"
-      class="section"
-    >
-      <div class="columns">
-        <div class="column is-6">
-          <h1 class="title">
-            Faites vous conduire à votre prochain rendez-vous professionnel.
-          </h1>
-          <p>
-            E-Chauffeur est un service de véhicule de trasport avec chauffeur accessible à tous les personnels du
-            Ministère des Armées pour les trajets professionnels uniquement.
-          </p>
-          <ul>
-            <li>Appelez le numéro e-Chauffeur de votre GS</li>
-            <li>Indiquez vos lieux de départ et de destination</li>
-            <li>Suivez l'arrivée de votre e-Chauffeur sur votre téléphone</li>
-          </ul>
+  <div class="container">
+    <div
+      id="shape-top"
+    />
+    <ec-header />
+    <main>
+      <section
+        id="ec-pres"
+        class="section"
+      >
+        <div class="columns">
+          <div class="column is-6">
+            <h1 class="title">
+              Faites vous conduire à votre prochain rendez-vous professionnel.
+            </h1>
+            <p>
+              E-Chauffeur est un service de véhicule de trasport avec chauffeur accessible à tous les personnels du
+              Ministère des Armées pour les trajets professionnels uniquement.
+            </p>
+            <ul>
+              <li>Appelez le numéro e-Chauffeur de votre GS</li>
+              <li>Indiquez vos lieux de départ et de destination</li>
+              <li>Suivez l'arrivée de votre e-Chauffeur sur votre téléphone</li>
+            </ul>
+          </div>
+          <div class="column">
+            <img
+              src="smart_tab.png"
+              alt="E-chauffeur sur smartphone et tablette"
+              class="is-hidden-mobile"
+            >
+          </div>
         </div>
-        <div class="column">
-          <img
-            src="smart_tab.png"
-            alt="E-chauffeur sur smartphone et tablette"
-            class="is-hidden-mobile"
+      </section>
+
+      <section
+        id="ec-bn"
+        class="section"
+      >
+        <div class="bn-link">
+          <a
+            v-for="campuse in campuses"
+            :key="campuse.id"
+            class="button"
+            :class="{
+              'is-active': btnActive[campuse.id]
+            }"
+            @click="setInformation(campuse.id)"
           >
-        </div>
-      </div>
-    </section>
-
-    <section
-      id="ec-bn"
-      class="section"
-    >
-      <div class="bn-link">
-        <a
-          v-for="campuse in campuses"
-          :key="campuse.id"
-          class="button"
-          :class="{
-            'is-active': btnActive[campuse.id]
-          }"
-          @click="setInformations(campuse.id)"
-        >
-          {{ campuse.id }}
-        </a>
-      </div>
-
-      <div class="columns">
-        <div class="column is-4 has-text-centered-mobile bn-infos">
-          <h1 class="title">
-            Informations
-          </h1>
-          <vue-simple-markdown :source="informations" />
+            {{ campuse.id }}
+          </a>
         </div>
 
-        <div class="column">
-          <img
-            :src="image"
-            width="770"
-            height="540px"
-          >
+        <div class="columns">
+          <div class="column is-4 has-text-centered-mobile bn-infos">
+            <h1 class="title">
+              Informations
+            </h1>
+            <vue-simple-markdown :source="information" />
+          </div>
+
+          <div class="column">
+            <img
+              :src="image"
+              width="770"
+              height="540px"
+            >
+          </div>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
+    </main>
+  </div>
 </template>
 
 <script>
+import ecHeader from '~/components/header.vue';
+
 export default {
+  components: {
+    ecHeader,
+  },
+
   data() {
     return {
-      campuses: null,
-      informations: '',
+      campuses: [],
+      information: '',
       image: '',
       btnActive: {},
     };
@@ -80,32 +92,23 @@ export default {
 
   async created() {
     this.campuses = await this.getCampuses();
-    Object.keys(this.campuses).forEach((id) => {
-      this.btnActive[id] = false;
-    });
-    this.setInformations(Object.keys(this.campuses)[0]);
+    this.setInformation(this.campuses[0].id);
   },
 
   methods: {
     async getCampuses() {
-      const response = await this.$api.campuses.getCampuses('id,informations');
+      const response = await this.$api.campuses.getCampuses();
       const campuses = response.data;
-
-      const campusesObject = {};
-      campuses.forEach((campuse) => {
-        campusesObject[campuse.id] = campuse;
-      });
-
-      return campusesObject;
+      return campuses;
     },
 
-    setInformations(id) {
-      Object.keys(this.btnActive).forEach((key) => {
-        this.btnActive[key] = false;
+    setInformation(id) {
+      this.campuses.forEach((campuse) => {
+        this.btnActive[campuse.id] = false;
       });
 
       this.btnActive[id] = true;
-      this.informations = this.campuses[id].informations;
+      this.information = this.campuses[this.campuses.findIndex(campuse => campuse.id === id)].information;
       this.image = `${id}.png`;
     },
   },
@@ -116,6 +119,10 @@ export default {
   @import "~assets/css/head";
 
   $text-color-blue: $blue-medium;
+
+  .container {
+    position: initial;
+  }
 
   #ec-pres {
     position: relative;
@@ -191,6 +198,18 @@ export default {
     }
   }
 
+  #shape-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 600px;
+    width: 100%;
+    background-image: linear-gradient(to right, #5534ff, #288eff 51%, #9df8cf);
+    border-bottom-left-radius: 100% 150%;
+    border-bottom-right-radius: 150% 200%;
+  }
+
+
   @media screen and (min-width: $widescreen) {
     #ec-bn {
       margin-top: 350px;
@@ -202,4 +221,18 @@ export default {
       margin-top: 200px;
     }
   }
+
+  @media screen and (max-width: $desktop) {
+    #shape-top {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  @media screen and (max-width: $tablet) {
+    #shape-top {
+      height: 525px;
+    }
+  }
+
 </style>

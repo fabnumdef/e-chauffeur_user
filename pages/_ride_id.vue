@@ -121,6 +121,8 @@ export default {
     ecBox,
   },
 
+  layout: 'ride',
+
   computed: {
     carPosition() {
       if (

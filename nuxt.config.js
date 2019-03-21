@@ -1,5 +1,3 @@
-const pkg = require('./package');
-
 module.exports = {
   mode: 'spa',
 
@@ -7,11 +5,13 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: pkg.name,
+    title: 'e-Chauffeur',
+    htmlAttrs: {
+      lang: 'fr',
+    },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description },
     ],
     link: [
       { rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600' },
@@ -52,6 +52,7 @@ module.exports = {
     'nuxt-leaflet',
     '@nuxtjs/axios',
     '@nuxtjs/toast',
+    '@nuxtjs/pwa',
     ['qonfucius-nuxt-bulma', { css: false, postcss: false }],
     'qonfucius-nuxt-fontawesome',
   ],
@@ -72,5 +73,12 @@ module.exports = {
   toast: {
     position: 'bottom-right',
     duration: 15000,
+  },
+
+  manifest: {
+    name: 'e-Chauffeur',
+    short_name: 'e-Chauffeur',
+    description: 'Application utilisateur',
+    lang: 'fr',
   },
 };

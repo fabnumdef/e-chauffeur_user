@@ -1,211 +1,221 @@
 <template>
-  <main>
-    <section
-      id="ec-questions"
-      class="section"
-    >
-      <div class="columns">
-        <div class="column is-5">
-          <h1 class="title">
-            Des questions sur le service e-Chauffeur ?
-          </h1>
-          <p>
-            Si vous avez la moindre question, n’hésitez pas à remplir le formulaire ci-dessous.
-            Nous tâcherons de revenir vers vous dans les plus brefs délais.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <form @submit.prevent="sendForm">
-      <div class="columns">
-        <div class="column">
-          <ec-field
-            :id="'ec-form-prenom'"
-            :label="'votre prénom'"
-          >
-            <input
-              id="ec-form-prenom"
-              v-model="fields.firstname"
-              v-validate="'required'"
-              type="text"
-              class="input"
-              name="firstname"
-              data-vv-as="prénom"
-              :class="{ 'is-danger': errors.has('firstname') }"
-              :placeholder="firstLetterCapitalize('tapez votre prénom')"
-            >
-            <p class="help is-danger">
-              {{ errors.first('firstname') }}
+  <div class="container">
+    <div
+      id="shape-top-right"
+    />
+    <div
+      id="shape-bottom-left"
+      class="is-hidden-touch"
+    />
+    <ec-header />
+    <main>
+      <section
+        id="ec-questions"
+        class="section"
+      >
+        <div class="columns">
+          <div class="column is-5">
+            <h1 class="title">
+              Des questions sur le service e-Chauffeur ?
+            </h1>
+            <p>
+              Si vous avez la moindre question, n’hésitez pas à remplir le formulaire ci-dessous.
+              Nous tâcherons de revenir vers vous dans les plus brefs délais.
             </p>
-          </ec-field>
-        </div>
-
-        <div class="column">
-          <ec-field
-            :id="'ec-form-nom'"
-            :label="'votre nom'"
-          >
-            <input
-              id="ec-form-nom"
-              v-model="fields.lastname"
-              v-validate="'required'"
-              type="text"
-              class="input"
-              name="lastname"
-              data-vv-as="nom"
-              :class="{ 'is-danger': errors.has('lastname') }"
-              :placeholder="firstLetterCapitalize('tapez votre nom')"
-            >
-            <p class="help is-danger">
-              {{ errors.first('lastname') }}
-            </p>
-          </ec-field>
-        </div>
-      </div>
-
-      <div class="columns">
-        <div class="column">
-          <ec-field
-            :id="'ec-form-email'"
-            :label="'votre courriel'"
-          >
-            <input
-              id="ec-form-email"
-              v-model="fields.email"
-              v-validate="'required|email'"
-              type="email"
-              class="input"
-              name="email"
-              data-vv-as="courriel"
-              :class="{ 'is-danger': errors.has('email') }"
-              :placeholder="firstLetterCapitalize('tapez votre courriel')"
-            >
-            <p class="help is-danger">
-              {{ errors.first('email') }}
-            </p>
-          </ec-field>
-        </div>
-
-        <div class="column">
-          <ec-field
-            :id="'ec-form-phone'"
-            :label="'votre numéro de téléphone'"
-          >
-            <input
-              id="ec-form-phone"
-              v-model="fields.phone"
-              v-validate="'numeric'"
-              type="tel"
-              class="input"
-              name="phone"
-              data-vv-as="téléphone"
-              :class="{ 'is-danger': errors.has('phone') }"
-              :placeholder="firstLetterCapitalize('tapez votre numéro de téléphone')"
-            >
-            <p class="help is-danger">
-              {{ errors.first('phone') }}
-            </p>
-          </ec-field>
-        </div>
-      </div>
-
-      <div class="columns">
-        <div class="column is-6">
-          <ec-field
-            :id="'ec-form-gsbdd'"
-            :label="'votre GSBdD'"
-          >
-            <div
-              class="select is-full"
-              :class="{ 'is-danger': errors.has('gsbdd') }"
-            >
-              <select
-                id="ec-form-gsbdd"
-                v-model="fields.gsbdd"
-                v-validate="'required'"
-                name="gsbdd"
-                :class="{ 'placeholder': !fields.gsbdd }"
-              >
-                <option value="">
-                  {{ firstLetterCapitalize('sélectionnez votre GSBdD') }}
-                </option>
-                <option>Toulon</option>
-                <option>Brest</option>
-              </select>
-            </div>
-            <p class="help is-danger">
-              {{ errors.first('gsbdd') }}
-            </p>
-          </ec-field>
-        </div>
-      </div>
-
-      <div class="columns">
-        <div class="column">
-          <ec-field
-            :id="'ec-form-message'"
-            :label="'votre message'"
-          >
-            <textarea
-              id="ec-form-message"
-              v-model="fields.message"
-              v-validate="'required'"
-              class="textarea"
-              name="message"
-              :class="{ 'is-danger': errors.has('message') }"
-              :placeholder="firstLetterCapitalize('tapez votre message')"
-            />
-            <p class="help is-danger">
-              {{ errors.first('message') }}
-            </p>
-          </ec-field>
-        </div>
-      </div>
-
-      <div class="columns">
-        <div class="column">
-          <div class="control has-text-right">
-            <button
-              class="button is-primary submit"
-              :class="{ 'is-loading': pending }"
-              :disabled="isBtnSubDisabled"
-            >
-              <span class="message">
-                <em>envoyer</em> mon <em>message</em>
-              </span>
-              <span>
-                <fa-icon
-                  :icon="['fas', 'chevron-right']"
-                />
-              </span>
-            </button>
           </div>
         </div>
-      </div>
-    </form>
+      </section>
 
-    <div
-      v-if="hasNotifications()"
-      class="notification"
-      :class="notification.class"
-    >
-      <button
-        class="delete"
-        @click="closeNotification()"
+      <form @submit.prevent="sendForm">
+        <div class="columns">
+          <div class="column">
+            <ec-field
+              id="ec-form-firstname"
+              label="votre prénom"
+            >
+              <input
+                id="ec-form-firstname"
+                v-model="fields.firstname"
+                v-validate="'required'"
+                type="text"
+                class="input"
+                name="firstname"
+                data-vv-as="prénom"
+                :class="{ 'is-danger': errors.has('firstname') }"
+                :placeholder="'Tapez votre prénom'"
+              >
+              <p class="help is-danger">
+                {{ errors.first('firstname') }}
+              </p>
+            </ec-field>
+          </div>
+
+          <div class="column">
+            <ec-field
+              id="ec-form-lastname"
+              label="votre nom"
+            >
+              <input
+                id="ec-form-nom"
+                v-model="fields.lastname"
+                v-validate="'required'"
+                type="text"
+                class="input"
+                name="lastname"
+                data-vv-as="nom"
+                :class="{ 'is-danger': errors.has('lastname') }"
+                :placeholder="'Tapez votre nom'"
+              >
+              <p class="help is-danger">
+                {{ errors.first('lastname') }}
+              </p>
+            </ec-field>
+          </div>
+        </div>
+
+        <div class="columns">
+          <div class="column">
+            <ec-field
+              id="ec-form-email"
+              label="votre courriel"
+            >
+              <input
+                id="ec-form-email"
+                v-model="fields.email"
+                v-validate="'required|email'"
+                type="email"
+                class="input"
+                name="email"
+                data-vv-as="courriel"
+                :class="{ 'is-danger': errors.has('email') }"
+                :placeholder="'Tapez votre courriel'"
+              >
+              <p class="help is-danger">
+                {{ errors.first('email') }}
+              </p>
+            </ec-field>
+          </div>
+
+          <div class="column">
+            <ec-field
+              id="ec-form-phone"
+              label="votre numéro de téléphone"
+            >
+              <input
+                id="ec-form-phone"
+                v-model="fields.phone"
+                v-validate="'numeric'"
+                type="tel"
+                class="input"
+                name="phone"
+                data-vv-as="téléphone"
+                :class="{ 'is-danger': errors.has('phone') }"
+                :placeholder="'Tapez votre numéro de téléphone'"
+              >
+              <p class="help is-danger">
+                {{ errors.first('phone') }}
+              </p>
+            </ec-field>
+          </div>
+        </div>
+
+        <div class="columns">
+          <div class="column is-6">
+            <ec-field
+              id="ec-form-gsbdd"
+              label="votre GSBdD"
+            >
+              <div
+                class="select is-full"
+                :class="{ 'is-danger': errors.has('gsbdd') }"
+              >
+                <select
+                  id="ec-form-gsbdd"
+                  v-model="fields.gsbdd"
+                  v-validate="'required'"
+                  name="gsbdd"
+                  :class="{ 'placeholder': !fields.gsbdd }"
+                >
+                  <option value="">
+                    Sélectionnez votre GSBdD
+                  </option>
+                  <option>Toulon</option>
+                  <option>Brest</option>
+                </select>
+              </div>
+              <p class="help is-danger">
+                {{ errors.first('gsbdd') }}
+              </p>
+            </ec-field>
+          </div>
+        </div>
+
+        <div class="columns">
+          <div class="column">
+            <ec-field
+              id="ec-form-message"
+              label="votre message"
+            >
+              <textarea
+                id="ec-form-message"
+                v-model="fields.message"
+                v-validate="'required'"
+                class="textarea"
+                name="message"
+                :class="{ 'is-danger': errors.has('message') }"
+                :placeholder="'Tapez votre message'"
+              />
+              <p class="help is-danger">
+                {{ errors.first('message') }}
+              </p>
+            </ec-field>
+          </div>
+        </div>
+
+        <div class="columns">
+          <div class="column">
+            <div class="control has-text-right">
+              <button
+                class="button is-primary submit"
+                :class="{ 'is-loading': pending }"
+                :disabled="isBtnSubDisabled"
+              >
+                <span class="message">
+                  <em>envoyer</em> mon <em>message</em>
+                </span>
+                <span>
+                  <fa-icon
+                    :icon="['fas', 'chevron-right']"
+                  />
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div
+        v-if="hasNotifications()"
+        class="notification"
+        :class="notification.class"
       >
+        <button
+          class="delete"
+          @click="closeNotification()"
+        />
         {{ notification.mess }}
-      </button>
-    </div>
-  </main>
+      </div>
+    </main>
+  </div>
 </template>
 
 <script>
+import ecHeader from '~/components/header.vue';
 import ecField from '~/components/form/field.vue';
 
 export default {
-  name: 'Contact',
   components: {
+    ecHeader,
     ecField,
   },
 
@@ -232,10 +242,6 @@ export default {
   },
 
   methods: {
-    firstLetterCapitalize(text) {
-      return text.charAt(0).toUpperCase() + text.slice(1);
-    },
-
     hasNotifications() {
       return Object.keys(this.notification).length > 0;
     },
@@ -256,14 +262,14 @@ export default {
       }
 
       this.pending = true;
-      const response = await this.$api.forms.postFormContact(this.fields);
 
-      if (response.status === 200) {
+      try {
+        await this.$api.forms.postFormContact(this.fields);
         this.notification = {
           class: 'is-success',
           mess: 'votre message a bien été envoyé.',
         };
-      } else {
+      } catch (e) {
         this.notification = {
           class: 'is-danger',
           mess: 'un problème est survenue dans l\'envoi de votre message.',
@@ -286,6 +292,10 @@ export default {
   $text-color: $blue-medium;
 
   $form-pading-left-right: $control-padding-horizontal;
+
+  .container {
+    position: initial;
+  }
 
   #ec-questions {
     position: relative;
@@ -373,6 +383,27 @@ export default {
         }
       }
     }
+  }
+
+  #shape-top-right {
+    position: absolute;
+    top: 0px;
+    right: 0;
+    height: 500px;
+    width: 35%;
+    background-image: linear-gradient(to right, #5534ff, #288eff 51%, #9df8cf);
+    border-bottom-left-radius: 100% 100%;
+  }
+
+  #shape-bottom-left {
+    position: absolute;
+    top: 450px;
+    left: 0;
+    height: 500px;
+    width: 8%;
+    background-image: linear-gradient(to top, #ff82a2, #ff5071);
+    border-top-right-radius: 150% 65%;
+    border-bottom-right-radius: 150% 100%;
   }
 </style>
 

@@ -1,16 +1,14 @@
-import qs from 'qs';
-
+const CONTENT_TYPE_JSON = 'application/json';
 export const ENTITY_PLURAL = 'forms';
-export const ENTITY = 'form';
 
 export default axios => ({
   async postFormContact(fields) {
     return axios.post(
       `/${ENTITY_PLURAL}/contact`,
-      qs.stringify(fields),
+      JSON.stringify(fields),
       {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': CONTENT_TYPE_JSON,
         },
       },
     );
