@@ -139,8 +139,12 @@
                   <option value="">
                     Sélectionnez votre GSBdD
                   </option>
-                  <option>Toulon</option>
-                  <option>Brest</option>
+                  <option
+                    v-for="gsbdd in gsbddList"
+                    :key="gsbdd.id"
+                  >
+                    {{ gsbdd }}
+                  </option>
                 </select>
               </div>
               <p class="help is-danger">
@@ -231,6 +235,7 @@ export default {
       },
       notification: {},
       pending: false,
+      gsbddList: this.$store.state.gsbdd.list,
     };
   },
 
