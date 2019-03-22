@@ -127,8 +127,10 @@ export default {
   },
 
   computed: {
-    ...mapGetters('ride', ['ride']),
-    ...mapGetters('driver', ['carPosition']),
+    ...mapGetters({
+      ride: 'ride/ride',
+      carPosition: 'driver/carPosition',
+    }),
     departureCoordinates: reverseCoordinates('departure'),
     arrivalCoordinates: reverseCoordinates('arrival'),
     inCar() {
