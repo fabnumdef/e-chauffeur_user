@@ -42,7 +42,7 @@
           </l-marker>
 
           <l-marker
-            v-if="userLocation"
+            v-if="userLocation && !inCar"
             :lat-lng="userLocation"
           >
             <l-icon>
@@ -61,7 +61,7 @@
           />
 
           <l-polyline
-            v-if="userLocation && departureCoordinates"
+            v-if="userLocation && departureCoordinates && !inCar"
             :lat-lngs="[userLocation, departureCoordinates]"
             class-name="dotted-line"
             :fill="false"
@@ -70,7 +70,10 @@
       </no-ssr>
     </section>
     <section class="elements container">
-      <ec-notif primary>
+      <ec-notif
+        v-if="!inCar"
+        primary
+      >
         <fa-icon :icon="['fas', 'map-marker-alt']" /> Retrouvez votre chauffeur à <em>{{ ride.departure.label }}</em>.
       </ec-notif>
       <ec-box>
@@ -94,6 +97,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { DELIVERED, IN_PROGRESS } from '~/api/status';
 import ecNotif from '~/components/elements/notification.vue';
 import ecBox from '~/components/elements/box.vue';
 
@@ -122,19 +127,15 @@ export default {
   },
 
   computed: {
-    carPosition() {
-      if (
-        this.driverPosition
-        && this.driverPosition.position
-        && this.driverPosition.position.coordinates
-      ) {
-        const [lon, lat] = this.driverPosition.position.coordinates;
-        return [lat, lon];
-      }
-      return null;
-    },
+    ...mapGetters({
+      ride: 'ride/ride',
+      carPosition: 'driver/carPosition',
+    }),
     departureCoordinates: reverseCoordinates('departure'),
     arrivalCoordinates: reverseCoordinates('arrival'),
+    inCar() {
+      return this.ride.status === IN_PROGRESS || this.ride.status === DELIVERED;
+    },
   },
 
   async asyncData({
@@ -143,18 +144,25 @@ export default {
     query: { token = null } = {},
     params: { ride_id: rideId },
     redirect,
+    store,
   }) {
     try {
       const rideAPI = $api
         .rides('id,departure(label,location(coordinates)),arrival(label,location(coordinates)),'
-          + 'driver(id,name),car(id,model(label)),position');
+          + 'driver(id,name),car(id,model(label)),position,status');
 
       const { data: ride } = await rideAPI.getRide(rideId, token);
-      const { data: driverPosition } = await rideAPI.getDriverPosition(rideId, token);
+      const { data: { position, date } } = await rideAPI.getDriverPosition(rideId, token);
+      if (position) {
+        store.commit('driver/setDriverPosition', {
+          position,
+          date,
+        });
+      }
+      store.commit('ride/setRide', ride);
+      store.commit('driver/setUser', ride.driver);
 
       return {
-        ride,
-        driverPosition,
         userLocation: null,
         routePolyLine: null,
       };
@@ -166,12 +174,6 @@ export default {
   },
 
   mounted() {
-    this.$socket.connect();
-    this.$socket.emit('roomJoinRide', { id: this.ride.id });
-    this.$options.sockets.positionUpdate = (data) => {
-      this.driverPosition = data;
-    };
-
     if (navigator && navigator.geolocation && navigator.geolocation.watchPosition) {
       this.listener = navigator.geolocation.watchPosition(({ coords: { latitude, longitude } }) => {
         this.userLocation = [latitude, longitude];
