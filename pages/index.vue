@@ -35,6 +35,7 @@
       </section>
 
       <section
+        v-if="campuses.length"
         id="ec-bn"
         class="section"
       >
@@ -63,7 +64,7 @@
           <div class="column">
             <img
               :src="image"
-              width="770"
+              width="770px"
               height="540px"
             >
           </div>
@@ -92,12 +93,14 @@ export default {
 
   async created() {
     this.campuses = await this.getCampuses();
-    this.setInformation(this.campuses[0].id);
+    if (this.campuses.length) {
+      this.setInformation(this.campuses[0].id);
+    }
   },
 
   methods: {
     async getCampuses() {
-      const response = await this.$api.campuses.getCampuses();
+      const response = await this.$api.campuses.getCampuses('id,information');
       const campuses = response.data;
       return campuses;
     },
