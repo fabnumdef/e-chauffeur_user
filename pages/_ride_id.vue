@@ -149,7 +149,7 @@ export default {
     try {
       const rideAPI = $api
         .rides('id,departure(label,location(coordinates)),arrival(label,location(coordinates)),'
-          + 'driver(id,name),car(id,model(label)),position,status');
+          + 'driver(id,name),car(id,model(label)),position,status,token');
 
       const { data: ride } = await rideAPI.getRide(rideId, token);
       const { data: { position, date } } = await rideAPI.getDriverPosition(rideId, token);
