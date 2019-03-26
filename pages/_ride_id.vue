@@ -126,6 +126,8 @@ export default {
     ecBox,
   },
 
+  layout: 'ride',
+
   computed: {
     ...mapGetters({
       ride: 'ride/ride',

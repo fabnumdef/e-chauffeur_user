@@ -41,6 +41,8 @@ module.exports = {
     '~/api',
     '~/plugins/axios.js',
     '~/plugins/socket.js',
+    '~/plugins/markdown.js',
+    '~/plugins/validator.js',
   ],
 
   /*
@@ -63,7 +65,7 @@ module.exports = {
     packs: [
       {
         package: '@fortawesome/free-solid-svg-icons',
-        icons: ['faFlag', 'faMapMarkerAlt', 'faDotCircle'],
+        icons: ['faFlag', 'faMapMarkerAlt', 'faDotCircle', 'faChevronRight'],
       },
     ],
   },

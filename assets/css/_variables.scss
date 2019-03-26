@@ -1,9 +1,10 @@
 /**************
  *   Colors   *
  **************/
-$blue-medium: #005cee;
+$blue-medium: #0053b3;
 $blue-light: #006be6;
 $blue-dark: #003b80;
+$color-input: #abb8cb;
 
 $white: hsl(0, 0%, 100%);
 $white-20: rgba($white, 0.2);
@@ -21,24 +22,30 @@ $background: $blue-light;
 $primary: $blue-medium;
 $family-sans-serif: 'Source Sans Pro', sans-serif;
 $link: $white;
-$link-hover: darken($white, 15%);
+$link-hover: $white;
 $title-color: $text;
 $menu-item-radius: 0;
 
+//Navbar
+$navbar-item-hover-background-color: transparent;
+$navbar-item-color: $white;
+$navbar-item-img-max-height: none;
+
+//Title
+$subtitle-color: $text;
+
 // Forms
-$radius: 0;
-$input-background-color: transparent;
-$input-border-color: $text;
-$input-hover-border-color: $text;
-$input-color: $text;
-$input-hover-color: $text;
-$input-icon-color: $text;
-$input-icon-active-color: $text;
+$label-color: $blue-medium;
+$input-background-color: $white;
+$input-border-color: $color-input;
+$input-hover-border-color: $color-input;
+$input-color: $black;
+$input-hover-color: $color-input;
 $input-shadow: none;
 $input-focus-box-shadow-size: 0;
-$input-focus-border-color: $link-hover;
+$input-focus-border-color: $color-input;
 
 // Buttons
-
 $button-color: $primary;
 $button-hover-color: $button-color;
+$button-background-color:transparent;
