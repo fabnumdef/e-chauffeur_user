@@ -28,7 +28,7 @@
             <img
               src="smart_tab.png"
               alt="E-chauffeur sur smartphone et tablette"
-              class="is-hidden-mobile"
+              class="is-hidden-touch"
             >
           </div>
         </div>
@@ -49,7 +49,7 @@
             }"
             @click="setInformation(campuse.id)"
           >
-            {{ campuse.id }}
+            {{ campuse.name }}
           </a>
         </div>
 
@@ -63,6 +63,7 @@
 
           <div class="column">
             <img
+              v-show="image"
               :src="image"
               width="770px"
               height="540px"
@@ -100,7 +101,7 @@ export default {
 
   methods: {
     async getCampuses() {
-      const response = await this.$api.campuses.getCampuses('id,information');
+      const response = await this.$api.campuses.getCampuses('id,information,name');
       const campuses = response.data;
       return campuses;
     },
@@ -112,7 +113,12 @@ export default {
 
       this.btnActive[id] = true;
       this.information = this.campuses[this.campuses.findIndex(campuse => campuse.id === id)].information;
-      this.image = `${id}.png`;
+      // @todo: Refactor this when decision on how to handle image is taken
+      if (id.indexOf('BSL') > -1) {
+        this.image = `${id}.png`;
+      } else {
+        this.image = '';
+      }
     },
   },
 };
@@ -219,7 +225,7 @@ export default {
     }
   }
 
-  @media screen and (max-width: $widescreen) {
+  @media screen and (min-width: $tablet) {
     #ec-bn {
       margin-top: 200px;
     }
@@ -235,6 +241,9 @@ export default {
   @media screen and (max-width: $tablet) {
     #shape-top {
       height: 525px;
+    }
+    #ec-pres {
+      background-image: linear-gradient(to right, #5534ff, #288eff 51%, #9df8cf);
     }
   }
 
