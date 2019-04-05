@@ -49,8 +49,6 @@ module.exports = {
   */
   modules: [
     'nuxt-leaflet',
-    '@nuxtjs/toast',
-    '@nuxtjs/pwa',
     [
       '@fabnumdef/e-chauffeur_lib-vue',
       {
