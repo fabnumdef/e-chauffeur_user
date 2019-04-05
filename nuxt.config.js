@@ -1,9 +1,6 @@
 module.exports = {
   mode: 'spa',
 
-  /*
-  ** Headers of the page
-  */
   head: {
     title: 'e-Chauffeur',
     htmlAttrs: {
@@ -18,14 +15,8 @@ module.exports = {
     ],
   },
 
-  /*
-  ** Customize the progress-bar color
-  */
   loading: { color: '#fff' },
 
-  /*
-  ** Global CSS
-  */
   css: [
     { src: '~assets/css/main.scss', lang: 'scss' },
   ],
@@ -34,9 +25,6 @@ module.exports = {
     apiUrl: process.env.API_URL,
   },
 
-  /*
-  ** Plugins to load before mounting the App
-  */
   plugins: [
     '~/api',
     '~/plugins/socket.js',
@@ -44,9 +32,6 @@ module.exports = {
     '~/plugins/validator.js',
   ],
 
-  /*
-  ** Nuxt.js modules
-  */
   modules: [
     'nuxt-leaflet',
     [
