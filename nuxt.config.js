@@ -39,7 +39,6 @@ module.exports = {
   */
   plugins: [
     '~/api',
-    '~/plugins/axios.js',
     '~/plugins/socket.js',
     '~/plugins/markdown.js',
     '~/plugins/validator.js',
@@ -50,16 +49,11 @@ module.exports = {
   */
   modules: [
     'nuxt-leaflet',
-    '@nuxtjs/axios',
     '@nuxtjs/toast',
     '@nuxtjs/pwa',
     ['qonfucius-nuxt-bulma', { css: false, postcss: false }],
     'qonfucius-nuxt-fontawesome',
   ],
-
-  axios: {
-    // See https://github.com/nuxt-community/axios-module#options
-  },
 
   fontAwesome: {
     packs: [
