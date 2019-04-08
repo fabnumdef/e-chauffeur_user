@@ -40,8 +40,6 @@ module.exports = {
         components: {},
       },
     ],
-    ['qonfucius-nuxt-bulma', { css: false, postcss: false }],
-    'qonfucius-nuxt-fontawesome',
   ],
 
   fontAwesome: {
