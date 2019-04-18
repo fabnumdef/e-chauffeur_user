@@ -1,13 +1,7 @@
-import Vue from 'vue';
-import VueSocketio from 'vue-socket.io-extended';
-import io from 'socket.io-client';
 import { CANCELED_STATUSES, DELIVERED } from '../api/status';
 
-
-export default function ({ env, store }, inject) {
-  const ioInstance = io(env.apiUrl, { autoConnect: false });
-  Vue.use(VueSocketio, ioInstance, { store });
-  inject('io', ioInstance);
+export default function ({ store, app }) {
+  const ioInstance = app.$io;
   ioInstance.on('connect', () => {
     ioInstance.emit(
       'roomJoinRide',
