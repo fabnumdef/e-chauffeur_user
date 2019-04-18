@@ -115,7 +115,7 @@ export default {
       this.information = this.campuses[this.campuses.findIndex(campuse => campuse.id === id)].information;
       // @todo: Refactor this when decision on how to handle image is taken
       if (id.indexOf('BSL') > -1) {
-        this.image = `${id}.png`;
+        this.image = 'bsl.png';
       } else {
         this.image = '';
       }
