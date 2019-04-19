@@ -15,7 +15,7 @@
               Faites vous conduire à votre prochain rendez-vous professionnel.
             </h1>
             <p>
-              E-Chauffeur est un service de véhicule de trasport avec chauffeur accessible à tous les personnels du
+              e-Chauffeur est un service de véhicule de transport avec chauffeur accessible à tous les personnels du
               Ministère des Armées pour les trajets professionnels uniquement.
             </p>
             <ul>
@@ -115,7 +115,7 @@ export default {
       this.information = this.campuses[this.campuses.findIndex(campuse => campuse.id === id)].information;
       // @todo: Refactor this when decision on how to handle image is taken
       if (id.indexOf('BSL') > -1) {
-        this.image = `${id}.png`;
+        this.image = 'bsl.png';
       } else {
         this.image = '';
       }
