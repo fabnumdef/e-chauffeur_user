@@ -98,13 +98,14 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { DELIVERED, IN_PROGRESS } from '~/api/status';
+import { DELIVERED, IN_PROGRESS } from '@fabnumdef/e-chauffeur_lib-vue/api/status/states';
 import ecNotif from '~/components/elements/notification.vue';
 import ecBox from '~/components/elements/box.vue';
 
 import 'polyline-encoded';
 import { L } from 'vue2-leaflet';
 import get from 'lodash.get';
+import { getRoute } from '../helpers/routing';
 
 function reverseCoordinates(key) {
   return function computed() {
@@ -150,7 +151,7 @@ export default {
   }) {
     try {
       const rideAPI = $api
-        .rides('id,departure(label,location(coordinates)),arrival(label,location(coordinates)),'
+        .rides(null, 'id,departure(label,location(coordinates)),arrival(label,location(coordinates)),'
           + 'driver(id,name),car(id,model(label)),position,status,token');
 
       const { data: ride } = await rideAPI.getRide(rideId, token);
@@ -201,8 +202,7 @@ export default {
         if (!arrival || !departure) {
           return;
         }
-        const { routes: [{ geometry }] } = await this.$api.routing
-          .getRoute(departure, arrival);
+        const { routes: [{ geometry }] } = await getRoute(departure, arrival);
         this.routePolyLine = L.PolylineUtil.decode(geometry);
       } catch (e) {
         // eslint-disable-next-line

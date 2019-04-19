@@ -1,4 +1,5 @@
-import { CANCELED_STATUSES, DELIVERED } from '../api/status';
+import { DELIVERED } from '@fabnumdef/e-chauffeur_lib-vue/api/status/states';
+import { CANCELED_STATUSES } from '@fabnumdef/e-chauffeur_lib-vue/api/status';
 
 export default function ({ store, app }) {
   const ioInstance = app.$io;
