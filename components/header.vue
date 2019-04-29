@@ -8,7 +8,7 @@
         >
           <img
             :src="logoPath[$route.name]"
-            alt="E-chauffeur"
+            alt="e-Chauffeur"
           >
         </nuxt-link>
         <a
