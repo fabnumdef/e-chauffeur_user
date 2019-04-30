@@ -5,7 +5,7 @@
         <div class="column is-3 has-text-centered-mobile">
           <img
             src="logo_ec_blue.svg"
-            alt="E-chauffeur"
+            alt="e-Chauffeur"
           >
         </div>
         <div class="column has-text-centered-mobile">

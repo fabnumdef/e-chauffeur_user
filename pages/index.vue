@@ -15,11 +15,11 @@
               Faites vous conduire à votre prochain rendez-vous professionnel.
             </h1>
             <p>
-              e-Chauffeur est un service de véhicule de transport avec chauffeur accessible à tous les personnels du
-              Ministère des Armées pour les trajets professionnels uniquement.
+              e-Chauffeur est un service de véhicule de transport avec chauffeur accessible à tout le personnel du
+              ministère des Armées pour les trajets professionnels uniquement.
             </p>
             <ul>
-              <li>Appelez le numéro e-Chauffeur de votre GS</li>
+              <li>Appelez le numéro e-Chauffeur de votre GSBdD</li>
               <li>Indiquez vos lieux de départ et de destination</li>
               <li>Suivez l'arrivée de votre e-Chauffeur sur votre téléphone</li>
             </ul>
@@ -27,7 +27,7 @@
           <div class="column">
             <img
               src="smart_tab.png"
-              alt="E-chauffeur sur smartphone et tablette"
+              alt="e-Chauffeur sur smartphone et tablette"
               class="is-hidden-touch"
             >
           </div>
