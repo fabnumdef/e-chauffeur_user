@@ -13,7 +13,7 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "@fabnumdef/e-chauffeur_lib-vue": "0.0.6",
+    "@fabnumdef/e-chauffeur_lib-vue": "0.0.7",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
     "lodash.get": "^4.4.2",
     "lodash.merge": "^4.6.1",
@@ -22,18 +22,18 @@
     "nuxt-leaflet": "0.0.19",
     "polyline-encoded": "0.0.8",
     "sass-loader": "^7.1.0",
-    "vee-validate": "^2.2.9",
+    "vee-validate": "^2.2.12",
     "vue-float-label": "^1.6.1",
     "vue-simple-markdown": "^1.0.9"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
+    "babel-eslint": "^10.0.2",
     "eslint": "^5.16.0",
-    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-airbnb-base": "^13.2.0",
     "eslint-import-resolver-webpack": "^0.11.0",
-    "eslint-loader": "^2.1.2",
-    "eslint-plugin-import": "^2.17.3",
-    "eslint-plugin-vue": "^5.2.2"
+    "eslint-loader": "^2.2.1",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-vue": "^5.2.3"
   },
   "peerDependencies": {
     "vuex": "3.x",
