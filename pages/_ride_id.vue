@@ -98,13 +98,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { DELIVERED, IN_PROGRESS } from '@fabnumdef/e-chauffeur_lib-vue/api/status/states';
-import ecNotif from '~/components/elements/notification.vue';
-import ecBox from '~/components/elements/box.vue';
-
 import 'polyline-encoded';
 import { L } from 'vue2-leaflet';
 import get from 'lodash.get';
+import { DELIVERED, IN_PROGRESS } from '@fabnumdef/e-chauffeur_lib-vue/api/status/states';
+import ecNotif from '~/components/elements/notification.vue';
+import ecBox from '~/components/elements/box.vue';
 import { getRoute } from '../helpers/routing';
 
 function reverseCoordinates(key) {
