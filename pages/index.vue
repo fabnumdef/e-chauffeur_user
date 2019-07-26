@@ -79,6 +79,7 @@
 import ecHeader from '~/components/header.vue';
 
 export default {
+  layout: 'home',
   components: {
     ecHeader,
   },
