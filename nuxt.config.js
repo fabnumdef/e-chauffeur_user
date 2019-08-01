@@ -14,7 +14,6 @@ module.exports = {
 
   plugins: [
     '~/plugins/socket.js',
-    '~/plugins/markdown.js',
     '~/plugins/validator.js',
   ],
 
