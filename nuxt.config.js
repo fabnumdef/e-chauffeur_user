@@ -28,7 +28,13 @@ module.exports = {
           campuses: 'campuses',
           rides: 'rides',
           forms: 'forms',
+          jwt: 'jwt',
+          users: 'users',
         },
+        withAuth: true,
+        authPlugins: [
+          'auth-renew',
+        ],
       },
     ],
   ],
