@@ -7,7 +7,7 @@
           :to="{name: 'index'}"
         >
           <img
-            :src="logoPath[$route.name]"
+            :src="`/logo_ec${logoColor?'_'+logoColor:''}.svg`"
             alt="e-Chauffeur"
           >
         </nuxt-link>
@@ -24,10 +24,7 @@
 
       <div
         class="navbar-menu"
-        :class="{
-          'is-active': isBurgerMenu,
-          'is-blue': isBurgerMenu && isBurgerMenuBlueColor
-        }"
+        :class="burgerMenuClasses"
       >
         <div class="navbar-end">
           <nuxt-link
@@ -49,21 +46,25 @@
 </template>
 
 <script>
-const LOGO = 'logo_ec.svg';
-const LOGO_BLUE = 'logo_ec_blue.svg';
 
 export default {
-  data() {
-    return {
-      logoPath: {
-        index: LOGO,
-        contact: LOGO_BLUE,
-      },
-      isBurgerMenu: false,
-      isBurgerMenuBlueColor: this.$route.name !== 'index',
-    };
+  props: {
+    logoColor: {
+      type: String,
+      default: null,
+    },
   },
-
+  data: () => ({
+    isBurgerMenu: false,
+  }),
+  computed: {
+    burgerMenuClasses() {
+      return {
+        'is-active': this.isBurgerMenu,
+        'is-blue': this.logoColor === 'blue',
+      };
+    },
+  },
   methods: {
     toogleBurgerMenu() {
       this.isBurgerMenu = !this.isBurgerMenu;
@@ -80,6 +81,7 @@ export default {
   header {
     background-color: transparent;
     margin-bottom: 50px;
+    padding: 30px 0;
 
     nav {
       background-color: transparent;
