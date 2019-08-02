@@ -15,6 +15,7 @@ module.exports = {
   plugins: [
     '~/plugins/socket.js',
     '~/plugins/validator.js',
+    '~/plugins/multiselect.js',
   ],
 
   modules: [
