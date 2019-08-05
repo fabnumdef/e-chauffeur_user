@@ -8,7 +8,7 @@
         id="shape-bottom-left"
         class="is-hidden-touch"
       />
-      <ec-header />
+      <ec-header logo-color="blue" />
       <nuxt />
     </div>
     <ec-footer />

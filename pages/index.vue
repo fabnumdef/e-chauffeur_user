@@ -1,11 +1,10 @@
 <template>
   <main>
     <section
-      id="ec-pres"
       class="section"
     >
       <div class="columns">
-        <div class="column is-6">
+        <div class="column is-7-widescreen is-10-fullhd">
           <h1 class="title">
             Faites vous conduire à votre prochain rendez-vous professionnel.
           </h1>
@@ -13,37 +12,50 @@
             e-Chauffeur est un service de véhicule de transport avec chauffeur accessible à tout le personnel du
             ministère des Armées pour les trajets professionnels uniquement.
           </p>
-          <ul>
-            <li>Appelez le numéro e-Chauffeur de votre GSBdD</li>
+          <ol>
+            <li>Inscrivez-vous ou connectez-vous sur notre plateforme.</li>
             <li>Indiquez vos lieux de départ et de destination</li>
             <li>Suivez l'arrivée de votre e-Chauffeur sur votre téléphone</li>
-          </ul>
+          </ol>
+          <p>
+            Vous pouvez également effectuer votre réservation par téléphone en journée du lundi au vendredi au :
+          </p>
+          <search-campus
+            v-model="phoneCampus"
+            class="search-campus"
+          />
         </div>
-        <div class="column">
-          <img
-            src="smart_tab.png"
-            alt="e-Chauffeur sur smartphone et tablette"
-            class="is-hidden-touch"
-          >
+      </div>
+    </section>
+    <section class="white-section">
+      <div class="fake-container">
+        <div class="title has-text-centered">
+          Pour vous inscrire, entrez tout d'abord votre courriel professionnel
         </div>
+        <pre-register />
+        Vous avez déjà un compte ? <nuxt-link :to="{name: 'login'}">
+          Connectez-vous
+        </nuxt-link>.
       </div>
     </section>
   </main>
 </template>
 
 <script>
-import ecHeader from '~/components/header.vue';
+import preRegister from '~/components/pre-register.vue';
+import searchCampus from '~/components/form/search-campus.vue';
 
 export default {
   layout: 'home',
   components: {
-    ecHeader,
+    searchCampus,
+    preRegister,
   },
 
   data() {
     return {
+      phoneCampus: null,
       campuses: [],
-      information: '',
       image: '',
       btnActive: {},
     };
@@ -58,9 +70,8 @@ export default {
 
   methods: {
     async getCampuses() {
-      const response = await this.$api.campuses.getCampuses('id,information,name');
-      const campuses = response.data;
-      return campuses;
+      const response = await this.$api.campuses.getCampuses('id,name');
+      return response.data;
     },
 
     setInformation(id) {
@@ -69,7 +80,6 @@ export default {
       });
 
       this.btnActive[id] = true;
-      this.information = this.campuses[this.campuses.findIndex(campuse => campuse.id === id)].information;
       // @todo: Refactor this when decision on how to handle image is taken
       if (id.indexOf('BSL') > -1) {
         this.image = 'bsl.png';
@@ -86,95 +96,88 @@ export default {
 
   $text-color-blue: $blue-medium;
 
-  #ec-pres {
-    position: relative;
-
-    p {
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
-
-    ul {
-      list-style: decimal;
-      padding-left: 15px;
-
-      li {
-        margin-bottom: 10px;
-        font-weight: bold;
-      }
-    }
-
-    img {
-      position: absolute;
-      top: -90px;
-      right: -405px;
-    }
+  p {
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
 
-  #ec-bn {
-    color: $text-color-blue;
-    background-color: rgba(234, 239, 244, 0.4);
+  ol {
+    counter-reset: li; /* Initiate a counter */
+    list-style: none; /* Remove default numbering */
+    *list-style: decimal; /* Keep using default numbering for IE6/7 */
+    font: 15px 'trebuchet MS', 'lucida sans';
+    padding: 0;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5);
 
-    a, .button {
-      color: $text-color-blue;
-      text-transform: uppercase;
-    }
-
-    img {
-      box-shadow: 10px 53px 105px -34px rgba(0,0,0,0.3);
-    }
-
-    .bn-link {
-      margin-bottom: 15px;
-
-      .button {
-        width: 90px;
-        border: 0;
-        border-radius: 0;
-
-        &.is-active, &:hover {
-          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        &.is-active {
-          background-color: $white;
-          color: $text-color-blue;
+    li {
+      font-weight: bold;
+      position: relative;
+      display: block;
+      padding-left: 40px;
+      margin: 20px 0;
+      color: $white;
+      text-decoration: none;
+      border-radius: .3em;
+      transition: all .3s ease-out;
+      &:before {
+          content: counter(li);
+          counter-increment: li;
+          position: absolute;
+          left: 0;
+          top: 10px;
+          margin-top: -15px;
+          height: 2em;
+          width: 2em;
+          line-height: 2em;
+          text-align: center;
           font-weight: bold;
+          background: linear-gradient(141.87deg, #FFFFFF -0.24%, #3374F7 53.22%, #5CBDEA 104.94%);
+          border-radius: 2em;
+      }
+    }
+  }
+
+  @media screen and (max-width: $tablet - 1) {
+    .section {
+      padding: 10px;
+    }
+    .white-section {
+      background: $white;
+    }
+  }
+
+  .white-section {
+    width: 100%;
+    .fake-container {
+    margin: 10px auto;
+      max-width: 440px;
+    }
+    .title {
+      color: $primary;
+      font-size: 1.7rem;
+      margin: 50px 0;
+    }
+  }
+
+  .search-campus {
+    max-width: 500px;
+    /deep/ {
+      .multiselect__single {
+        background: transparent;
+        color: $white;
+      }
+      .multiselect__tags {
+        background: transparent;
+
+      }
+      .multiselect__option {
+        &--highlight {
+          background-color: $primary;
+        }
+        &--selected {
+          background-color: $dark-gray;
         }
       }
-    }
-
-    .bn-infos {
-      margin-top: 30px;
-
-      h1 {
-        color: $text-color-blue;
-      }
-
-      .markdown-body {
-        color: $text-color-blue;
-        & /deep/ strong {
-          color: $text-color-blue;
-        }
-      }
-    }
-  }
-
-  @media screen and (min-width: $widescreen) {
-    #ec-bn {
-      margin-top: 350px;
-    }
-  }
-
-  @media screen and (min-width: $tablet) {
-    #ec-bn {
-      margin-top: 200px;
-    }
-  }
-
-  @media screen and (max-width: $tablet) {
-    #ec-pres {
-      background-image: linear-gradient(to right, #5534ff, #288eff 51%, #9df8cf);
     }
   }
 

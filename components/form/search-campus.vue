@@ -11,10 +11,16 @@
     :placeholder="placeholder"
     @input="onInput"
   >
-    <template slot="singleLabel" slot-scope="{option}">
+    <template
+      slot="singleLabel"
+      slot-scope="{option}"
+    >
       <span class="option__title">{{ option.name }}</span>
-      <span class="option__phone" v-if="option.phone && option.phone.everybody">
-        {{option.phone.everybody | phone}}
+      <span
+        v-if="option.phone && option.phone.everybody"
+        class="option__phone"
+      >
+        {{ option.phone.everybody | phone }}
       </span>
     </template>
   </vue-multiselect>
@@ -22,6 +28,10 @@
 <script>
 
 export default {
+  filters: {
+    phone: phone => phone.replace(/[^0-9]/g, '')
+      .replace(/(\d{2})(\d{1})(\d{2})(\d{2})(\d{2})(\d{2})/, '(+$1)$2 $3 $4 $5 $6'),
+  },
   props: {
     id: {
       type: String,
@@ -35,10 +45,6 @@ export default {
       type: String,
       default: null,
     },
-  },
-  filters: {
-    phone: phone => phone.replace(/[^0-9]/g, '')
-      .replace(/(\d{2})(\d{1})(\d{2})(\d{2})(\d{2})(\d{2})/, '(+$1)$2 $3 $4 $5 $6'),
   },
   data() {
     return {

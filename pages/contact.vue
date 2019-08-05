@@ -47,7 +47,7 @@
             label="votre nom"
           >
             <input
-              id="ec-form-nom"
+              id="ec-form-lastname"
               v-model="fields.lastname"
               v-validate="'required'"
               type="text"

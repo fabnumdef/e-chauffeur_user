@@ -45,7 +45,10 @@
             </button>
           </div>
           <div class="level-item">
-            <nuxt-link class="is-reset-password" :to="{ name: 'reset-password' }">
+            <nuxt-link
+              class="is-reset-password"
+              :to="{ name: 'reset-password' }"
+            >
               Mot de passe oublié ?
             </nuxt-link>
           </div>
@@ -53,9 +56,14 @@
 
         <!-- Right side -->
         <div class="level-right">
-          <p class="level-item"><nuxt-link :to="{name: 'index'}" class="button is-white">
-            Inscription
-          </nuxt-link></p>
+          <p class="level-item">
+            <nuxt-link
+              :to="{name: 'index'}"
+              class="button is-white"
+            >
+              Inscription
+            </nuxt-link>
+          </p>
         </div>
       </div>
     </form>

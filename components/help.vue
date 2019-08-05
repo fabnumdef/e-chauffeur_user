@@ -25,8 +25,8 @@
         <div class="field">
           <div class="control">
             <search-campus
-              class="search-campus"
               v-model="campus"
+              class="search-campus"
             />
           </div>
         </div>

@@ -6,7 +6,7 @@
       </div>
       <pre-register is-white />
       <p class="has-text-centered">
-         <help-button>Besoin d'aide ?</help-button>
+        <help-button>Besoin d'aide ?</help-button>
       </p>
     </div>
   </main>
@@ -27,12 +27,6 @@ export default {
 
 <style scoped lang="scss">
   @import "~assets/css/head";
-  /deep/ .label {
-    color: $white;
-    text-align: left;
-    font-weight: normal;
-    font-size: $size-6;
-  }
   .container {
     margin: 10px auto;
     width: 100%;

@@ -9,20 +9,24 @@
           v-model="email"
           type="email"
           class="input"
-          :class="{'is-white': isWhite}"
+          :class="colorClass"
           placeholder="john@doe.tld"
         >
       </div>
       <div class="control">
         <button
           class="button"
-          :class="{'is-white': isWhite}"
+          :class="colorClass"
+          :disabled="isEmailEmpty"
         >
           OK
         </button>
       </div>
     </form>
-    <div class="title has-text-centered">
+    <div
+      class="title has-text-centered"
+      :class="colorClass"
+    >
       Code de vérification
     </div>
     <form
@@ -34,7 +38,7 @@
           <input
             v-model="token"
             type="text"
-            :class="{'is-white': isWhite}"
+            :class="colorClass"
             class="input"
             placeholder="a0bg47"
             maxlength="6"
@@ -43,7 +47,8 @@
       </div>
       <button
         class="button"
-        :class="{'is-white': isWhite}"
+        :class="colorClass"
+        :disabled="isTokenNotFull"
       >
         Confirmer
       </button>
@@ -63,6 +68,17 @@ export default {
       email: '',
       token: '',
     };
+  },
+  computed: {
+    isEmailEmpty() {
+      return this.email.length < 1;
+    },
+    isTokenNotFull() {
+      return this.token.length !== 6;
+    },
+    colorClass() {
+      return this.isWhite ? 'is-white' : 'is-primary';
+    },
   },
   methods: {
     sendToken() {
@@ -102,17 +118,28 @@ export default {
       border: 0;
       padding: 0;
       width: $in-w;
-      background: repeating-linear-gradient(90deg,
-        $white 0, $white $char-w,
-        transparent 0, transparent $char-w + $gap)
-      0 80%/ #{$in-w - $gap} 2px no-repeat;
       letter-spacing: $gap;
       font: 4ch monospace;
       border-radius: 0;
-
-      &::placeholder {
-        color: $white;
+      &.is-white {
+        background: repeating-linear-gradient(90deg,
+          $white 0, $white $char-w,
+          transparent 0, transparent $char-w + $gap)
+        0 80%/ #{$in-w - $gap} 2px no-repeat;
+        &::placeholder {
+          color: $white;
+        }
       }
+      &.is-primary {
+        background: repeating-linear-gradient(90deg,
+          $primary 0, $primary $char-w,
+          transparent 0, transparent $char-w + $gap)
+        0 80%/ #{$in-w - $gap} 2px no-repeat;
+        &::placeholder {
+          color: $primary;
+        }
+      }
+
     }
     .button {
       display: block;
@@ -122,5 +149,8 @@ export default {
   .title {
     font-size: 1.7rem;
     margin: 25px 0;
+    &.is-primary {
+      color: $primary;
+    }
   }
 </style>

@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <div class="container">
-      <div id="shape-top" />
+  <div class="background">
+    <section class="container wrapper">
       <ec-header />
       <nuxt />
-    </div>
-    <ec-footer />
+    </section>
+    <ec-footer class="footer" />
   </div>
 </template>
-
 <script>
 import ecHeader from '~/components/header.vue';
 import ecFooter from '~/components/footer.vue';
@@ -20,37 +18,44 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
+<style scoped lang="scss">
   @import "~assets/css/head";
+  .background {
+    background: linear-gradient(75deg, rgb(80, 62, 255), rgb(41, 143, 255), rgb(116, 211, 224)) no-repeat top;
+    background-size:100% 100%;
+    @media screen and (min-width: $tablet) {
+      background-size:100% 540px;
+    }
 
-  $text-color-blue: $blue-medium;
-
-  .container {
-    position: initial;
-  }
-
-  #shape-top {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 600px;
-    width: 100%;
-    background-image: linear-gradient(to right, #5534ff, #288eff 51%, #9df8cf);
-    border-bottom-left-radius: 100% 150%;
-    border-bottom-right-radius: 150% 200%;
-  }
-
-  @media screen and (max-width: $desktop) {
-    #shape-top {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
+    height: 100vh;
+    margin: 0;
+    position: relative;
+    @media screen and (min-width: $widescreen) {
+      &:after {
+        content: " ";
+        display: block;
+        background: url("~assets/images/hand-app.png") no-repeat;
+        width: 1137*0.6px;
+        height: 863*0.6px;
+        position: absolute;
+        top: 250px;
+        right: 0;
+        background-size: 100%;
+        z-index: 0;
+      }
     }
   }
-
-  @media screen and (max-width: $tablet) {
-    #shape-top {
-      height: 525px;
+  .wrapper, .footer {
+    z-index: 1;
+  }
+  .wrapper {
+    min-height: 100%;
+    margin-bottom: -$footer-height;
+    &:after {
+      content: " ";
+      display: block;
+      width: 0;
+      height: $footer-height;
     }
   }
-
 </style>

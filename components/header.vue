@@ -80,7 +80,6 @@ export default {
 
   header {
     background-color: transparent;
-    margin-bottom: 50px;
     padding: 30px 0;
 
     nav {
