@@ -8,6 +8,10 @@ module.exports = {
     ],
   },
 
+  router: {
+    middleware: ['auth'],
+  },
+
   css: [
     { src: '~assets/css/main.scss', lang: 'scss' },
   ],
@@ -43,7 +47,10 @@ module.exports = {
     packs: [
       {
         package: '@fortawesome/free-solid-svg-icons',
-        icons: ['faFlag', 'faMapMarkerAlt', 'faDotCircle', 'faChevronRight'],
+        icons: [
+          'faFlag', 'faMapMarkerAlt', 'faDotCircle', 'faChevronRight', 'faCheckCircle', 'faTimesCircle',
+          'faSignOutAlt',
+        ],
       },
     ],
   },

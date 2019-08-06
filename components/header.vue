@@ -29,9 +29,9 @@
         <div class="navbar-end">
           <nuxt-link
             class="navbar-item"
-            :to="{name: 'index'}"
+            :to="{name: 'edit-account'}"
           >
-            Accueil
+            Mon compte
           </nuxt-link>
           <nuxt-link
             class="navbar-item"
@@ -39,6 +39,14 @@
           >
             Nous contacter
           </nuxt-link>
+          <button
+            class="navbar-item"
+            @click="logout()"
+            title="Déconnexion"
+            v-if="$auth.user"
+          >
+            <fa-icon icon="sign-out-alt" />
+          </button>
         </div>
       </div>
     </nav>
@@ -53,6 +61,10 @@ export default {
       type: String,
       default: null,
     },
+    menuColor: {
+      type: String,
+      default: null,
+    },
   },
   data: () => ({
     isBurgerMenu: false,
@@ -61,13 +73,21 @@ export default {
     burgerMenuClasses() {
       return {
         'is-active': this.isBurgerMenu,
-        'is-blue': this.logoColor === 'blue',
+        'is-blue': this.menuColor === 'blue',
       };
     },
   },
   methods: {
     toogleBurgerMenu() {
       this.isBurgerMenu = !this.isBurgerMenu;
+    },
+    logout() {
+      try {
+        this.$auth.logout();
+      } finally {
+        this.$toasted.success('À bientôt !');
+        this.$router.push('/');
+      }
     },
   },
 };
@@ -83,11 +103,13 @@ export default {
     padding: 30px 0;
 
     nav {
-      background-color: transparent;
+      background: transparent;
 
       .navbar-menu {
-        background-color: transparent;
-
+        background: rgba($white, 0.3);
+        @include desktop {
+          background: transparent;
+        }
         &.is-blue {
           color: $text-color;
           a, a:hover {
@@ -100,6 +122,13 @@ export default {
             text-decoration: underline;
           }
         }
+      }
+      button.navbar-item {
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        font-size: 1em;
+
       }
     }
   }

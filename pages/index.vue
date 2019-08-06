@@ -47,6 +47,7 @@ import searchCampus from '~/components/form/search-campus.vue';
 
 export default {
   layout: 'home',
+  auth: false,
   components: {
     searchCampus,
     preRegister,
@@ -136,8 +137,10 @@ export default {
       }
     }
   }
-
-  @media screen and (max-width: $tablet - 1) {
+  .section {
+    padding-top: 1rem;
+  }
+  @media screen and (max-width: $desktop - 1) {
     .section {
       padding: 10px;
     }

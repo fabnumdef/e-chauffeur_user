@@ -23,7 +23,7 @@ export default {
   .background {
     background: linear-gradient(75deg, rgb(80, 62, 255), rgb(41, 143, 255), rgb(116, 211, 224)) no-repeat top;
     background-size:100% 100%;
-    @media screen and (min-width: $tablet) {
+    @include desktop {
       background-size:100% 540px;
     }
 

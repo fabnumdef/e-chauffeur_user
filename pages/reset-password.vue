@@ -18,6 +18,7 @@ import helpButton from '~/components/help.vue';
 
 export default {
   layout: 'blue-background',
+  auth: false,
   components: {
     preRegister,
     helpButton,

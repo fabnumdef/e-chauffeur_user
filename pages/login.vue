@@ -74,6 +74,7 @@
 import ecField from '~/components/form/field';
 
 export default {
+  auth: false,
   layout: 'blue-background',
   components: {
     ecField,
