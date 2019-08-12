@@ -18,7 +18,7 @@
           required="required"
           class="input is-white"
           type="email"
-          placeholder="john@doe.com"
+          placeholder="john@doe.tld"
           autofocus="autofocus"
         >
       </ec-field>

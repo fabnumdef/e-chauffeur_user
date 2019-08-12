@@ -89,19 +89,19 @@
         </div>
         <div class="column">
           <ec-field
-            id="phone"
+            id="email_token"
             label="Code de confirmation courriel"
           >
             <div class="field has-addons">
               <div class="control is-expanded">
                 <input
-                  id="phone"
+                  id="email_token"
                   v-model="fields.email_token"
                   v-validate="'required'"
                   type="text"
                   class="input"
-                  name="phone"
-                  data-vv-as="Téléphone"
+                  name="email_token"
+                  data-vv-as="Code de confirmation (téléphone)"
                   :disabled="fields.email_confirmed"
                   :class="{ 'is-danger': errors.has('email_token') }"
                   :placeholder="'Tapez le jeton de confirmation reçu sur votre courriel'"
@@ -166,25 +166,25 @@
         </div>
         <div class="column">
           <ec-field
-            id="email"
+            id="phone_token"
             label="Code de confirmation téléphone"
           >
             <div class="field has-addons">
               <div class="control is-expanded">
                 <input
-                  id="email"
+                  id="phone_token"
                   v-model="fields.phone.token"
                   v-validate="'required'"
                   type="text"
                   class="input"
-                  name="email"
-                  data-vv-as="Email"
+                  name="phone_token"
+                  data-vv-as="Code de confirmation (Téléphone)"
                   :disabled="fields.phone.confirmed"
                   :class="{ 'is-danger': errors.has('phone.token') }"
                   :placeholder="'Tapez le code de confirmation reçu sur votre téléphone'"
                 >
                 <p class="help is-danger">
-                  {{ errors.first('email') }}
+                  {{ errors.first('phone.token') }}
                 </p>
               </div>
               <div class="control">
