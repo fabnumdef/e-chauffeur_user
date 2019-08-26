@@ -6,14 +6,18 @@ module.exports = {
     ],
   },
 
+  router: {
+    middleware: ['auth'],
+  },
+
   css: [
     { src: '~assets/css/main.scss', lang: 'scss' },
   ],
 
   plugins: [
     '~/plugins/socket.js',
-    '~/plugins/markdown.js',
     '~/plugins/validator.js',
+    '~/plugins/multiselect.js',
   ],
 
   modules: [
@@ -26,7 +30,13 @@ module.exports = {
           campuses: 'campuses',
           rides: 'rides',
           forms: 'forms',
+          jwt: 'jwt',
+          users: 'users',
         },
+        withAuth: true,
+        authPlugins: [
+          'auth-renew',
+        ],
       },
     ],
   ],
@@ -35,7 +45,10 @@ module.exports = {
     packs: [
       {
         package: '@fortawesome/free-solid-svg-icons',
-        icons: ['faFlag', 'faMapMarkerAlt', 'faDotCircle', 'faChevronRight'],
+        icons: [
+          'faFlag', 'faMapMarkerAlt', 'faDotCircle', 'faChevronRight', 'faCheckCircle', 'faTimesCircle',
+          'faSignOutAlt',
+        ],
       },
     ],
   },

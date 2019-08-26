@@ -1,11 +1,13 @@
 <template>
   <div class="field">
     <label
-      v-if="label"
+      v-if="label || $slots.label"
       :for="id"
       class="label"
     >
-      {{ label }}
+      <slot name="label">
+        {{ label }}
+      </slot>
     </label>
     <div class="control">
       <slot />

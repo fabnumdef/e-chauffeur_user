@@ -33,13 +33,13 @@
 
 <style lang="scss" scoped>
   @import "~assets/css/head";
-
+  footer {
+    height: $footer-height;
+    overflow: hidden;
+    background: white;
+    padding: 53px 0;
+  }
   .container {
-    margin-top: 100px;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    border-top: 1px solid $grey-lighter;
-
     .columns {
       .column {
         &:last-child {

@@ -1,3 +1,5 @@
+$footer-height: 200px;
+
 /**************
  *   Colors   *
  **************/
@@ -25,6 +27,8 @@ $link: $white;
 $link-hover: $white;
 $title-color: $text;
 $menu-item-radius: 0;
+$radius-small: 0;
+$radius: 2px;
 
 //Navbar
 $navbar-item-hover-background-color: transparent;
@@ -36,7 +40,7 @@ $subtitle-color: $text;
 
 // Forms
 $label-color: $blue-medium;
-$input-background-color: $white;
+$input-background-color: transparent;
 $input-border-color: $color-input;
 $input-hover-border-color: $color-input;
 $input-color: $black;
