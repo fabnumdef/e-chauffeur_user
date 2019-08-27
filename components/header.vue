@@ -40,10 +40,10 @@
             Nous contacter
           </nuxt-link>
           <button
-            class="navbar-item"
-            @click="logout()"
-            title="Déconnexion"
             v-if="$auth.user"
+            class="navbar-item"
+            title="Déconnexion"
+            @click="logout()"
           >
             <fa-icon icon="sign-out-alt" />
           </button>

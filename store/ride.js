@@ -4,7 +4,7 @@ export const state = () => ({
 });
 
 export const getters = {
-  ride: s => s.ride,
+  ride: (s) => s.ride,
   rideId: (s, g) => g.ride.id,
 };
 

@@ -7,7 +7,7 @@ export const state = () => ({
 });
 
 export const getters = {
-  position: s => s.position,
+  position: (s) => s.position,
   carPosition: (s) => {
     if (
       s.position
