@@ -7,7 +7,7 @@
           :to="{name: 'index'}"
         >
           <img
-            :src="logoPath[$route.name]"
+            :src="`/logo_ec${logoColor?'_'+logoColor:''}.svg`"
             alt="e-Chauffeur"
           >
         </nuxt-link>
@@ -24,17 +24,14 @@
 
       <div
         class="navbar-menu"
-        :class="{
-          'is-active': isBurgerMenu,
-          'is-blue': isBurgerMenu && isBurgerMenuBlueColor
-        }"
+        :class="burgerMenuClasses"
       >
         <div class="navbar-end">
           <nuxt-link
             class="navbar-item"
-            :to="{name: 'index'}"
+            :to="{name: 'edit-account'}"
           >
-            Accueil
+            Mon compte
           </nuxt-link>
           <nuxt-link
             class="navbar-item"
@@ -42,6 +39,14 @@
           >
             Nous contacter
           </nuxt-link>
+          <button
+            v-if="$auth.user"
+            class="navbar-item"
+            title="Déconnexion"
+            @click="logout()"
+          >
+            <fa-icon icon="sign-out-alt" />
+          </button>
         </div>
       </div>
     </nav>
@@ -49,24 +54,40 @@
 </template>
 
 <script>
-const LOGO = 'logo_ec.svg';
-const LOGO_BLUE = 'logo_ec_blue.svg';
 
 export default {
-  data() {
-    return {
-      logoPath: {
-        index: LOGO,
-        contact: LOGO_BLUE,
-      },
-      isBurgerMenu: false,
-      isBurgerMenuBlueColor: this.$route.name !== 'index',
-    };
+  props: {
+    logoColor: {
+      type: String,
+      default: null,
+    },
+    menuColor: {
+      type: String,
+      default: null,
+    },
   },
-
+  data: () => ({
+    isBurgerMenu: false,
+  }),
+  computed: {
+    burgerMenuClasses() {
+      return {
+        'is-active': this.isBurgerMenu,
+        'is-blue': this.menuColor === 'blue',
+      };
+    },
+  },
   methods: {
     toogleBurgerMenu() {
       this.isBurgerMenu = !this.isBurgerMenu;
+    },
+    logout() {
+      try {
+        this.$auth.logout();
+      } finally {
+        this.$toasted.success('À bientôt !');
+        this.$router.push('/');
+      }
     },
   },
 };
@@ -79,14 +100,16 @@ export default {
 
   header {
     background-color: transparent;
-    margin-bottom: 50px;
+    padding: 30px 0;
 
     nav {
-      background-color: transparent;
+      background: transparent;
 
       .navbar-menu {
-        background-color: transparent;
-
+        background: rgba($white, 0.3);
+        @include desktop {
+          background: transparent;
+        }
         &.is-blue {
           color: $text-color;
           a, a:hover {
@@ -99,6 +122,13 @@ export default {
             text-decoration: underline;
           }
         }
+      }
+      button.navbar-item {
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        font-size: 1em;
+
       }
     }
   }

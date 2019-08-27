@@ -4,7 +4,7 @@ export async function getRoute(...locs) {
   // todo: find a way to use axios here.
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    const waypoints = locs.map(l => l.join(',')).join(';');
+    const waypoints = locs.map((l) => l.join(',')).join(';');
     xhr.open(
       'GET',
       `${routingUrl}/${waypoints}?overview=full&steps=false&alternatives=false`,

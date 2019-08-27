@@ -1,11 +1,13 @@
 module.exports = {
-  mode: 'spa',
-
   head: {
     title: 'e-Chauffeur',
     link: [
       { rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600' },
     ],
+  },
+
+  router: {
+    middleware: ['auth'],
   },
 
   css: [
@@ -14,8 +16,8 @@ module.exports = {
 
   plugins: [
     '~/plugins/socket.js',
-    '~/plugins/markdown.js',
     '~/plugins/validator.js',
+    '~/plugins/multiselect.js',
   ],
 
   modules: [
@@ -28,7 +30,13 @@ module.exports = {
           campuses: 'campuses',
           rides: 'rides',
           forms: 'forms',
+          jwt: 'jwt',
+          users: 'users',
         },
+        withAuth: true,
+        authPlugins: [
+          'auth-renew',
+        ],
       },
     ],
   ],
@@ -37,7 +45,10 @@ module.exports = {
     packs: [
       {
         package: '@fortawesome/free-solid-svg-icons',
-        icons: ['faFlag', 'faMapMarkerAlt', 'faDotCircle', 'faChevronRight'],
+        icons: [
+          'faFlag', 'faMapMarkerAlt', 'faDotCircle', 'faChevronRight', 'faCheckCircle', 'faTimesCircle',
+          'faSignOutAlt',
+        ],
       },
     ],
   },
