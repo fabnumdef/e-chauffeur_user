@@ -29,7 +29,7 @@
 
 export default {
   filters: {
-    phone: phone => phone.replace(/[^0-9]/g, '')
+    phone: (phone) => phone.replace(/[^0-9]/g, '')
       .replace(/(\d{2})(\d{1})(\d{2})(\d{2})(\d{2})(\d{2})/, '(+$1)$2 $3 $4 $5 $6'),
   },
   props: {

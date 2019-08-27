@@ -1,6 +1,4 @@
 module.exports = {
-  mode: 'spa',
-
   head: {
     title: 'e-Chauffeur',
     link: [

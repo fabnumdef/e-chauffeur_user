@@ -246,7 +246,7 @@ export default {
 
     async validateForm() {
       await this.$validator.validate();
-      return !Object.keys(this.veeFields).some(key => this.veeFields[key].valid === false);
+      return !Object.keys(this.veeFields).some((key) => this.veeFields[key].valid === false);
     },
 
     async sendForm() {
