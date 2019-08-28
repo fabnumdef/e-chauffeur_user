@@ -17,7 +17,7 @@
         <button
           class="button"
           :class="colorClass"
-          :disabled="isEmailEmpty"
+          :disabled="isEmailEmpty || isLoading"
         >
           OK
         </button>
@@ -56,6 +56,8 @@
   </section>
 </template>
 <script>
+import lGet from 'lodash.get';
+
 export default {
   props: {
     isWhite: {
@@ -65,6 +67,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       email: '',
       token: '',
     };
@@ -81,10 +84,20 @@ export default {
     },
   },
   methods: {
-    sendToken() {
-      this.$api.users.postUser({ email: this.email }, '', {
-        sendToken: true,
-      });
+    async sendToken() {
+      this.isLoading = true;
+      try {
+        await this.$api.users.postUser({ email: this.email }, '', {
+          sendToken: true,
+        });
+      } catch ({ response }) {
+        const whitelistDomains = lGet(response, 'data.whitelistDomains', []);
+        this.$toast.error(`Une erreur est survenue lors de l'enregistrement de votre email. ${
+          whitelistDomains.length > 0 ? `Ce dernier doit être valide et finir par ${whitelistDomains.join(', ')}` : ''
+        }`);
+      } finally {
+        this.isLoading = false;
+      }
     },
     goToForm() {
       this.$router.push({

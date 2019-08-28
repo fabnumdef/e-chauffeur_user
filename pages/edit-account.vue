@@ -273,6 +273,7 @@ import validationIconSwitch from '~/components/validation-icon-switch.vue';
 
 const UPDATABLE_FIELDS = ['email', 'firstname', 'lastname', 'phone(original,confirmed)'];
 export default {
+  auth: false,
   components: {
     ecField,
     helpButton,
@@ -281,14 +282,18 @@ export default {
   watchQuery: ['token', 'email'],
   async asyncData({ $auth, $api, query: { token, email } }) {
     if (token && email) {
-      await $auth.login({ data: { token, email } });
+      try {
+        await $auth.login({ data: { token, email } });
+      } catch (e) {
+        throw new Error('Email ou code de vérification non reconnu.');
+      }
     }
     const fields = {};
     try {
       const { data } = await $api.jwt.getUser(UPDATABLE_FIELDS.concat('id').join(','));
       Object.assign(fields, data);
     } catch (e) {
-      throw new Error('Erreur dans la récupération de votre entité. '
+      throw new Error('Erreur dans la récupération de vos données utilisateur. '
         + 'Essayez de vous déconnecter puis de vous reconnecter');
     }
     return {
