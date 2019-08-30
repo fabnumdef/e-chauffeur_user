@@ -13,7 +13,7 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "@fabnumdef/e-chauffeur_lib-vue": "0.0.11",
+    "@fabnumdef/e-chauffeur_lib-vue": "0.0.12",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
     "lodash.get": "^4.4.2",
     "lodash.merge": "^4.6.2",
