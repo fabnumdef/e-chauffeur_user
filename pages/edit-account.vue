@@ -280,13 +280,18 @@ export default {
     validationIconSwitch,
   },
   watchQuery: ['token', 'email'],
-  async asyncData({ $auth, $api, query: { token, email } }) {
+  async asyncData({
+    redirect, $auth, $api, query: { token, email },
+  }) {
     if (token && email) {
       try {
         await $auth.login({ data: { token, email } });
       } catch (e) {
         throw new Error('Email ou code de vérification non reconnu.');
       }
+    }
+    if (!$auth.loggedIn) {
+      return redirect({ name: 'login' });
     }
     const fields = {};
     try {

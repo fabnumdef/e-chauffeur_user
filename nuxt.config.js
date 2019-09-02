@@ -34,6 +34,7 @@ module.exports = {
           forms: 'forms',
           jwt: 'jwt',
           users: 'users',
+          pois: 'pois',
         },
         withAuth: true,
         authPlugins: [
@@ -49,7 +50,7 @@ module.exports = {
         package: '@fortawesome/free-solid-svg-icons',
         icons: [
           'faFlag', 'faMapMarkerAlt', 'faDotCircle', 'faChevronRight', 'faCheckCircle', 'faTimesCircle',
-          'faSignOutAlt',
+          'faSignOutAlt', 'faClock', 'faFlagCheckered', 'faMapPin',
         ],
       },
     ],
