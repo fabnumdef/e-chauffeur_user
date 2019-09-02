@@ -15,9 +15,11 @@ module.exports = {
   ],
 
   plugins: [
+    { src: '~/plugins/datetime-picker.js', ssr: false },
     '~/plugins/socket.js',
     '~/plugins/validator.js',
     '~/plugins/multiselect.js',
+    '~/plugins/buefy.js',
   ],
 
   modules: [
