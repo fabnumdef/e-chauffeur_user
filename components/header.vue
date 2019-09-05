@@ -38,7 +38,10 @@
             class="navbar-item has-dropdown"
             :class="{'is-active': isRideMenuOpen}"
           >
-            <a @click="toggleRideMenu()" class="navbar-link">
+            <a
+              class="navbar-link"
+              @click="toggleRideMenu()"
+            >
               Nouvelle course
             </a>
 
@@ -47,7 +50,7 @@
                 v-for="campus of campuses"
                 :key="campus.id"
                 class="navbar-item"
-                :to="{name: 'campus-id-new-ride', params: campus}"
+                :to="{name: 'campus-campus_id-rides-new', params: {campus_id: campus.id}}"
               >
                 {{ campus.name }}
               </nuxt-link>
@@ -74,7 +77,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   props: {

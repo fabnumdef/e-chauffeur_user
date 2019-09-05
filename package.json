@@ -39,6 +39,7 @@
   "peerDependencies": {
     "vuex": "3.x",
     "vue": "2.x",
-    "vue2-leaflet": "1.x"
+    "vue2-leaflet": "1.x",
+    "luxon": "1.x"
   }
 }

@@ -3,7 +3,7 @@
 export const state = () => ({});
 
 export const actions = {
-  async nuxtServerInit ({ dispatch }) {
+  async nuxtServerInit({ dispatch }) {
     await dispatch('campus/fetchCampuses');
   },
   socket_positionUpdate({ commit }, { position, date }) {

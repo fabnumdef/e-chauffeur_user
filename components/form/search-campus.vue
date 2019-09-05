@@ -26,7 +26,8 @@
   </vue-multiselect>
 </template>
 <script>
-import {mapGetters} from 'vuex';
+import { mapGetters } from 'vuex';
+
 export default {
   filters: {
     phone: (phone) => phone.replace(/[^0-9]/g, '')

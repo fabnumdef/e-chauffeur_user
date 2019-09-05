@@ -14,8 +14,8 @@ export const mutations = {
 };
 
 export const actions = {
-  async fetchCampuses({commit}) {
-    const {data} = await this.$api.campuses.getCampuses('id,name,phone(everybody)');
+  async fetchCampuses({ commit }) {
+    const { data } = await this.$api.campuses.getCampuses('id,name,phone(everybody)');
     commit('setCampuses', data);
   },
 };
