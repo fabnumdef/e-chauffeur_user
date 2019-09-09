@@ -15,9 +15,11 @@ module.exports = {
   ],
 
   plugins: [
+    { src: '~/plugins/datetime-picker.js', ssr: false },
     '~/plugins/socket.js',
     '~/plugins/validator.js',
     '~/plugins/multiselect.js',
+    '~/plugins/buefy.js',
   ],
 
   modules: [
@@ -32,6 +34,7 @@ module.exports = {
           forms: 'forms',
           jwt: 'jwt',
           users: 'users',
+          pois: 'pois',
         },
         withAuth: true,
         authPlugins: [
@@ -47,7 +50,7 @@ module.exports = {
         package: '@fortawesome/free-solid-svg-icons',
         icons: [
           'faFlag', 'faMapMarkerAlt', 'faDotCircle', 'faChevronRight', 'faCheckCircle', 'faTimesCircle',
-          'faSignOutAlt',
+          'faSignOutAlt', 'faClock', 'faFlagCheckered', 'faMapPin', 'faPlus', 'faMinus',
         ],
       },
     ],

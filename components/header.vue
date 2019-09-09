@@ -33,6 +33,29 @@
           >
             Mon compte
           </nuxt-link>
+          <div
+            v-if="$auth.loggedIn"
+            class="navbar-item has-dropdown"
+            :class="{'is-active': isRideMenuOpen}"
+          >
+            <a
+              class="navbar-link"
+              @click="toggleRideMenu()"
+            >
+              Nouvelle course
+            </a>
+
+            <div class="navbar-dropdown">
+              <nuxt-link
+                v-for="campus of campuses"
+                :key="campus.id"
+                class="navbar-item"
+                :to="{name: 'campus-campus_id-rides-new', params: {campus_id: campus.id}}"
+              >
+                {{ campus.name }}
+              </nuxt-link>
+            </div>
+          </div>
           <nuxt-link
             class="navbar-item"
             :to="{name: 'contact'}"
@@ -40,7 +63,7 @@
             Nous contacter
           </nuxt-link>
           <button
-            v-if="$auth.user"
+            v-if="$auth.loggedIn"
             class="navbar-item"
             title="Déconnexion"
             @click="logout()"
@@ -54,6 +77,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 
 export default {
   props: {
@@ -67,9 +91,11 @@ export default {
     },
   },
   data: () => ({
+    isRideMenuOpen: false,
     isBurgerMenu: false,
   }),
   computed: {
+    ...mapGetters('campus', ['campuses']),
     burgerMenuClasses() {
       return {
         'is-active': this.isBurgerMenu,
@@ -81,6 +107,9 @@ export default {
     toogleBurgerMenu() {
       this.isBurgerMenu = !this.isBurgerMenu;
     },
+    toggleRideMenu(val) {
+      this.isRideMenuOpen = typeof val !== 'undefined' ? val : !this.isRideMenuOpen;
+    },
     logout() {
       try {
         this.$auth.logout();
@@ -88,6 +117,10 @@ export default {
         this.$toasted.success('À bientôt !');
         this.$router.push('/');
       }
+    },
+    async getCampuses() {
+      const { data } = await this.$api.campuses.getCampuses('id,name');
+      return data;
     },
   },
 };
@@ -118,8 +151,21 @@ export default {
         }
 
         .navbar-item {
-          &:hover {
+          &:hover:not(.has-dropdown) {
             text-decoration: underline;
+
+          }
+        }
+        @include desktop {
+          .navbar-dropdown {
+            background: rgba($white, 0.7);
+            margin-top: -$gap/2;
+            .navbar-item {
+              color: $black;
+              &:hover {
+                background: rgba($white, 0.2);
+              }
+            }
           }
         }
       }

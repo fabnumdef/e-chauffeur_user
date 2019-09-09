@@ -26,6 +26,7 @@
   </vue-multiselect>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 
 export default {
   filters: {
@@ -48,15 +49,11 @@ export default {
   },
   data() {
     return {
-      campuses: [],
       loading: false,
     };
   },
-  async mounted() {
-    this.loading = true;
-    const { data } = await this.$api.campuses.getCampuses('id,name,phone(everybody)');
-    this.loading = false;
-    this.campuses = data;
+  computed: {
+    ...mapGetters('campus', ['campuses']),
   },
   methods: {
     onInput(data) {
