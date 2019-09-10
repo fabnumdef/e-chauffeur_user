@@ -19,22 +19,24 @@
             :type="getType('start')"
             :message="getError('start', 'Date de départ')"
           >
-            <date-time
-              id="start"
-              v-model="ride.start"
-              :not-before="new Date()"
-              lang="fr"
-              append-to-body
-              type="datetime"
-              :minute-step="10"
-              format="YYYY-MM-DD HH:mm"
-              required="required"
-              :input-class="`${getType('start') || ''} input`"
-            >
-              <template #calendar-icon>
-                &nbsp;
-              </template>
-            </date-time>
+            <client-only>
+              <date-time
+                id="start"
+                v-model="ride.start"
+                :not-before="new Date()"
+                lang="fr"
+                append-to-body
+                type="datetime"
+                :minute-step="10"
+                format="YYYY-MM-DD HH:mm"
+                required="required"
+                :input-class="`${getType('start') || ''} input`"
+              >
+                <template #calendar-icon>
+                  &nbsp;
+                </template>
+              </date-time>
+            </client-only>
           </b-field>
           <div class="columns">
             <div class="column">

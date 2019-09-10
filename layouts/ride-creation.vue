@@ -1,7 +1,9 @@
 <template>
   <div class="background">
     <section class="wrapper">
-      <ec-header />
+      <div class="container">
+        <ec-header />
+      </div>
       <nuxt />
     </section>
     <ec-footer class="footer" />

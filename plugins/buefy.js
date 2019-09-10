@@ -4,8 +4,10 @@ import {
   Button, Field, Input, Tag, Switch,
 } from 'buefy';
 
-Vue.use(Button);
-Vue.use(Field);
-Vue.use(Input);
-Vue.use(Tag);
-Vue.use(Switch);
+const install = (el) => (el.install ? Vue.use(el) : Vue.component(el.name, el));
+
+install(Button);
+install(Field);
+install(Input);
+install(Tag);
+install(Switch);
