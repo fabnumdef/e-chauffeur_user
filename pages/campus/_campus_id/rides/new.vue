@@ -250,6 +250,9 @@ export default {
         color: $white;
         font-weight: bold;
         border-bottom: 1px solid $primary;
+        &::placeholder {
+          color: $white;
+        }
       }
       /deep/.multiselect {
         border-bottom: 1px solid $primary;
