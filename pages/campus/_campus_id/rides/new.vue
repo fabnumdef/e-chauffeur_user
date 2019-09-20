@@ -105,7 +105,7 @@
             </div>
           </div>
           <b-field
-            label="Commentaires"
+            label="Commentaires / motif"
             :type="getType('userComments')"
             :message="getError('userComments', 'Commentaires')"
           >
@@ -117,7 +117,7 @@
           </b-field>
         </fieldset>
         <help-button class="is-pulled-right">
-          Besoin d'aide ?
+          Une urgence ? Besoin d'aide ?
         </help-button>
         <div class="buttons is-centered">
           <button
