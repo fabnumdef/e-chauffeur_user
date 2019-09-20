@@ -12,7 +12,6 @@
             <input
               id="firstname"
               v-model="fields.firstname"
-              v-validate="'required'"
               type="text"
               class="input"
               name="firstname"
@@ -36,7 +35,6 @@
             <input
               id="lastname"
               v-model="fields.lastname"
-              v-validate="'required'"
               type="text"
               class="input"
               name="lastname"
