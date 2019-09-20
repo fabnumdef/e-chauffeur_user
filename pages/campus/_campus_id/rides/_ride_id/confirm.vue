@@ -168,6 +168,9 @@ export default {
     }
     .fields-box {
       padding-bottom: $gap;
+      /deep/ .label {
+        color: $blue-light;
+      }
       /deep/ .input {
         border: none;
         color: $white;

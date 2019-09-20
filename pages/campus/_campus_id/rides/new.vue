@@ -229,6 +229,9 @@ export default {
       box-sizing: border-box;
     }
     .fields-box {
+      /deep/ .label {
+        color: $blue-light;
+      }
       /deep/ .input {
         border: none;
         color: $white;
