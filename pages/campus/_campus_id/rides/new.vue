@@ -27,6 +27,7 @@
                 lang="fr"
                 append-to-body
                 type="datetime"
+                :first-day-of-week="1"
                 :minute-step="10"
                 format="YYYY-MM-DD HH:mm"
                 required="required"
