@@ -80,13 +80,13 @@
           </div>
           <b-field
             v-if="ride.userComments"
-            label="Commentaires"
+            label="Commentaires / motif"
           >
             {{ ride.userComments }}
           </b-field>
         </fieldset>
         <help-button class="is-pulled-right">
-          Besoin d'aide ?
+          Une urgence ? Besoin d'aide ?
         </help-button>
         <div class="buttons is-centered">
           <button
@@ -168,6 +168,9 @@ export default {
     }
     .fields-box {
       padding-bottom: $gap;
+      /deep/ .label {
+        color: $blue-light;
+      }
       /deep/ .input {
         border: none;
         color: $white;

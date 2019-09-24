@@ -27,6 +27,7 @@
                 lang="fr"
                 append-to-body
                 type="datetime"
+                :first-day-of-week="1"
                 :minute-step="10"
                 format="YYYY-MM-DD HH:mm"
                 required="required"
@@ -104,7 +105,7 @@
             </div>
           </div>
           <b-field
-            label="Commentaires"
+            label="Commentaires / motif"
             :type="getType('userComments')"
             :message="getError('userComments', 'Commentaires')"
           >
@@ -116,7 +117,7 @@
           </b-field>
         </fieldset>
         <help-button class="is-pulled-right">
-          Besoin d'aide ?
+          Une urgence ? Besoin d'aide ?
         </help-button>
         <div class="buttons is-centered">
           <button
@@ -132,6 +133,7 @@
         :campus="campus"
         :departure="ride.departure"
         :arrival="ride.arrival"
+        @click="selectPoi"
       />
     </section>
   </main>
@@ -211,7 +213,19 @@ export default {
       }
       return this.apiErrors[path] ? 'is-danger' : 'is-success';
     },
+    selectPoi(poi) {
+      const { departure, arrival } = this.ride;
 
+      if (departure.id === poi.id) {
+        departure.id = null;
+      } else if (arrival.id === poi.id) {
+        arrival.id = null;
+      } else if (departure.id === null) {
+        departure.id = poi.id;
+      } else if (arrival.id === null) {
+        arrival.id = poi.id;
+      }
+    },
   },
 };
 </script>
@@ -228,11 +242,17 @@ export default {
       box-sizing: border-box;
     }
     .fields-box {
+      /deep/ .label {
+        color: $blue-light;
+      }
       /deep/ .input {
         border: none;
         color: $white;
         font-weight: bold;
         border-bottom: 1px solid $primary;
+        &::placeholder {
+          color: $white;
+        }
       }
       /deep/.multiselect {
         border-bottom: 1px solid $primary;

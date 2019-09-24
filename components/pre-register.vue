@@ -90,6 +90,7 @@ export default {
         await this.$api.users.postUser({ email: this.email }, '', {
           sendToken: true,
         });
+        this.$toast.success('Un email a été envoyé. Pour poursuivre, entrez ci-dessous le code qu\'il contient.');
       } catch ({ response }) {
         const whitelistDomains = lGet(response, 'data.whitelistDomains', []);
         this.$toast.error(`Une erreur est survenue lors de l'enregistrement de votre email. ${

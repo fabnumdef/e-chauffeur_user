@@ -12,7 +12,6 @@
             <input
               id="firstname"
               v-model="fields.firstname"
-              v-validate="'required'"
               type="text"
               class="input"
               name="firstname"
@@ -36,7 +35,6 @@
             <input
               id="lastname"
               v-model="fields.lastname"
-              v-validate="'required'"
               type="text"
               class="input"
               name="lastname"
@@ -320,13 +318,19 @@ export default {
   },
   methods: {
     async sendForm(sendToken = false) {
-      const { data: updatedUser } = await this.$api.users.patchUser(
-        this.id,
-        this.fields,
-        UPDATABLE_FIELDS.join(','),
-        { sendToken },
-      );
-      merge(this.fields, updatedUser);
+      try {
+        const { data: updatedUser } = await this.$api.users.patchUser(
+          this.id,
+          this.fields,
+          UPDATABLE_FIELDS.join(','),
+          { sendToken },
+        );
+        merge(this.fields, updatedUser);
+        this.$toast.success('La mise à jour de votre compte a été prise en compte. '
+          + 'Pour commander une course, rendez vous dans le menu "Nouvelle course".');
+      } catch (e) {
+        this.$toast.error('Une erreur est survenue lors de l\'enregistrement de vos modifications.');
+      }
     },
   },
 };

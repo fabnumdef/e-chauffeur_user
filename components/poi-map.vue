@@ -12,6 +12,7 @@
           v-for="poi in flavoredPois"
           :key="poi.id"
           :lat-lng="poi.position"
+          @click="onClick(poi)"
         >
           <l-icon
             v-if="departure && departure.id === poi.id"
@@ -117,6 +118,11 @@ export default {
   },
   async mounted() {
     this.pois = (await this.$api.pois(this.campus, 'label,location(coordinates),id').getPois(0, 1000)).data;
+  },
+  methods: {
+    onClick(poi) {
+      this.$emit('click', poi);
+    },
   },
 };
 </script>
