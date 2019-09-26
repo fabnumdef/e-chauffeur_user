@@ -116,9 +116,6 @@
             />
           </b-field>
         </fieldset>
-        <help-button class="is-pulled-right">
-          Une urgence ? Besoin d'aide ?
-        </help-button>
         <div class="buttons is-centered">
           <button
             type="submit"
@@ -126,6 +123,9 @@
           >
             Passer à l'étape suivante
           </button>
+          <help-button class="is-pulled-right">
+            Une urgence ? Besoin d'aide ?
+          </help-button>
         </div>
       </form>
       <poi-map

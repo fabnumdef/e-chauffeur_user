@@ -100,6 +100,7 @@ export default {
       return {
         'is-active': this.isBurgerMenu,
         'is-blue': this.menuColor === 'blue',
+        'is-blue-mobile': this.menuColor === 'blue-mobile',
       };
     },
   },
@@ -147,6 +148,14 @@ export default {
           color: $text-color;
           a, a:hover {
             color: $text-color;
+          }
+        }
+        @media screen and (max-width: $desktop - 1) {
+          &.is-blue-mobile {
+            color: $text-color;
+            a, a:hover {
+              color: $text-color;
+            }
           }
         }
 

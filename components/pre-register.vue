@@ -133,7 +133,7 @@ export default {
       padding: 0;
       width: $in-w;
       letter-spacing: $gap;
-      font: 4ch monospace;
+      font: 30px monospace;
       border-radius: 0;
       &.is-white {
         background: repeating-linear-gradient(90deg,

@@ -11,6 +11,7 @@
       <ec-header
         class="logo"
         logo-color="blue"
+        menu-color="blue-mobile"
       />
       <nuxt />
     </div>
@@ -57,5 +58,11 @@ export default {
     background-image: linear-gradient(to top, #ff82a2, #ff5071);
     border-top-right-radius: 150% 65%;
     border-bottom-right-radius: 150% 100%;
+  }
+  @media screen and (max-width: $desktop - 1) {
+    #shape-top-right {
+      height: 150px;
+      width: 45%;
+    }
   }
 </style>

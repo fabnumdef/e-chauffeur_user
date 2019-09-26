@@ -34,7 +34,7 @@
 <style lang="scss" scoped>
   @import "~assets/css/head";
   footer {
-    height: $footer-height;
+    min-height: $footer-height;
     overflow: hidden;
     background: white;
     padding: 53px 0;

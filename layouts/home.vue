@@ -27,7 +27,7 @@ export default {
       background-size:100% 540px;
     }
 
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
     position: relative;
     @media screen and (min-width: $widescreen) {
