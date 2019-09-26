@@ -350,4 +350,10 @@ export default {
     text-decoration: none;
   }
 
+  @media screen and (max-width: $desktop - 1) {
+    form {
+      padding: 10px;
+    }
+  }
+
 </style>

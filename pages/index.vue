@@ -141,7 +141,7 @@ export default {
     padding-top: 1rem;
   }
   @media screen and (max-width: $desktop - 1) {
-    .section {
+    .section, .white-section {
       padding: 10px;
     }
     .white-section {

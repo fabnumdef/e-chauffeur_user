@@ -129,6 +129,11 @@ export default {
   /deep/ .field {
     padding: 15px 0;
   }
+  @media screen and (max-width: $desktop - 1) {
+    form {
+      padding: 10px;
+    }
+  }
   .level {
     padding-top: 30px;
     align-items: start;
