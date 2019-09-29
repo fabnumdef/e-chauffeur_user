@@ -269,7 +269,7 @@ import helpButton from '~/components/help.vue';
 
 import validationIconSwitch from '~/components/validation-icon-switch.vue';
 
-const UPDATABLE_FIELDS = ['email', 'firstname', 'lastname', 'phone(original,confirmed)'];
+const UPDATABLE_FIELDS = ['email', 'email_confirmed', 'firstname', 'lastname', 'phone(original,confirmed)'];
 export default {
   auth: false,
   components: {
