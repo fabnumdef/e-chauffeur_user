@@ -73,7 +73,10 @@
                   {{ errors.first('email') }}
                 </p>
               </div>
-              <div class="control" v-if="old.email !== fields.email || !fields.email_confirmed">
+              <div
+                v-if="old.email !== fields.email || !fields.email_confirmed"
+                class="control"
+              >
                 <button
                   type="button"
                   class="button is-primary"
@@ -150,10 +153,10 @@
               </div>
               <div class="control">
                 <button
+                  v-if="old.phone.original !== fields.phone.original || !fields.phone.confirmed"
                   type="button"
                   class="button is-primary"
                   @click="sendForm('phone')"
-                  v-if="old.phone.original !== fields.phone.original || !fields.phone.confirmed"
                 >
                   Vérifier
                 </button>
@@ -166,9 +169,9 @@
         </div>
         <div class="column">
           <ec-field
+            v-if="old.phone.original !== fields.phone.original || !fields.phone.confirmed"
             id="phone_token"
             label="Code de confirmation téléphone"
-            v-if="old.phone.original !== fields.phone.original || !fields.phone.confirmed"
           >
             <div class="field has-addons">
               <div class="control is-expanded">
