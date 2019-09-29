@@ -73,7 +73,7 @@
                   {{ errors.first('email') }}
                 </p>
               </div>
-              <div class="control">
+              <div class="control" v-if="old.email !== fields.email || !fields.email_confirmed">
                 <button
                   type="button"
                   class="button is-primary"
@@ -87,6 +87,7 @@
         </div>
         <div class="column">
           <ec-field
+            v-if="old.email !== fields.email || !fields.email_confirmed"
             id="email_token"
             label="Code de confirmation courriel"
           >
@@ -152,6 +153,7 @@
                   type="button"
                   class="button is-primary"
                   @click="sendForm('phone')"
+                  v-if="old.phone.original !== fields.phone.original || !fields.phone.confirmed"
                 >
                   Vérifier
                 </button>
@@ -166,6 +168,7 @@
           <ec-field
             id="phone_token"
             label="Code de confirmation téléphone"
+            v-if="old.phone.original !== fields.phone.original || !fields.phone.confirmed"
           >
             <div class="field has-addons">
               <div class="control is-expanded">
@@ -303,6 +306,7 @@ export default {
       token,
       email,
       id: fields.id,
+      old: merge({ email: null, phone: { original: null } }, fields),
       fields: merge({
         firstname: null,
         lastname: null,
