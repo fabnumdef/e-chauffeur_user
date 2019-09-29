@@ -326,10 +326,19 @@ export default {
           { sendToken },
         );
         merge(this.fields, updatedUser);
-        this.$toast.success('La mise à jour de votre compte a été prise en compte. '
-          + 'Pour commander une course, rendez vous dans le menu "Nouvelle course".');
+        merge(this.old, updatedUser);
+        if (sendToken) {
+          this.$toast.success('Un code de confirmation vous a été envoyé.');
+        } else {
+          this.$toast.success('La mise à jour de votre compte a été prise en compte. '
+            + 'Pour commander une course, rendez vous dans le menu "Nouvelle course".');
+        }
       } catch (e) {
-        this.$toast.error('Une erreur est survenue lors de l\'enregistrement de vos modifications.');
+        if (sendToken) {
+          this.$toast.error('Une erreur est survenue lors de l\'envoi du code de confirmation');
+        } else {
+          this.$toast.error('Une erreur est survenue lors de l\'enregistrement de vos modifications.');
+        }
       }
     },
   },
