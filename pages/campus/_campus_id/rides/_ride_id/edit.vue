@@ -169,9 +169,11 @@ export default {
         start: null,
         departure: {
           id: null,
+          label: null,
         },
         arrival: {
           id: null,
+          label: null,
         },
         luggage: null,
         passengersCount: 1,
@@ -236,16 +238,14 @@ export default {
       return this.apiErrors[path] ? 'is-danger' : 'is-success';
     },
     selectPoi(poi) {
-      const { departure, arrival } = this.ride;
-
-      if (departure.id === poi.id) {
-        departure.id = null;
-      } else if (arrival.id === poi.id) {
-        arrival.id = null;
-      } else if (departure.id === null) {
-        departure.id = poi.id;
-      } else if (arrival.id === null) {
-        arrival.id = poi.id;
+      if (this.ride.departure.id === poi.id) {
+        this.ride.departure = { id: null, label: null };
+      } else if (this.ride.arrival.id === poi.id) {
+        this.ride.arrival = { id: null, label: null };
+      } else if (this.ride.departure.id === null) {
+        Object.assign(this.ride.departure, poi);
+      } else if (this.ride.arrival.id === null) {
+        Object.assign(this.ride.arrival, poi);
       }
     },
   },
