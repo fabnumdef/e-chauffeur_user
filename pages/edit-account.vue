@@ -73,7 +73,10 @@
                   {{ errors.first('email') }}
                 </p>
               </div>
-              <div class="control">
+              <div
+                v-if="old.email !== fields.email || !fields.email_confirmed"
+                class="control"
+              >
                 <button
                   type="button"
                   class="button is-primary"
@@ -87,6 +90,7 @@
         </div>
         <div class="column">
           <ec-field
+            v-if="old.email !== fields.email || !fields.email_confirmed"
             id="email_token"
             label="Code de confirmation courriel"
           >
@@ -149,6 +153,7 @@
               </div>
               <div class="control">
                 <button
+                  v-if="old.phone.original !== fields.phone.original || !fields.phone.confirmed"
                   type="button"
                   class="button is-primary"
                   @click="sendForm('phone')"
@@ -164,6 +169,7 @@
         </div>
         <div class="column">
           <ec-field
+            v-if="old.phone.original !== fields.phone.original || !fields.phone.confirmed"
             id="phone_token"
             label="Code de confirmation téléphone"
           >
@@ -269,7 +275,7 @@ import helpButton from '~/components/help.vue';
 
 import validationIconSwitch from '~/components/validation-icon-switch.vue';
 
-const UPDATABLE_FIELDS = ['email', 'firstname', 'lastname', 'phone(original,confirmed)'];
+const UPDATABLE_FIELDS = ['email', 'email_confirmed', 'firstname', 'lastname', 'phone(original,confirmed)'];
 export default {
   auth: false,
   components: {
@@ -303,6 +309,7 @@ export default {
       token,
       email,
       id: fields.id,
+      old: merge({ email: null, phone: { original: null } }, fields),
       fields: merge({
         firstname: null,
         lastname: null,
@@ -326,10 +333,19 @@ export default {
           { sendToken },
         );
         merge(this.fields, updatedUser);
-        this.$toast.success('La mise à jour de votre compte a été prise en compte. '
-          + 'Pour commander une course, rendez vous dans le menu "Nouvelle course".');
+        merge(this.old, updatedUser);
+        if (sendToken) {
+          this.$toast.success('Un code de confirmation vous a été envoyé.');
+        } else {
+          this.$toast.success('La mise à jour de votre compte a été prise en compte. '
+            + 'Pour commander une course, rendez vous dans le menu "Nouvelle course".');
+        }
       } catch (e) {
-        this.$toast.error('Une erreur est survenue lors de l\'enregistrement de vos modifications.');
+        if (sendToken) {
+          this.$toast.error('Une erreur est survenue lors de l\'envoi du code de confirmation');
+        } else {
+          this.$toast.error('Une erreur est survenue lors de l\'enregistrement de vos modifications.');
+        }
       }
     },
   },

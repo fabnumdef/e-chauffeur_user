@@ -86,6 +86,13 @@
           </b-field>
         </fieldset>
         <div class="buttons is-centered">
+          <nuxt-link
+            v-if="isDraft"
+            class="button is-text back-button"
+            :to="{name: 'campus-campus_id-rides-ride_id-edit', params: {campus_id: campus.id, ride_id: ride.id}}"
+          >
+            Modifier ma demande
+          </nuxt-link>
           <button
             type="submit"
             class="button is-primary"
@@ -107,6 +114,8 @@ import { DateTime } from 'luxon';
 import { DRAFTED } from '@fabnumdef/e-chauffeur_lib-vue/api/status/states';
 import { CREATE } from '@fabnumdef/e-chauffeur_lib-vue/api/status/transitions';
 import helpButton from '~/components/help.vue';
+
+const FETCHED_DATA = 'id,start,status,departure(id,label),arrival(id,label),luggage,passengersCount,userComments';
 
 export default {
   components: {
@@ -141,9 +150,10 @@ export default {
       try {
         this.loading = true;
         this.apiErrors = {};
-        await this.$api.rides(this.campus.id, 'id,status').mutateRide(ride, CREATE);
+        const { data } = await this.$api.rides(this.campus.id, FETCHED_DATA).mutateRide(ride, CREATE);
         this.$toast.success('Votre demande de course a bien été reçue, '
           + 'nous allons la traiter dans les meilleurs délais.');
+        Object.assign(this.ride, data);
       } catch (e) {
         this.$toast.error('Une erreur est survenue lors de l\'envoi de votre course. '
             + 'Celle-ci n\'a pas été créée. Vérifiez votre connexion puis réessayez');
@@ -156,6 +166,13 @@ export default {
 </script>
 <style lang="scss" scoped>
   @import "~assets/css/head";
+  .back-button {
+    box-shadow: none;
+    text-transform: none;
+    &:hover {
+      background: transparent;
+    }
+  }
   .form {
     max-width: 806px;
     margin: 0 auto;
