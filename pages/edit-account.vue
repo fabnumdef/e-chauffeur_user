@@ -12,7 +12,6 @@
             <input
               id="firstname"
               v-model="fields.firstname"
-              v-validate="'required'"
               type="text"
               class="input"
               name="firstname"
@@ -36,7 +35,6 @@
             <input
               id="lastname"
               v-model="fields.lastname"
-              v-validate="'required'"
               type="text"
               class="input"
               name="lastname"
@@ -75,7 +73,10 @@
                   {{ errors.first('email') }}
                 </p>
               </div>
-              <div class="control">
+              <div
+                v-if="old.email !== fields.email || !fields.email_confirmed"
+                class="control"
+              >
                 <button
                   type="button"
                   class="button is-primary"
@@ -89,6 +90,7 @@
         </div>
         <div class="column">
           <ec-field
+            v-if="old.email !== fields.email || !fields.email_confirmed"
             id="email_token"
             label="Code de confirmation courriel"
           >
@@ -151,6 +153,7 @@
               </div>
               <div class="control">
                 <button
+                  v-if="old.phone.original !== fields.phone.original || !fields.phone.confirmed"
                   type="button"
                   class="button is-primary"
                   @click="sendForm('phone')"
@@ -166,6 +169,7 @@
         </div>
         <div class="column">
           <ec-field
+            v-if="old.phone.original !== fields.phone.original || !fields.phone.confirmed"
             id="phone_token"
             label="Code de confirmation téléphone"
           >
@@ -271,30 +275,41 @@ import helpButton from '~/components/help.vue';
 
 import validationIconSwitch from '~/components/validation-icon-switch.vue';
 
-const UPDATABLE_FIELDS = ['email', 'firstname', 'lastname', 'phone(original,confirmed)'];
+const UPDATABLE_FIELDS = ['email', 'email_confirmed', 'firstname', 'lastname', 'phone(original,confirmed)'];
 export default {
+  auth: false,
   components: {
     ecField,
     helpButton,
     validationIconSwitch,
   },
   watchQuery: ['token', 'email'],
-  async asyncData({ $auth, $api, query: { token, email } }) {
+  async asyncData({
+    redirect, $auth, $api, query: { token, email },
+  }) {
     if (token && email) {
-      await $auth.login({ data: { token, email } });
+      try {
+        await $auth.login({ data: { token, email } });
+      } catch (e) {
+        throw new Error('Email ou code de vérification non reconnu.');
+      }
+    }
+    if (!$auth.loggedIn) {
+      return redirect({ name: 'login' });
     }
     const fields = {};
     try {
       const { data } = await $api.jwt.getUser(UPDATABLE_FIELDS.concat('id').join(','));
       Object.assign(fields, data);
     } catch (e) {
-      throw new Error('Erreur dans la récupération de votre entité. '
+      throw new Error('Erreur dans la récupération de vos données utilisateur. '
         + 'Essayez de vous déconnecter puis de vous reconnecter');
     }
     return {
       token,
       email,
       id: fields.id,
+      old: merge({ email: null, phone: { original: null } }, fields),
       fields: merge({
         firstname: null,
         lastname: null,
@@ -310,13 +325,28 @@ export default {
   },
   methods: {
     async sendForm(sendToken = false) {
-      const { data: updatedUser } = await this.$api.users.patchUser(
-        this.id,
-        this.fields,
-        UPDATABLE_FIELDS.join(','),
-        { sendToken },
-      );
-      merge(this.fields, updatedUser);
+      try {
+        const { data: updatedUser } = await this.$api.users.patchUser(
+          this.id,
+          this.fields,
+          UPDATABLE_FIELDS.join(','),
+          { sendToken },
+        );
+        merge(this.fields, updatedUser);
+        merge(this.old, updatedUser);
+        if (sendToken) {
+          this.$toast.success('Un code de confirmation vous a été envoyé.');
+        } else {
+          this.$toast.success('La mise à jour de votre compte a été prise en compte. '
+            + 'Pour commander une course, rendez vous dans le menu "Nouvelle course".');
+        }
+      } catch (e) {
+        if (sendToken) {
+          this.$toast.error('Une erreur est survenue lors de l\'envoi du code de confirmation');
+        } else {
+          this.$toast.error('Une erreur est survenue lors de l\'enregistrement de vos modifications.');
+        }
+      }
     },
   },
 };
@@ -334,6 +364,12 @@ export default {
   .help-button /deep/ .button {
     color: $primary;
     text-decoration: none;
+  }
+
+  @media screen and (max-width: $desktop - 1) {
+    form {
+      padding: 10px;
+    }
   }
 
 </style>

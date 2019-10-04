@@ -4,25 +4,25 @@
       <div class="columns">
         <div class="column is-3 has-text-centered-mobile">
           <img
-            src="logo_ec_blue.svg"
+            src="/logo_ec_blue.svg"
             alt="e-Chauffeur"
           >
         </div>
         <div class="column has-text-centered-mobile">
           <img
-            src="logo_dirisi.png"
+            src="/logo_dirisi.png"
             alt="DIRISI"
           >
           <img
-            src="logo_ma.png"
+            src="/logo_ma.png"
             alt="Ministère des Armées"
           >
           <img
-            src="start_up_etat.png"
+            src="/start_up_etat.png"
             alt="Une Startup d'Etat"
           >
           <img
-            src="logo_fab_num.png"
+            src="/logo_fab_num.png"
             alt="Fabrique Numérique"
           >
         </div>
@@ -34,7 +34,7 @@
 <style lang="scss" scoped>
   @import "~assets/css/head";
   footer {
-    height: $footer-height;
+    min-height: $footer-height;
     overflow: hidden;
     background: white;
     padding: 53px 0;

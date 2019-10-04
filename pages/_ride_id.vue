@@ -4,7 +4,7 @@
       v-if="ride"
       class="map"
     >
-      <no-ssr>
+      <client-only>
         <l-map
           ref="map"
           :zoom="13"
@@ -67,7 +67,7 @@
             :fill="false"
           />
         </l-map>
-      </no-ssr>
+      </client-only>
     </section>
     <section class="elements container">
       <ec-notif

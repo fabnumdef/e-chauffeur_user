@@ -1,7 +1,9 @@
 <template>
   <div class="background">
-    <section class="container wrapper">
-      <ec-header />
+    <section class="wrapper">
+      <div class="container">
+        <ec-header />
+      </div>
       <nuxt />
     </section>
     <ec-footer class="footer" />
@@ -27,23 +29,9 @@ export default {
       background-size:100% 540px;
     }
 
-    min-height: 100vh;
+    height: 100vh;
     margin: 0;
     position: relative;
-    @media screen and (min-width: $widescreen) {
-      &:after {
-        content: " ";
-        display: block;
-        background: url("~assets/images/hand-app.png") no-repeat;
-        width: 1137*0.6px;
-        height: 863*0.6px;
-        position: absolute;
-        top: 250px;
-        right: 0;
-        background-size: 100%;
-        z-index: 0;
-      }
-    }
   }
   .wrapper, .footer {
     z-index: 1;
