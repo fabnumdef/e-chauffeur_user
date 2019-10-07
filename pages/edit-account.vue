@@ -1,6 +1,6 @@
 <template>
   <main>
-    <form @submit.prevent="sendForm">
+    <form @submit.prevent="sendForm()">
       <div class="columns">
         <div class="column">
           <ec-field
@@ -253,6 +253,18 @@
           </ec-field>
         </div>
       </div>
+      <ec-field class="rgpd">
+        <input
+          v-model="fields.gprd"
+          required
+          :true-value="fields.gprd || new Date()"
+          type="checkbox"
+        >
+        J’accepte que mes données soient traitées par le régulateur du service e-Chauffeur afin que ma demande de course
+        soit prise en compte, sous <nuxt-link :to="{name: 'conditions'}">
+          les conditions suivantes
+        </nuxt-link>.
+      </ec-field>
       <div class="has-text-centered">
         <button
           type="submit"
@@ -275,7 +287,7 @@ import helpButton from '~/components/help.vue';
 
 import validationIconSwitch from '~/components/validation-icon-switch.vue';
 
-const UPDATABLE_FIELDS = ['email', 'email_confirmed', 'firstname', 'lastname', 'phone(original,confirmed)'];
+const UPDATABLE_FIELDS = ['email', 'email_confirmed', 'firstname', 'lastname', 'phone(original,confirmed)', 'gprd'];
 export default {
   auth: false,
   components: {
@@ -364,6 +376,14 @@ export default {
   .help-button /deep/ .button {
     color: $primary;
     text-decoration: none;
+  }
+
+  .rgpd {
+    color: $blue-medium;
+    a {
+      color: $blue-medium;
+      text-decoration: underline;
+    }
   }
 
   @media screen and (max-width: $desktop - 1) {
