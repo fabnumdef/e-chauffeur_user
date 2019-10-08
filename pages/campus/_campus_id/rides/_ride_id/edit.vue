@@ -29,7 +29,7 @@
       >
         <fieldset class="fields-box">
           <b-field v-if="!user.phone || !user.phone.confirmed">
-            Pour être notifié sur votre téléphone, vous devez
+            Si vous souhaitez être notifié sur votre téléphone, vous devez
             <nuxt-link :to="{name: 'edit-account'}">
               renseigner et confirmer votre numéro de téléphone
             </nuxt-link>.

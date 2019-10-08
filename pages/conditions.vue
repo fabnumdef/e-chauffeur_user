@@ -52,4 +52,9 @@ export default {
     margin-top: 20px;
     margin-bottom: 20px;
   }
+  .content a {
+    color: $text-color;
+    text-decoration: underline;
+    font-weight: bold;
+  }
 </style>
