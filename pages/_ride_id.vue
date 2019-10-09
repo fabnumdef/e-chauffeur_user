@@ -5,14 +5,12 @@
       class="map"
     >
       <client-only>
-        <l-map
+        <ride-map
           ref="map"
           :zoom="13"
+          :ride="ride"
           :center="arrivalCoordinates"
-          @leaflet:load="setRouting"
         >
-          <l-tile-layer url="//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
           <l-marker
             v-if="departureCoordinates"
             :lat-lng="departureCoordinates"
@@ -54,19 +52,12 @@
           </l-marker>
 
           <l-polyline
-            v-if="routePolyLine"
-            :lat-lngs="routePolyLine"
-            class-name="primary-line"
-            :fill="false"
-          />
-
-          <l-polyline
             v-if="userLocation && departureCoordinates && !inCar"
             :lat-lngs="[userLocation, departureCoordinates]"
             class-name="dotted-line"
             :fill="false"
           />
-        </l-map>
+        </ride-map>
       </client-only>
     </section>
     <section class="elements container">
@@ -98,14 +89,10 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import 'polyline-encoded';
-import { L } from 'vue2-leaflet';
 import get from 'lodash.get';
 import { DELIVERED, IN_PROGRESS } from '@fabnumdef/e-chauffeur_lib-vue/api/status/states';
 import ecNotif from '~/components/elements/notification.vue';
 import ecBox from '~/components/elements/box.vue';
-
-import { getRoute } from '../helpers/routing';
 
 function reverseCoordinates(key) {
   return function computed() {
@@ -126,7 +113,7 @@ export default {
     ecNotif,
     ecBox,
   },
-
+  auth: false,
   layout: 'ride',
 
   computed: {
@@ -142,11 +129,9 @@ export default {
   },
 
   async asyncData({
-    app,
     $api,
     query: { token = null } = {},
     params: { ride_id: rideId },
-    redirect,
     store,
   }) {
     try {
@@ -167,12 +152,9 @@ export default {
 
       return {
         userLocation: null,
-        routePolyLine: null,
       };
     } catch (e) {
-      app.$toast.error('Cette course n\'a pas été trouvée, ou n\'est pas accessible.');
-      redirect('/');
-      return {};
+      throw new Error('Cette course n\'a pas été trouvée, ou n\'est pas accessible.');
     }
   },
 
@@ -189,26 +171,6 @@ export default {
     if (this.listener && navigator && navigator.geolocation && navigator.geolocation.clearWatch) {
       navigator.geolocation.clearWatch(this.listener);
     }
-  },
-
-  methods: {
-    async setRouting() {
-      try {
-        if (!this.ride) {
-          return;
-        }
-        const arrival = get(this.ride, 'arrival.location.coordinates');
-        const departure = get(this.ride, 'departure.location.coordinates');
-        if (!arrival || !departure) {
-          return;
-        }
-        const { routes: [{ geometry }] } = await getRoute(departure, arrival);
-        this.routePolyLine = L.PolylineUtil.decode(geometry);
-      } catch (e) {
-        // eslint-disable-next-line
-        console.error(e);
-      }
-    },
   },
 };
 </script>
@@ -262,9 +224,6 @@ export default {
       border-radius: 100%;
       padding: 5px;
       box-sizing: content-box;
-    }
-    &-line {
-      stroke: $primary;
     }
   }
 

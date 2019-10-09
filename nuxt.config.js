@@ -16,6 +16,7 @@ module.exports = {
 
   plugins: [
     { src: '~/plugins/datetime-picker.js', ssr: false },
+    { src: '~/plugins/ride-map.js', ssr: false },
     '~/plugins/socket.js',
     '~/plugins/validator.js',
     '~/plugins/multiselect.js',
