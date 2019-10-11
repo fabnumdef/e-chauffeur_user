@@ -1,4 +1,13 @@
 # Changelog
+## Current
+### Features
+### Fix
+## Version 1.4.1
+### Features
+* Add GDPR information
+* Add phone information on ride ordering
+### Fix
+* Fix SSR for ride view
 ## Version 1.4.0
 ### Features
 * Account creation
