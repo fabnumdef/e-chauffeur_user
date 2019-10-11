@@ -8,11 +8,32 @@
       </div>
     </section>
     <section class="white-section">
+      <section
+        v-if="!user.gprd"
+        class="white-section"
+      >
+        <fieldset class="form blue-box">
+          Avant toute commande de course, vous devez accepter les conditions d'utilisation
+          <nuxt-link :to="{name: 'edit-account'}">
+            au sein de votre compte
+          </nuxt-link>.
+          <help-button class="has-text-centered">
+            Une urgence ? Besoin d'aide ?
+          </help-button>
+        </fieldset>
+      </section>
       <form
+        v-else
         class="form blue-box"
         @submit.prevent="save(ride)"
       >
         <fieldset class="fields-box">
+          <b-field v-if="!user.phone || !user.phone.confirmed">
+            Si vous souhaitez être notifié sur votre téléphone, vous devez
+            <nuxt-link :to="{name: 'edit-account'}">
+              renseigner et confirmer votre numéro de téléphone
+            </nuxt-link>.
+          </b-field>
           <b-field
             label="Date et heure de départ"
             label-for="start"
@@ -196,6 +217,10 @@ export default {
       return !this.ride.status || this.ride.status === DRAFTED;
     },
   },
+  async asyncData({ $api }) {
+    const { data } = await $api.jwt.getUser('gprd,phone(confirmed)');
+    return { user: data };
+  },
   methods: {
     async save(ride) {
       try {
@@ -262,6 +287,10 @@ export default {
       border-radius: 13px;
       padding: $gap;
       box-sizing: border-box;
+      a {
+        text-decoration: underline;
+        font-weight: bold;
+      }
     }
     .fields-box {
       /deep/ .label {
