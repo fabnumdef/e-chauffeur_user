@@ -136,17 +136,23 @@
             </template>
             <div class="field has-addons">
               <div class="control is-expanded">
-                <input
+                <phone-number-input
                   id="phone"
                   v-model="fields.phone.original"
-                  v-validate="'required'"
-                  type="text"
-                  class="input"
                   name="phone"
-                  data-vv-as="Téléphone"
-                  :class="{ 'is-danger': errors.has('phone') }"
-                  :placeholder="'Tapez votre numéro de téléphone'"
-                >
+                  default-country-code="FR"
+                  size="sm"
+                  color="#abb8cb"
+                  class="input-phone"
+                  valid-color="#23d160"
+                  :preferred-countries="['FR', 'BE', 'DE']"
+                  :translations="{
+                    countrySelectorLabel: 'Prefix',
+                    countrySelectorError: 'Choisir un pays',
+                    phoneNumberLabel: 'Tapez votre numéro de téléphone',
+                    example: 'Exemple :'
+                  }"
+                />
                 <p class="help is-danger">
                   {{ errors.first('email') }}
                 </p>
@@ -282,6 +288,7 @@
 
 <script>
 import merge from 'lodash.merge';
+import phoneNumberInput from 'vue-phone-number-input';
 import ecField from '~/components/form/field.vue';
 import helpButton from '~/components/help.vue';
 
@@ -294,6 +301,7 @@ export default {
     ecField,
     helpButton,
     validationIconSwitch,
+    phoneNumberInput,
   },
   watchQuery: ['token', 'email'],
   async asyncData({
@@ -365,6 +373,7 @@ export default {
 </script>
 <style lang="scss" scoped>
   @import "~assets/css/head";
+  $field-color: #abb8cb;
 
   /deep/ .label small {
     font-weight: normal;
@@ -391,5 +400,10 @@ export default {
       padding: 10px;
     }
   }
-
+  .input-phone /deep/ {
+    .field.vue-input-ui .field-input, .country-selector .field-input[data-v-334d91fc] {
+      border: 1px solid $field-color;
+      border-radius: 0;
+    }
+  }
 </style>
