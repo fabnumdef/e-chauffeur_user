@@ -1,7 +1,7 @@
 <template>
   <main>
     <section
-      id="satisfaction-header"
+      id="rating-header"
       class="section"
     >
       <div class="columns">
@@ -14,11 +14,12 @@
             Dans un souci d'amélioration de notre offre,
             merci de prendre quelques secondes pour l'évaluer à travers les questions suivantes.
           </p>
+          <p><em>Les champs suivis d'un * sont obligatoires</em></p>
         </div>
       </div>
     </section>
     <div class="columns is-centered">
-      <form action="">
+      <form @submit.prevent="sendForm">
         <ec-field
           id="ec-form-gsbdd"
           label="À quel GSBdD êtes-vous rattaché ? *"
@@ -37,59 +38,60 @@
               <option value="">
                 Sélectionnez votre GSBdD
               </option>
+              <option
+                v-for="gsbdd in gsbddList"
+                :key="gsbdd.id"
+              >
+                {{ gsbdd }}
+              </option>
             </select>
           </div>
         </ec-field>
 
-        <ec-field
+        <div
           id="ec-form-ux-grade"
-          label="Sur une échelle de 1 à 5, comment évaluez-vous l'expérience e-Chauffeur ? *"
+          for=""
+          class="radio"
         >
-          <div
+          Sur une échelle de 1 à 5, comment évaluez vous le service e-chauffeur ? *
+          <label
             v-for="index in 5"
             :key="index"
-            class="control"
-          >
-            <label :for="`ec-form-ux-grade-${index}`">
-              <input
-                v-model="uxGrade"
-                :value="index"
-                type="radio"
-                :name="`ec-form-ux-grade-${index}`"
-                class="radio"
-              >
-              {{ index }}
-            </label>
-          </div>
-        </ec-field>
-        <ec-field
-          id="ec-form-recommandation-grade"
-          label="Sur une échelle de 1 à 5, recommanderiez-vous e-Chauffeur au personnel du ministère des Armées ? *"
-        >
-          <div
-            v-for="index in 5"
-            :key="index"
-            class="custom-control custom-radio custom-control-inline"
-          >
+            class="radio"
+          >{{ index }}
             <input
-              id="customRadioInline1"
-              v-model="recommandationGrade"
               type="radio"
-              name="customRadioInline1"
-              class="custom-control-input"
+              name="uxGrade"
             >
-            <label
-              class="custom-control-label"
-              for="customRadioInline1"
-            >{{ index }}</label>
-          </div>
-        </ec-field>
-        <ec-field
+          </label>
+        </div>
+
+        <div
           id="ec-form-recommandation-grade"
+        >
+          Sur une échelle de 1 à 5, recommanderiez-vous e-Chauffeur au personnel du ministère des Armées ? *
+        </div>
+        <div
+          v-for="index in 5"
+          :key="`recommandationGrade--${index}`"
+        >
+          <label for="huey">Huey</label>
+          <input
+            :id="`recommandationGrade--${index}`"
+            type="radio"
+            name="recommandationGrade"
+            :value="index"
+          >
+        </div>
+
+
+        <ec-field
+          id="ec-form-message"
           label="Avez-vous des suggestions pour améliorer cette offre de mobilité ?"
         >
           <textarea
-            id="ec-form-recommandation-grade"
+            id="ec-form-message"
+            v-model="fields.message"
             v-validate="'required'"
             class="textarea"
             name="message"
@@ -97,13 +99,13 @@
             :placeholder="'Tapez votre message'"
           />
         </ec-field>
+
         <div class="columns">
           <div class="column">
             <div class="control has-text-right">
               <button
                 class="button is-primary submit"
                 :class="{ 'is-loading': pending }"
-                :disabled="isBtnSubDisabled"
               >
                 <span class="message">
                   Envoyer
@@ -144,8 +146,8 @@ export default {
     return {
       fields: {
         gsbdd: '',
-        uxGrade: null,
-        recommandationGrade: null,
+        uxGrade: 5,
+        recommandationGrade: 5,
         message: null,
       },
       notification: {},
@@ -153,6 +155,13 @@ export default {
       gsbddList: this.$store.state.gsbdd.list,
     };
   },
+
+  computed: {
+    isBtnSubDisabled() {
+      return (!this.fields.uxGrade || !this.fields.recommandationGrade || !this.fields.gsbdd || !this.fields.message);
+    },
+  },
+
   methods: {
     hasNotifications() {
       return Object.keys(this.notification).length > 0;
@@ -160,6 +169,32 @@ export default {
 
     closeNotification() {
       this.notification = {};
+    },
+
+    async validateForm() {
+      await this.$validator.validate();
+      return !Object.keys(this.veeFields).some((key) => this.veeFields[key].valid === false);
+    },
+
+    async sendForm() {
+      const validation = await this.validateForm();
+      if (!validation) return;
+      this.pending = true;
+
+      try {
+        await this.$api.forms.postRatingForm(this.fields);
+        this.notification = {
+          class: 'is-success',
+          mess: 'votre message a bien été envoyé.',
+        };
+      } catch (err) {
+        this.notification = {
+          class: 'is-danger',
+          mess: 'un problème est survenue dans l\'envoi de votre message.',
+        };
+      }
+
+      this.pending = false;
     },
   },
 };
@@ -176,7 +211,7 @@ export default {
 
   $form-pading-left-right: $control-padding-horizontal;
 
-  #satisfaction-header {
+  #rating-header {
     position: relative;
     color: $text-color;
 
