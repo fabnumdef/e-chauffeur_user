@@ -171,7 +171,6 @@ export default {
     if (this.listener && navigator && navigator.geolocation && navigator.geolocation.clearWatch) {
       navigator.geolocation.clearWatch(this.listener);
     }
-    this.$router.push('/rating');
   },
 };
 </script>
