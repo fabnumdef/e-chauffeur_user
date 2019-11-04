@@ -20,103 +20,114 @@
     </section>
     <div class="columns is-centered">
       <form @submit.prevent="sendForm">
-        <ec-field
-          id="ec-form-gsbdd"
-          label="À quel GSBdD êtes-vous rattaché ? *"
-        >
-          <div
-            class="select is-full"
-            :class="{ 'is-danger': errors.has('gsbdd') }"
+        <div class="column">
+          <ec-field
+            id="ec-form-gsbdd"
+            label="À quel GSBdD êtes-vous rattaché ? *"
           >
-            <select
-              id="ec-form-gsbdd"
-              v-model="fields.gsbdd"
-              v-validate="'required'"
-              name="gsbdd"
-              :class="{ 'placeholder': !fields.gsbdd }"
+            <div
+              class="select is-full"
+              :class="{ 'is-danger': errors.has('gsbdd') }"
             >
-              <option value="">
-                Sélectionnez votre GSBdD
-              </option>
-              <option
-                v-for="gsbdd in gsbddList"
-                :key="gsbdd.id"
+              <select
+                id="ec-form-gsbdd"
+                v-model="fields.gsbdd"
+                v-validate="'required'"
+                name="gsbdd"
+                :class="{ 'placeholder': !fields.gsbdd }"
               >
-                {{ gsbdd }}
-              </option>
-            </select>
-          </div>
-        </ec-field>
-
-        <div
-          id="ec-form-ux-grade"
-          for=""
-          class="radio"
-        >
-          Sur une échelle de 1 à 5, comment évaluez vous le service e-chauffeur ? *
-          <label
-            v-for="index in 5"
-            :key="index"
-            class="radio"
-          >{{ index }}
-            <input
-              type="radio"
-              name="uxGrade"
-            >
-          </label>
-        </div>
-
-        <div
-          id="ec-form-recommandation-grade"
-        >
-          Sur une échelle de 1 à 5, recommanderiez-vous e-Chauffeur au personnel du ministère des Armées ? *
-        </div>
-        <div
-          v-for="index in 5"
-          :key="`recommandationGrade--${index}`"
-        >
-          <label for="huey">Huey</label>
-          <input
-            :id="`recommandationGrade--${index}`"
-            type="radio"
-            name="recommandationGrade"
-            :value="index"
-          >
-        </div>
-
-
-        <ec-field
-          id="ec-form-message"
-          label="Avez-vous des suggestions pour améliorer cette offre de mobilité ?"
-        >
-          <textarea
-            id="ec-form-message"
-            v-model="fields.message"
-            v-validate="'required'"
-            class="textarea"
-            name="message"
-            :class="{ 'is-danger': errors.has('message') }"
-            :placeholder="'Tapez votre message'"
-          />
-        </ec-field>
-
-        <div class="columns">
-          <div class="column">
-            <div class="control has-text-right">
-              <button
-                class="button is-primary submit"
-                :class="{ 'is-loading': pending }"
-              >
-                <span class="message">
-                  Envoyer
-                </span>
-                <span>
-                  <fa-icon
-                    :icon="['fas', 'chevron-right']"
-                  />
-                </span>
-              </button>
+                <option value="">
+                  Sélectionnez votre GSBdD
+                </option>
+                <option
+                  v-for="gsbdd in gsbddList"
+                  :key="gsbdd.id"
+                >
+                  {{ gsbdd }}
+                </option>
+              </select>
             </div>
+          </ec-field>
+        </div>
+
+        <div class="column">
+          <ec-field
+            id="ec-form-ux-grade"
+            label="Sur une échelle de 1 à 5, comment évaluez vous le service e-chauffeur ? *"
+          >
+            <div>
+              <label
+                v-for="index in 5"
+                :key="index"
+                class="radio"
+                :for="`ux-grade--${index}`"
+              >{{ index }}
+                <input
+                  :id="`ux-grade--${index}`"
+                  v-model="fields.uxGrade"
+                  type="radio"
+                  :value="index"
+                >
+              </label>
+            </div>
+          </ec-field>
+        </div>
+
+        <div class="column">
+          <ec-field
+            id="ec-form-ux-recommandation"
+            label="Sur une échelle de 1 à 5, comment évaluez vous le service e-chauffeur ? *"
+          >
+            <div>
+              <label
+                v-for="index in 5"
+                :key="index"
+                class="radio"
+                :for="`ux-recommandation--${index}`"
+              >{{ index }}
+                <input
+                  :id="`ux-recommandation--${index}`"
+                  v-model="fields.recommandationGrade"
+                  type="radio"
+                  :value="index"
+                >
+              </label>
+            </div>
+          </ec-field>
+        </div>
+
+        <div class="column">
+          <ec-field
+            id="ec-form-message"
+            label="Avez-vous des suggestions pour améliorer cette offre de mobilité ?"
+          >
+            <textarea
+              id="ec-form-message"
+              v-model="fields.message"
+              class="textarea"
+              name="message"
+              :class="{ 'is-danger': errors.has('message') }"
+              :placeholder="'Tapez votre message'"
+            />
+          </ec-field>
+        </div>
+
+        <div class="column">
+          <div class="control has-text-right">
+            <button
+              class="button is-primary submit"
+              :class="{ 'is-loading': pending }"
+              :disabled="isBtnSubDisabled"
+            >
+              <span class="message">
+                Envoyer
+              </span>
+              <span>
+                <fa-icon
+                  :icon="['fas', 'chevron-right']"
+                />
+              </span>
+            </button>
           </div>
         </div>
       </form>
@@ -146,8 +157,8 @@ export default {
     return {
       fields: {
         gsbdd: '',
-        uxGrade: 5,
-        recommandationGrade: 5,
+        uxGrade: null,
+        recommandationGrade: null,
         message: null,
       },
       notification: {},
@@ -158,7 +169,7 @@ export default {
 
   computed: {
     isBtnSubDisabled() {
-      return (!this.fields.uxGrade || !this.fields.recommandationGrade || !this.fields.gsbdd || !this.fields.message);
+      return (!this.fields.uxGrade || !this.fields.recommandationGrade || !this.fields.gsbdd);
     },
   },
 
@@ -201,7 +212,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~assets/css/head";
+  @import "~assets/css/head";
 
   $select-color-placeholder: rgba(28,28,28,0.3);
   $select-color-placeholder-options: $black;
@@ -238,9 +249,6 @@ export default {
         text-transform: capitalize;
       }
     }
-    #ec-form-ux-grade {
-        display: flex;
-    }
   }
 
   @keyframes slide-show {
@@ -249,10 +257,16 @@ export default {
   }
 
   form {
-    width: 50%;
     margin-top: 150px;
     padding-left: $form-pading-left-right;
     padding-right: $form-pading-left-right;
+    label.radio {
+      color: $text-color;
+      margin-right: 1em;
+      input {
+        margin-left: .5em;
+      }
+    }
 
     .select {
       &:not(.is-multiple):not(.is-loading)::after {
