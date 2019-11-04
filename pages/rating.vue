@@ -22,36 +22,6 @@
       <form @submit.prevent="sendForm">
         <div class="column">
           <ec-field
-            id="ec-form-gsbdd"
-            label="À quel GSBdD êtes-vous rattaché ? *"
-          >
-            <div
-              class="select is-full"
-              :class="{ 'is-danger': errors.has('gsbdd') }"
-            >
-              <select
-                id="ec-form-gsbdd"
-                v-model="fields.gsbdd"
-                v-validate="'required'"
-                name="gsbdd"
-                :class="{ 'placeholder': !fields.gsbdd }"
-              >
-                <option value="">
-                  Sélectionnez votre GSBdD
-                </option>
-                <option
-                  v-for="gsbdd in gsbddList"
-                  :key="gsbdd.id"
-                >
-                  {{ gsbdd }}
-                </option>
-              </select>
-            </div>
-          </ec-field>
-        </div>
-
-        <div class="column">
-          <ec-field
             id="ec-form-ux-grade"
             label="Sur une échelle de 1 à 5, comment évaluez vous le service e-chauffeur ? *"
           >
@@ -156,20 +126,19 @@ export default {
   data() {
     return {
       fields: {
-        gsbdd: '',
         uxGrade: null,
         recommandationGrade: null,
         message: null,
+        rideId: this.$router.query.rideId,
       },
       notification: {},
       pending: false,
-      gsbddList: this.$store.state.gsbdd.list,
     };
   },
 
   computed: {
     isBtnSubDisabled() {
-      return (!this.fields.uxGrade || !this.fields.recommandationGrade || !this.fields.gsbdd);
+      return (!this.fields.uxGrade || !this.fields.recommandationGrade);
     },
   },
 
