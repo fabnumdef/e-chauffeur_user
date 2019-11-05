@@ -129,7 +129,9 @@ export default {
         uxGrade: null,
         recommandationGrade: null,
         message: null,
-        rideId: this.$router.query.rideId,
+        ride: {
+          _id: this.$route.query.rideId,
+        },
       },
       notification: {},
       pending: false,
@@ -161,8 +163,10 @@ export default {
       if (!validation) return;
       this.pending = true;
 
+      console.log(this.$route.query);
+
       try {
-        await this.$api.forms.postRatingForm(this.fields);
+        await this.$api.forms.postRating(this.fields);
         this.notification = {
           class: 'is-success',
           mess: 'votre message a bien été envoyé.',
