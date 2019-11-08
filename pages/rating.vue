@@ -72,12 +72,11 @@
             label="Avez-vous des suggestions pour améliorer cette offre de mobilité ?"
           >
             <textarea
-              id="ec-form-message"
-              v-model="fields.message"
-              class="textarea"
-              name="message"
               :class="{ 'is-danger': errors.has('message') }"
               :placeholder="'Tapez votre message'"
+              class="textarea"
+              name="message"
+              v-model="fields.message"
             />
           </ec-field>
         </div>
@@ -160,10 +159,10 @@ export default {
 
     async sendForm() {
       const validation = await this.validateForm();
-      if (!validation) return;
+      if (!validation) {
+        return;
+      }
       this.pending = true;
-
-      console.log(this.$route.query);
 
       try {
         await this.$api.forms.postRating(this.fields);
