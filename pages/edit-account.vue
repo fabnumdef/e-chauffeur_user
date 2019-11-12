@@ -281,8 +281,43 @@
         <help-button class="help-button">
           Besoin d'aide ?
         </help-button>
+        <button
+          type="button"
+          class="delete-button"
+          @click="displayModal = !displayModal"
+        >
+          Vous souhaitez supprimer votre compte ?
+        </button>
       </div>
     </form>
+    <div
+      class="modal"
+      :class="displayModal && 'is-active'"
+    >
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Suppression du compte</p>
+          <button
+            class="delete"
+            aria-label="close"
+            @click="displayModal = !displayModal"
+          />
+        </header>
+        <section class="modal-card-body">
+          <p>Êtes-vous sûr de vouloir supprimer votre compte ?</p>
+          <div>
+            <button class="button is-success">Confirmer</button>
+            <button
+              class="button"
+              @click="displayModal = !displayModal"
+            >
+              Annuler
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
   </main>
 </template>
 
@@ -302,6 +337,11 @@ export default {
     helpButton,
     validationIconSwitch,
     phoneNumberInput,
+  },
+  data() {
+    return {
+      displayModal: false,
+    };
   },
   watchQuery: ['token', 'email'],
   async asyncData({
@@ -374,6 +414,7 @@ export default {
 <style lang="scss" scoped>
   @import "~assets/css/head";
   $field-color: #abb8cb;
+  $text-color: $blue-medium;
 
   /deep/ .label small {
     font-weight: normal;
@@ -404,6 +445,26 @@ export default {
     .field.vue-input-ui .field-input, .country-selector .field-input[data-v-334d91fc] {
       border: 1px solid $field-color;
       border-radius: 0;
+    }
+  }
+
+  .delete-button {
+    background: none;
+    border: none;
+    color: $text-color;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .modal {
+    color: $text-color;
+    text-align: center;
+    .modal-card-body > div {
+      display: flex;
+      justify-content: center;
+      button {
+        margin: 1em;
+      }
     }
   }
 </style>
