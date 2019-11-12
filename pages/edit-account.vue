@@ -308,7 +308,7 @@
           <p>Êtes-vous sûr de vouloir supprimer votre compte ?</p>
           <div>
             <button
-              class="button is-success"
+              class="button is-primary"
               @click="deleteAccount"
             >Confirmer</button>
             <button
@@ -463,8 +463,9 @@ export default {
   .delete-button {
     background: none;
     border: none;
-    color: $text-color;
+    color: $primary;
     font-size: 1rem;
+    font-weight: 700;
     cursor: pointer;
   }
 
