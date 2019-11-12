@@ -130,9 +130,6 @@ export default {
         message: null,
         ride: {
           _id: this.$route.query.rideId,
-          campus: {
-            _id: this.$route.query.campusId,
-          },
         },
       },
       notification: {},
