@@ -307,13 +307,14 @@
         <section class="modal-card-body">
           <p>Êtes-vous sûr de vouloir supprimer votre compte ?</p>
           <div>
-            <button class="button is-success">Confirmer</button>
+            <button
+              class="button is-success"
+              @click="deleteAccount"
+            >Confirmer</button>
             <button
               class="button"
               @click="displayModal = !displayModal"
-            >
-              Annuler
-            </button>
+            >Annuler</button>
           </div>
         </section>
       </div>
@@ -406,6 +407,17 @@ export default {
         } else {
           this.$toast.error('Une erreur est survenue lors de l\'enregistrement de vos modifications.');
         }
+      }
+    },
+    async deleteAccount() {
+      try {
+        await this.$api.users.deleteUser(this.$auth.user.id);
+        this.$auth.logout();
+      } catch (e) {
+        this.$toast.error('Une erreur est survenue lors de la suppression du compte');
+      } finally {
+        this.$router.push('/');
+        this.$toast.success('Opération terminée avec succès, au revoir.');
       }
     },
   },
