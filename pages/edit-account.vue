@@ -293,9 +293,9 @@
     <modal
       :active="isModalActive"
       @toggle-modal="toggleModal"
+      @action="deleteAccount"
       title="Suppression du compte"
       content="Êtes-vous sûr de vouloir supprimer votre compte ?"
-      :action="deleteAccount"
     />
   </main>
 </template>
@@ -390,6 +390,8 @@ export default {
       }
     },
     async deleteAccount() {
+      console.log('delete');
+      return;
       try {
         await this.$api.users.deleteUser(this.$auth.user.id);
         this.$auth.logout();
@@ -397,7 +399,7 @@ export default {
         this.$toast.error('Une erreur est survenue lors de la suppression du compte');
       } finally {
         this.$router.push('/');
-        this.$toast.success('Opération terminée avec succès, au revoir.');
+        this.$toast.success('Compte supprimé avec succès, vous êtes maintenant déconnecté.');
       }
     },
     toggleModal() {

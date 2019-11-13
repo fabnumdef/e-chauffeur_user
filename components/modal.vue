@@ -18,7 +18,7 @@
         <div>
           <button
             class="button is-primary"
-            @click="action"
+            @click="emitAction"
           >Confirmer</button>
           <button
             class="button"
@@ -37,10 +37,6 @@
         type: Boolean,
         default: false,
       },
-      action: {
-        type: Function,
-        required: true,
-      },
       title: {
         type: String,
         required: true,
@@ -54,6 +50,9 @@
       toggleModal() {
         this.$emit('toggle-modal');
       },
+      emitAction() {
+        this.$emit('action');
+      }
     },
   };
 </script>
