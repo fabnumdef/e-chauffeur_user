@@ -44,6 +44,7 @@
       border: 2px solid $text-color;
       color: $primary;
       font-weight: 700;
+      text-transform: capitalize;
       option {
         color: initial;
         font-weight: initial;

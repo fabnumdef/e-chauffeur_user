@@ -62,17 +62,14 @@ export default {
   },
   methods: {
     setFilter({ key, value }) {
-      console.log(key, value);
-      console.log(this.filter.year, this.filter.month);
       this.filter = {
         ...this.filter,
         [key]: value,
       }
-      console.log(this.filter.year, this.filter.month);
+      this.fetchFilter();
     },
-    fetchFilter(value) {
-      console.log(value);
-      console.log(this.filter);
+    fetchFilter() {
+      console.log('fetch');
     }
   }
 };
