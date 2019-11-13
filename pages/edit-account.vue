@@ -284,41 +284,19 @@
         <button
           type="button"
           class="delete-button"
-          @click="displayModal = !displayModal"
+          @click="toggleModal"
         >
           Vous souhaitez supprimer votre compte ?
         </button>
       </div>
     </form>
-    <div
-      class="modal"
-      :class="displayModal && 'is-active'"
-    >
-      <div class="modal-background"></div>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">Suppression du compte</p>
-          <button
-            class="delete"
-            aria-label="close"
-            @click="displayModal = !displayModal"
-          />
-        </header>
-        <section class="modal-card-body">
-          <p>Êtes-vous sûr de vouloir supprimer votre compte ?</p>
-          <div>
-            <button
-              class="button is-primary"
-              @click="deleteAccount"
-            >Confirmer</button>
-            <button
-              class="button"
-              @click="displayModal = !displayModal"
-            >Annuler</button>
-          </div>
-        </section>
-      </div>
-    </div>
+    <modal
+      :active="isModalActive"
+      @toggle-modal="toggleModal"
+      title="Suppression du compte"
+      content="Êtes-vous sûr de vouloir supprimer votre compte ?"
+      :action="deleteAccount"
+    />
   </main>
 </template>
 
@@ -327,6 +305,7 @@ import merge from 'lodash.merge';
 import phoneNumberInput from 'vue-phone-number-input';
 import ecField from '~/components/form/field.vue';
 import helpButton from '~/components/help.vue';
+import modal from '~/components/modal.vue';
 
 import validationIconSwitch from '~/components/validation-icon-switch.vue';
 
@@ -338,10 +317,11 @@ export default {
     helpButton,
     validationIconSwitch,
     phoneNumberInput,
+    modal,
   },
   data() {
     return {
-      displayModal: false,
+      isModalActive: false,
     };
   },
   watchQuery: ['token', 'email'],
@@ -420,6 +400,9 @@ export default {
         this.$toast.success('Opération terminée avec succès, au revoir.');
       }
     },
+    toggleModal() {
+      this.isModalActive = !this.isModalActive;
+    }
   },
 };
 </script>
@@ -467,17 +450,5 @@ export default {
     font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
-  }
-
-  .modal {
-    color: $text-color;
-    text-align: center;
-    .modal-card-body > div {
-      display: flex;
-      justify-content: center;
-      button {
-        margin: 1em;
-      }
-    }
   }
 </style>
