@@ -68,6 +68,9 @@ export default {
 
   main {
     color: $text-color;
+    section.section {
+      padding-bottom: 0;
+    }
     .title {
       color: $text-color;
       text-align: left;
