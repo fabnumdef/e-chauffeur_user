@@ -5,14 +5,14 @@
         <nav>
           <FilterDropdown
             type="year"
-            :current="filter.year"
-            :list="years"
+            :current="currents.year"
+            :list="selects.years"
             @filter-results="setFilter"
           />
           <FilterDropdown
             type="month"
-            :current="filter.month"
-            :list="months"
+            :current="currents.month"
+            :list="selects.months"
             @filter-results="setFilter"
           />
         </nav>
@@ -33,27 +33,18 @@
 <script>
 import RideCard from '~/components/ride-card';
 import FilterDropdown from '~/components/elements/filter-dropdown';
+import FilterManager from '../../helpers/FilterManager';
 
-let years = [];
-for (let year = 2019; year <= new Date().getFullYear(); year += 1) {
-  years.push(year);
-}
-
-let months = [];
-for (let month = 0; month < 12; month += 1 ) {
-  months.push(new Date(null, month).toLocaleString('fr-FR', { month: 'long'}));
-}
+const filterManager = new FilterManager('fr-FR', 2019);
+const selects = filterManager.getSelects();
+const currents =  filterManager.getCurrents();
 
 export default {
   name: 'Rides',
   data() {
     return {
-      years,
-      months,
-      filter: {
-        year: new Date().getFullYear().toString(),
-        month: new Date().toLocaleString('fr-FR', { month: 'long' }),
-      }
+      selects,
+      currents,
     };
   },
   components: {
@@ -62,17 +53,16 @@ export default {
   },
   methods: {
     setFilter({ key, value }) {
-      this.filter = {
-        ...this.filter,
+      this.currents = {
+        ...this.currents,
         [key]: value,
       }
       this.fetchFilter();
     },
     async fetchFilter() {
       try {
-        const userId = this.$auth.user.id;
-        console.log(userId)
-        const rides = await this.$api.rides(null, null).getRides(userId);
+        const { start, end } = filterManager.getFilter(this.currents.year, this.currents.month);
+        const rides = await this.$api.rides().getRides(this.$auth.user.id, start, end);
         console.log(rides);
       } catch (err) {
         console.log(err);
