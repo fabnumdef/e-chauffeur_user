@@ -42,4 +42,13 @@ export default class {
     const res = await apiCall(userId, start, end);
     return res.data;
   }
+
+  formatDate(date) {
+    const day = new Date(date).toLocaleString('fr-FR', { weekday: 'long', day: '2-digit' });
+    const hour = new Date(date).toLocaleString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    return {
+      day,
+      hour,
+    }
+  }
 }
