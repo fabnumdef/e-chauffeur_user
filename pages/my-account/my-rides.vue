@@ -68,8 +68,15 @@ export default {
       }
       this.fetchFilter();
     },
-    fetchFilter() {
-      console.log('fetch');
+    async fetchFilter() {
+      try {
+        const userId = this.$auth.user.id;
+        console.log(userId)
+        const rides = await this.$api.rides(null, null).getRides(userId);
+        console.log(rides);
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 };
