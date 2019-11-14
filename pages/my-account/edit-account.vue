@@ -375,6 +375,10 @@ export default {
   @import "~assets/css/head";
   $field-color: #abb8cb;
 
+  main {
+    margin-top: 1em;
+  }
+
   /deep/ .label small {
     font-weight: normal;
     &:before {

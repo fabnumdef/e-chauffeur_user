@@ -65,7 +65,7 @@ export default {
   async created() {
     this.campuses = await this.getCampuses();
     if (this.campuses.length) {
-      this.setInformation(this.campuses[0].id);
+      this.setInformation(this.campuses[0]._id);
     }
   },
 

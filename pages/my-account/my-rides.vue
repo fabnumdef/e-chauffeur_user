@@ -21,7 +21,7 @@
     <div class="columns">
       <div class="column is-5">
         <p class="alert-message" v-if="rides.length < 1">
-          Aucunes courses réalisées au mois de {{ currents.month }} {{ currents.year }}
+          Aucunes courses réalisées en {{ currents.month }} {{ currents.year }}
         </p>
         <ul v-else>
           <li
@@ -72,7 +72,7 @@ export default {
         currents,
       );
     } catch (err) {
-      $toast.error(err);
+      console.log(err);
     }
 
     const rides = data.map(({
@@ -136,15 +136,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "~assets/css/head";
 
-  $select-color-placeholder: rgba(28,28,28,0.3);
-  $select-color-placeholder-options: $black;
-  $select-border-color: #abb8cb;
-  $btn-submit-bg-color-disabled: #c8d3e0;
-  $text-color: $blue-medium;
-
-  .title {
-    color: $text-color;
-  }
 </style>
