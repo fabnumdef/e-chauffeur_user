@@ -19,11 +19,22 @@
       </div>
       </div>
     <div class="columns">
-      <div class="column is-6">
-        <ul class="">
-          <li><RideCard /></li>
-          <li><RideCard /></li>
-          <li><RideCard /></li>
+      <div class="column is-5">
+        <p v-if="rides.length < 1">Aucunes courses réalisées au mois de {{ currents.month }} {{ currents.year }}</p>
+        <ul v-else>
+          <li
+            v-for="ride in rides"
+            :key="ride.id"
+          >
+            <RideCard
+              day="Lundi"
+              hour="14h00"
+              :departure="ride.departure"
+              :arrival="ride.arrival"
+              :passengersCount="ride.passengersCount"
+              :luggage="ride.luggage"
+            />
+          </li>
         </ul>
       </div>
     </div>
@@ -51,6 +62,30 @@ export default {
     RideCard,
     FilterDropdown,
   },
+  async asyncData({ $api, $auth }) {
+    const data = await filterManager.fetchDatas(
+      $api.rides().getRides,
+      $auth.user.id,
+      currents,
+    );
+
+    const rides = data.map(({
+      _id,
+      departure,
+      arrival,
+      createdAt,
+      luggage,
+      passengersCount,
+    }) => ({
+      id: _id,
+      departure: departure.label,
+      arrival: arrival.label,
+      createdAt,
+      luggage,
+      passengersCount,
+    }));
+    return { rides };
+  },
   methods: {
     setFilter({ key, value }) {
       this.currents = {
@@ -61,9 +96,27 @@ export default {
     },
     async fetchFilter() {
       try {
-        const { start, end } = filterManager.getFilter(this.currents.year, this.currents.month);
-        const rides = await this.$api.rides().getRides(this.$auth.user.id, start, end);
-        console.log(rides);
+        const data = await filterManager.fetchDatas(
+          this.$api.rides().getRides,
+          this.$auth.user.id,
+          this.currents
+        );
+
+        this.rides = data.map(({
+          _id,
+          departure,
+          arrival,
+          createdAt,
+          luggage,
+          passengersCount,
+        }) => ({
+          id: _id,
+          departure: departure.label,
+          arrival: arrival.label,
+          createdAt,
+          luggage,
+          passengersCount,
+        }));
       } catch (err) {
         console.log(err);
       }

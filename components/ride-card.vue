@@ -1,6 +1,6 @@
 <template>
   <article>
-    <h2>26 Juillet 2019 <span>- 14h00</span></h2>
+    <h2>{{ day }} <span>- {{ hour }}</span></h2>
     <section>
       <div class="poi">
         <div class="icon-container">
@@ -11,8 +11,7 @@
         </div>
         <div>
           <h3>Lieu d'intérêt de départ</h3>
-          <p>POI-8 Gare Sncf</p>
-          <p>61 avenue Henri IV, 50100 Cherbourg</p>
+          <p>{{ departure }}</p>
         </div>
       </div>
       <div class="poi">
@@ -24,15 +23,13 @@
         </div>
         <div>
           <h3>Lieu d'intérêt d'arrivée</h3>
-          <p>POI-8 Gare Sncf</p>
-          <p>61 avenue Henri IV, 50100 Cherbourg</p>
+          <p>{{ arrival }}</p>
         </div>
       </div>
     </section>
     <ul>
-      <li>Nombre de passagers : <em>1</em></li>
-      <li>Présence des bagages : <em>Oui</em></li>
-      <li>Personne à mobilité réduite : <em>Non</em></li>
+      <li>Nombre de passagers : <em>{{ passengersCount }}</em></li>
+      <li>Présence de bagages : <em>{{ luggage ? 'Oui' : 'Non' }}</em></li>
     </ul>
   </article>
 </template>
@@ -40,7 +37,31 @@
 <script>
 export default {
   name: 'RideCard',
-  props: {},
+  props: {
+    day: {
+      type: String,
+      required: true,
+    },
+    hour: {
+      type: String,
+      required: true,
+    },
+    departure: {
+      type: String,
+      required: true,
+    },
+    arrival: {
+      type: String,
+      required: true,
+    },
+    passengersCount: {
+      type: Number,
+      required: true,
+    },
+    luggage: {
+      type: Boolean || null,
+    }
+  },
 };
 </script>
 
@@ -74,7 +95,7 @@ export default {
       .poi {
         display: flex;
         align-items: center;
-        padding-bottom: 1em;
+        padding-bottom: .5em;
         border-bottom: 2px solid $primary;
         .icon-container {
           margin-right: 1em;
@@ -84,11 +105,13 @@ export default {
 
     ul {
       display: flex;
-      justify-content: space-between;
       font-weight: 700;
-      em {
-        color: $primary;
-        font-style: normal;
+      li {
+        margin-right: 1em;
+        em {
+          color: $primary;
+          font-style: normal;
+        }
       }
     }
   }

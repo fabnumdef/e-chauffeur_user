@@ -36,4 +36,10 @@ export default class {
       end: `${year}-${monthIndex}-${maxDays}`,
     };
   }
+
+  async fetchDatas(apiCall, userId, { year, month }) {
+    const { start, end } = this.getFilter(year, month);
+    const res = await apiCall(userId, start, end);
+    return res.data;
+  }
 }
