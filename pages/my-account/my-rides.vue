@@ -78,7 +78,7 @@ export default {
         },
       );
     } catch (err) {
-      console.log(err);
+      $toast.error(err);
     }
 
     const rides = data.map(({
