@@ -24,10 +24,18 @@
         </ul>
       </div>
     </div>
+    <Modal
+      :active="isModalActive"
+      title="Suppression de la course"
+      content="Êtes-vous sûr de vouloir supprimer cette course ?"
+      @toggle-modal="toggleModal"
+      @action="deleteRide"
+    />
   </div>
 </template>
 
 <script>
+import Modal from '~/components/modal'
 import RideCard from '~/components/ride-card';
 import FilterManager from '../../helpers/FilterManager';
 
@@ -37,9 +45,11 @@ export default {
   name: 'CurrentRides',
     components: {
       RideCard,
+      Modal,
     },
   data() {
     return {
+      isModalActive: false,
     }
   },
   async asyncData({ $api, $auth, $toast}) {
@@ -81,6 +91,9 @@ export default {
     return { rides };
   },
   methods: {
+    toggleModal() {
+      this.isModalActive = !this.isModalActive;
+    },
     async deleteRide(id) {
       try {
         await this.$api.rides().deleteRide(
