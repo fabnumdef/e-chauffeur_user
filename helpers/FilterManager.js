@@ -28,7 +28,7 @@ export default class {
     }
   }
 
-  getFilter(year, month) {
+  getFilter({ year, month }) {
     const monthIndex = this.months.findIndex(currentMonth => currentMonth === month) + 1;
     const maxDays = new Date(year, monthIndex, 0).getDate();
     return {
@@ -37,9 +37,8 @@ export default class {
     };
   }
 
-  async fetchDatas(apiCall, userId, { year, month }) {
-    const { start, end } = this.getFilter(year, month);
-    const res = await apiCall(userId, start, end);
+  async fetchDatas(apiCall, filter) {
+    const res = await apiCall(filter);
     return res.data;
   }
 

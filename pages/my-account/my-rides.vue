@@ -65,11 +65,15 @@ export default {
   },
   async asyncData({ $api, $auth, $toast }) {
     let data;
+    const { start, end } = filterManager.getFilter(currents);
     try {
       data = await filterManager.fetchDatas(
         $api.rides().getRides,
-        $auth.user.id,
-        currents,
+        {
+          userId:  $auth.user.id,
+          start,
+          end,
+        },
       );
     } catch (err) {
       console.log(err);
