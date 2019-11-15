@@ -52,6 +52,19 @@ const filterManager = new FilterManager('fr-FR', 2019);
 const selects = filterManager.getSelects();
 const currents =  filterManager.getCurrents();
 
+const mask = 'id,departure(label),arrival(label),createdAt,luggage,passengersCount';
+
+const formatData = (data) => data.map((ride) => {
+    const { day, hour } = (filterManager.formatDate(ride.createdAt));
+    return {
+      ...ride,
+      departure: ride.departure.label,
+      arrival: ride.arrival.label,
+      day,
+      hour,
+    };
+});
+
 export default {
   name: 'Rides',
   data() {
@@ -69,7 +82,7 @@ export default {
     const { start, end } = filterManager.getFilter(currents);
     try {
       data = await filterManager.fetchDatas(
-        $api.rides().getRides,
+        $api.rides(null, mask).getRides,
         {
           userId:  $auth.user.id,
           start,
@@ -81,25 +94,8 @@ export default {
       $toast.error(err);
     }
 
-    const rides = data.map(({
-      _id,
-      departure,
-      arrival,
-      createdAt,
-      luggage,
-      passengersCount,
-    }) => {
-      const { day, hour } = (filterManager.formatDate(createdAt));
-      return {
-        id: _id,
-        departure: departure.label,
-        arrival: arrival.label,
-        day,
-        hour,
-        luggage,
-        passengersCount,
-      };
-    });
+    const rides = formatData(data);
+
     return { rides };
   },
   methods: {
@@ -123,25 +119,7 @@ export default {
           }
         );
 
-        this.rides = data.map(({
-          departure,
-          arrival,
-          createdAt,
-          luggage,
-          passengersCount,
-          _id,
-        }) => {
-          const { day, hour } = (filterManager.formatDate(createdAt));
-          return {
-            id: _id,
-            departure: departure.label,
-            arrival: arrival.label,
-            day,
-            hour,
-            luggage,
-            passengersCount,
-          }
-        });
+        this.rides = formatData(data);
       } catch (err) {
         this.$toast.error(err);
       }
