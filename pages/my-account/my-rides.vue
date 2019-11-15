@@ -28,6 +28,7 @@
             v-for="ride in rides"
           >
             <RideCard
+              :id="ride.id"
               :day="ride.day"
               :hour="ride.hour"
               :departure="ride.departure"
@@ -73,6 +74,7 @@ export default {
           userId:  $auth.user.id,
           start,
           end,
+          current: false,
         },
       );
     } catch (err) {
@@ -80,6 +82,7 @@ export default {
     }
 
     const rides = data.map(({
+      _id,
       departure,
       arrival,
       createdAt,
@@ -88,6 +91,7 @@ export default {
     }) => {
       const { day, hour } = (filterManager.formatDate(createdAt));
       return {
+        id: _id,
         departure: departure.label,
         arrival: arrival.label,
         day,
@@ -108,10 +112,15 @@ export default {
     },
     async fetchFilter() {
       try {
+        const { start, end } = filterManager.getFilter(this.currents);
         const data = await filterManager.fetchDatas(
           this.$api.rides().getRides,
-          this.$auth.user.id,
-          this.currents
+          {
+            userId: this.$auth.user.id,
+            start,
+            end,
+            current: false,
+          }
         );
 
         this.rides = data.map(({
@@ -120,9 +129,11 @@ export default {
           createdAt,
           luggage,
           passengersCount,
+          _id,
         }) => {
           const { day, hour } = (filterManager.formatDate(createdAt));
           return {
+            id: _id,
             departure: departure.label,
             arrival: arrival.label,
             day,

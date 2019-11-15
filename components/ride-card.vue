@@ -1,5 +1,11 @@
 <template>
   <article>
+    <fa-icon
+      v-if="status"
+      :icon="['fas', 'times-circle']"
+      class="delete-button"
+      @click="emitDelete"
+    />
     <h2>{{ day }} <span>- {{ hour }}</span></h2>
     <section>
       <div class="poi">
@@ -30,6 +36,7 @@
     <ul>
       <li>Nombre de passagers : <em>{{ passengersCount }}</em></li>
       <li>Présence de bagages : <em>{{ luggage ? 'Oui' : 'Non' }}</em></li>
+      <li v-if="status">Statut :  <em>{{ status }}</em></li>
     </ul>
   </article>
 </template>
@@ -38,6 +45,10 @@
 export default {
   name: 'RideCard',
   props: {
+    id: {
+      type: String,
+      required: true,
+    },
     day: {
       type: String,
       required: true,
@@ -60,8 +71,16 @@ export default {
     },
     luggage: {
       type: Boolean || null,
+    },
+    status: {
+      type: String,
     }
   },
+  methods: {
+    emitDelete() {
+      this.$emit('delete-ride', this.id);
+    }
+  }
 };
 </script>
 
@@ -73,6 +92,7 @@ export default {
     padding-bottom: 2em;
     border-bottom: 1px solid $dark-gray;
     margin: 0 .5em 2em;
+    position: relative;
     h2 {
       font-size: 1.2em;
       font-weight: 700;
@@ -80,6 +100,18 @@ export default {
       padding-bottom: 1em;
       span {
         color: $primary;
+      }
+    }
+
+    .delete-button {
+      cursor: pointer;
+      position: absolute;
+      top: .5em;
+      right: .5em;
+      color: red;
+      &:hover {
+        color: $text-color;
+        transition: .3s;
       }
     }
 
