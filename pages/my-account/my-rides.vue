@@ -110,7 +110,7 @@ export default {
       try {
         const { start, end } = filterManager.getFilter(this.currents);
         const data = await filterManager.fetchDatas(
-          this.$api.rides().getRides,
+          this.$api.rides(null, mask).getRides,
           {
             userId: this.$auth.user.id,
             start,
