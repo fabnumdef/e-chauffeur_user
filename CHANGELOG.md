@@ -1,5 +1,6 @@
 # Changelog
 ## Current
+* Page my-account has 3 sub-pages : edit-account, my-rides and current-rides
 ### Features
 ### Fix
 ## Version 1.4.2
