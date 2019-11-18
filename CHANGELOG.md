@@ -1,6 +1,7 @@
 # Changelog
 ## Current
 ### Features
+* Add rating form
 ### Fix
 ## Version 1.4.2
 ### Features
