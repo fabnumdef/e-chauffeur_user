@@ -1,5 +1,6 @@
 # Changelog
 ## Current
+* User can delete his account from his profile page
 ### Features
 ### Fix
 ## Version 1.4.2
