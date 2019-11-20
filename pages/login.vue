@@ -97,14 +97,20 @@ export default {
         switch (status) {
           case 404:
             this.$toast.error('Impossible de se connecter, l\'utilisateur n\'existe pas. '
-              + 'Merci de vérifier votre identifiant.\n'
-              + 'Si le problème persiste, contactez nous pour confirmer votre identifiant.');
+              + 'Merci de vérifier votre identifiant.');
             break;
           case 403:
             this.$toast.error('Impossible de se connecter, le mot de passe est incorrect. '
-              + 'Merci de retaper votre mot de passe.\n'
-              + 'Si le problème persiste, contactez nous pour réinitialiser votre mot de passe.');
+              + 'Merci de retaper votre mot de passe.');
             this.user.password = null;
+            break;
+          case 401:
+            this.$toast.error('Impossible de se connecter, le mot de passe a expiré. Merci de le réinitialiser.', {
+              action: {
+                text: 'Réinitialiser',
+                onClick: () => this.$router.push({ name: 'reset-password' }),
+              },
+            });
             break;
           default:
             this.$toast.error('Une erreur est survenue, merci de vérifier votre email et mot de passe. \n'
