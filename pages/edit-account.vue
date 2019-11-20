@@ -220,17 +220,10 @@
             id="password"
             label="Votre mot de passe"
           >
-            <input
+            <ec-password
               id="password"
               v-model="fields.password"
-              v-validate="'required'"
-              type="password"
-              class="input"
-              name="password"
-              data-vv-as="Mot de passe"
-              :class="{ 'is-danger': errors.has('password') }"
-              :placeholder="'Tapez votre mot de passe'"
-            >
+            />
             <p class="help is-danger">
               {{ errors.first('password') }}
             </p>
@@ -306,6 +299,7 @@ import phoneNumberInput from 'vue-phone-number-input';
 import ecField from '~/components/form/field.vue';
 import helpButton from '~/components/help.vue';
 import modal from '~/components/modal.vue';
+import ecPassword from '~/components/form/password';
 
 import validationIconSwitch from '~/components/validation-icon-switch.vue';
 
@@ -314,6 +308,7 @@ export default {
   auth: false,
   components: {
     ecField,
+    ecPassword,
     helpButton,
     validationIconSwitch,
     phoneNumberInput,
