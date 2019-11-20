@@ -3,6 +3,10 @@
 * User can delete his account from his profile page
 ### Features
 ### Fix
+## Version 1.4.3
+### Features
+* Change GDPR content page
+* Phone number field has been improved
 ## Version 1.4.2
 ### Features
 * Improve reliability, k8s side

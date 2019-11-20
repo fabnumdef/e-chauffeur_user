@@ -37,6 +37,7 @@ module.exports = {
           users: 'users',
           pois: 'pois',
         },
+        mockAxios: (process.env.MOCK_AXIOS || '').toLowerCase() === 'true',
         withAuth: true,
         authPlugins: [
           'auth-renew',
