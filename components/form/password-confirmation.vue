@@ -16,7 +16,7 @@
       v-if="!isValid"
       class="help is-danger"
     >
-      La confirmation de mot de passe ne correspond pas.
+      La confirmation du mot de passe ne correspond pas.
     </p>
   </div>
 </template>
