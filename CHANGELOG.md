@@ -2,6 +2,7 @@
 ## Current
 * User can delete his account from his profile page
 ### Features
+* Add constraint on password confirmation
 * Add rating form
 ### Fix
 ## Version 1.4.3

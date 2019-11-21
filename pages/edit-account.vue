@@ -242,17 +242,12 @@
             id="password_confirm"
             label="Confirmation de mot de passe"
           >
-            <input
+            <ec-password-confirmation
               id="password_confirm"
               v-model="fields.password_confirm"
-              v-validate="'required'"
-              type="password"
-              class="input"
-              name="password_confirm"
-              data-vv-as="Mot de passe (confirmation)"
-              :class="{ 'is-danger': errors.has('password_confirm') }"
-              :placeholder="'Tapez votre mot de passe (confirmation)'"
-            >
+              :compare-to="fields.password"
+              :is-invalid="errors.has('password_confirm')"
+            />
             <p class="help is-danger">
               {{ errors.first('password_confirm') }}
             </p>
@@ -292,10 +287,10 @@
     </form>
     <modal
       :active="isModalActive"
-      @toggle-modal="toggleModal"
-      @action="deleteAccount"
       title="Suppression du compte"
       content="Êtes-vous sûr de vouloir supprimer votre compte ?"
+      @toggle-modal="toggleModal"
+      @action="deleteAccount"
     />
   </main>
 </template>
@@ -306,6 +301,7 @@ import phoneNumberInput from 'vue-phone-number-input';
 import ecField from '~/components/form/field.vue';
 import helpButton from '~/components/help.vue';
 import modal from '~/components/modal.vue';
+import ecPasswordConfirmation from '~/components/form/password-confirmation';
 
 import validationIconSwitch from '~/components/validation-icon-switch.vue';
 
@@ -314,6 +310,7 @@ export default {
   auth: false,
   components: {
     ecField,
+    ecPasswordConfirmation,
     helpButton,
     validationIconSwitch,
     phoneNumberInput,
@@ -366,6 +363,10 @@ export default {
   },
   methods: {
     async sendForm(sendToken = false) {
+      if ((this.fields.password || '') !== (this.fields.password_confirm || '')) {
+        this.$toast.error('Le mot de passe et sa confirmation ne correspondent pas.');
+        return;
+      }
       try {
         const { data: updatedUser } = await this.$api.users.patchUser(
           this.id,
@@ -390,8 +391,6 @@ export default {
       }
     },
     async deleteAccount() {
-      console.log('delete');
-      return;
       try {
         await this.$api.users.deleteUser(this.$auth.user.id);
         this.$auth.logout();
@@ -404,7 +403,7 @@ export default {
     },
     toggleModal() {
       this.isModalActive = !this.isModalActive;
-    }
+    },
   },
 };
 </script>
