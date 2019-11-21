@@ -39,8 +39,10 @@ module.exports = {
         },
         mockAxios: (process.env.MOCK_AXIOS || '').toLowerCase() === 'true',
         withAuth: true,
+        accountRoute: 'my-account',
         authPlugins: [
           'auth-renew',
+          'user-expiration',
         ],
       },
     ],
