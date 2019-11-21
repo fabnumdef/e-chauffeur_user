@@ -5,7 +5,7 @@
       v-bind="$attrs"
       type="password"
       class="input"
-      :class="{ 'is-danger': !isValid || errors.has('password')}"
+      :class="{ 'is-danger': !isValid || isInvalid }"
       :value="val || value"
       name="password"
       data-vv-as="Mot de passe"
@@ -32,6 +32,10 @@ export default {
     minLength: {
       type: Number,
       default: 8,
+    },
+    isInvalid: {
+      type: Boolean,
+      default: false,
     },
   },
   data: () => ({

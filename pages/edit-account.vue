@@ -223,6 +223,7 @@
             <ec-password
               id="password"
               v-model="fields.password"
+              :is-invalid="errors.has('password')"
             />
             <p class="help is-danger">
               {{ errors.first('password') }}
@@ -285,10 +286,10 @@
     </form>
     <modal
       :active="isModalActive"
-      @toggle-modal="toggleModal"
-      @action="deleteAccount"
       title="Suppression du compte"
       content="Êtes-vous sûr de vouloir supprimer votre compte ?"
+      @toggle-modal="toggleModal"
+      @action="deleteAccount"
     />
   </main>
 </template>
@@ -385,8 +386,6 @@ export default {
       }
     },
     async deleteAccount() {
-      console.log('delete');
-      return;
       try {
         await this.$api.users.deleteUser(this.$auth.user.id);
         this.$auth.logout();
@@ -399,7 +398,7 @@ export default {
     },
     toggleModal() {
       this.isModalActive = !this.isModalActive;
-    }
+    },
   },
 };
 </script>

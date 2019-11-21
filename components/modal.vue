@@ -3,10 +3,12 @@
     class="modal"
     :class="active && 'is-active'"
   >
-    <div class="modal-background"></div>
+    <div class="modal-background" />
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">{{ title }}</p>
+        <p class="modal-card-title">
+          {{ title }}
+        </p>
         <button
           class="delete"
           aria-label="close"
@@ -19,11 +21,15 @@
           <button
             class="button is-primary"
             @click="emitAction"
-          >Confirmer</button>
+          >
+            Confirmer
+          </button>
           <button
             class="button"
             @click="toggleModal"
-          >Annuler</button>
+          >
+            Annuler
+          </button>
         </div>
       </section>
     </div>
@@ -31,30 +37,30 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      active: {
-        type: Boolean,
-        default: false,
-      },
-      title: {
-        type: String,
-        required: true,
-      },
-      content: {
-        type: String,
-        required: true,
-      }
+export default {
+  props: {
+    active: {
+      type: Boolean,
+      default: false,
     },
-    methods: {
-      toggleModal() {
-        this.$emit('toggle-modal');
-      },
-      emitAction() {
-        this.$emit('action');
-      }
+    title: {
+      type: String,
+      required: true,
     },
-  };
+    content: {
+      type: String,
+      required: true,
+    },
+  },
+  methods: {
+    toggleModal() {
+      this.$emit('toggle-modal');
+    },
+    emitAction() {
+      this.$emit('action');
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
