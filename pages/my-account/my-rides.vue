@@ -66,7 +66,6 @@ const formatData = (data) => data.map((ride) => {
 });
 
 export default {
-  name: 'Rides',
   data() {
     return {
       selects,

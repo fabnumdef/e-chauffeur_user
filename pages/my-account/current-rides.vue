@@ -2,7 +2,7 @@
   <div>
     <div class="columns">
       <div class="column is-5">
-        <p class="alert-message" v-if="rides !== null || rides.length < 1">
+        <p class="alert-message" v-if="rides === null || rides.length < 1">
           Aucune réservation en cours
         </p>
         <ul v-else>
@@ -37,7 +37,7 @@
 <script>
 import Modal from '~/components/modal'
 import RideCard from '~/components/ride-card';
-import FilterManager from '../../helpers/FilterManager';
+import FilterManager from '~/helpers/FilterManager';
 
 const filterManager = new FilterManager(2019);
 const currents =  filterManager.getCurrents();
