@@ -281,8 +281,22 @@
         <help-button class="help-button">
           Besoin d'aide ?
         </help-button>
+        <button
+          type="button"
+          class="delete-button"
+          @click="toggleModal"
+        >
+          Vous souhaitez supprimer votre compte ?
+        </button>
       </div>
     </form>
+    <modal
+      :active="isModalActive"
+      @toggle-modal="toggleModal"
+      @action="deleteAccount"
+      title="Suppression du compte"
+      content="Êtes-vous sûr de vouloir supprimer votre compte ?"
+    />
   </main>
 </template>
 
@@ -291,6 +305,7 @@ import merge from 'lodash.merge';
 import phoneNumberInput from 'vue-phone-number-input';
 import ecField from '~/components/form/field.vue';
 import helpButton from '~/components/help.vue';
+import modal from '~/components/modal.vue';
 
 import validationIconSwitch from '~/components/validation-icon-switch.vue';
 
@@ -302,6 +317,12 @@ export default {
     helpButton,
     validationIconSwitch,
     phoneNumberInput,
+    modal,
+  },
+  data() {
+    return {
+      isModalActive: false,
+    };
   },
   watchQuery: ['token', 'email'],
   async asyncData({
@@ -368,12 +389,29 @@ export default {
         }
       }
     },
+    async deleteAccount() {
+      console.log('delete');
+      return;
+      try {
+        await this.$api.users.deleteUser(this.$auth.user.id);
+        this.$auth.logout();
+      } catch (e) {
+        this.$toast.error('Une erreur est survenue lors de la suppression du compte');
+      } finally {
+        this.$router.push('/');
+        this.$toast.success('Compte supprimé avec succès, vous êtes maintenant déconnecté.');
+      }
+    },
+    toggleModal() {
+      this.isModalActive = !this.isModalActive;
+    }
   },
 };
 </script>
 <style lang="scss" scoped>
   @import "~assets/css/head";
   $field-color: #abb8cb;
+  $text-color: $blue-medium;
 
   main {
     margin-top: 1em;
@@ -409,5 +447,14 @@ export default {
       border: 1px solid $field-color;
       border-radius: 0;
     }
+  }
+
+  .delete-button {
+    background: none;
+    border: none;
+    color: $primary;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
   }
 </style>

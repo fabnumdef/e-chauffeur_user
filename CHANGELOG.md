@@ -1,8 +1,13 @@
 # Changelog
 ## Current
-* Page my-account has 3 sub-pages : edit-account, my-rides and current-rides
 ### Features
+* Page my-account has 3 sub-pages : edit-account, my-rides and current-rides
+* User can delete his account from his profile page
 ### Fix
+## Version 1.4.3
+### Features
+* Change GDPR content page
+* Phone number field has been improved
 ## Version 1.4.2
 ### Features
 * Improve reliability, k8s side
