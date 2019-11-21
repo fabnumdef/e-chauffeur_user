@@ -29,7 +29,7 @@
         <div class="navbar-end">
           <nuxt-link
             class="navbar-item"
-            :to="{name: 'edit-account'}"
+            :to="{name: 'my-account'}"
           >
             Mon compte
           </nuxt-link>

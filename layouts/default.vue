@@ -35,6 +35,7 @@ export default {
 
   .container {
     position: initial;
+    min-height: 80vh;
   }
 
   #shape-top-right {

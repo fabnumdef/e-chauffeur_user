@@ -408,6 +408,10 @@ export default {
   $field-color: #abb8cb;
   $text-color: $blue-medium;
 
+  main {
+    margin-top: 1em;
+  }
+
   /deep/ .label small {
     font-weight: normal;
     &:before {

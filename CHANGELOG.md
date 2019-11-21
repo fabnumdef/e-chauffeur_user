@@ -1,6 +1,7 @@
 # Changelog
 ## Current
 ### Features
+* Page my-account has 3 sub-pages : edit-account, my-rides and current-rides
 * User can delete his account from his profile page
 * Add new component to enforce password strength
 * Add constraint on password confirmation
