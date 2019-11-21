@@ -17,7 +17,7 @@
               name="firstname"
               data-vv-as="Prénom"
               :class="{ 'is-danger': errors.has('firstname') }"
-              :placeholder="'Tapez votre prénom'"
+              placeholder="Tapez votre prénom"
             >
             <p class="help is-danger">
               {{ errors.first('firstname') }}
@@ -40,7 +40,7 @@
               name="lastname"
               data-vv-as="nom"
               :class="{ 'is-danger': errors.has('lastname') }"
-              :placeholder="'Tapez votre nom'"
+              placeholder="Tapez votre nom"
             >
             <p class="help is-danger">
               {{ errors.first('lastname') }}
@@ -67,7 +67,7 @@
                   name="email"
                   data-vv-as="Email"
                   :class="{ 'is-danger': errors.has('email') }"
-                  :placeholder="'Tapez votre email'"
+                  placeholder="Tapez votre email"
                 >
                 <p class="help is-danger">
                   {{ errors.first('email') }}
@@ -106,7 +106,7 @@
                   data-vv-as="Code de confirmation (email)"
                   :disabled="fields.email_confirmed"
                   :class="{ 'is-danger': errors.has('email_token') }"
-                  :placeholder="'Tapez le jeton de confirmation reçu sur votre courriel'"
+                  placeholder="Tapez le jeton de confirmation reçu sur votre courriel"
                 >
                 <p class="help is-danger">
                   {{ errors.first('email_token') }}
@@ -191,7 +191,7 @@
                   data-vv-as="Code de confirmation (téléphone)"
                   :disabled="fields.phone.confirmed"
                   :class="{ 'is-danger': errors.has('phone.token') }"
-                  :placeholder="'Tapez le code de confirmation reçu sur votre téléphone'"
+                  placeholder="Tapez le code de confirmation reçu sur votre téléphone"
                 >
                 <p class="help is-danger">
                   {{ errors.first('phone.token') }}
@@ -245,7 +245,7 @@
               name="password_confirm"
               data-vv-as="Mot de passe (confirmation)"
               :class="{ 'is-danger': errors.has('password_confirm') }"
-              :placeholder="'Tapez votre mot de passe (confirmation)'"
+              placeholder="Tapez votre mot de passe (confirmation)"
             >
             <p class="help is-danger">
               {{ errors.first('password_confirm') }}

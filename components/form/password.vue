@@ -9,7 +9,7 @@
       :value="val || value"
       name="password"
       data-vv-as="Mot de passe"
-      :placeholder="'Tapez votre mot de passe'"
+      placeholder="Tapez votre mot de passe"
       @input="input"
     >
     <p
