@@ -3,6 +3,7 @@
 ### Features
 * Page my-account has 3 sub-pages : edit-account, my-rides and current-rides
 * User can delete his account from his profile page
+* Add rating form
 ### Fix
 ## Version 1.4.3
 ### Features
