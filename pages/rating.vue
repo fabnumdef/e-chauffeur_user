@@ -72,11 +72,11 @@
             label="Avez-vous des suggestions pour améliorer cette offre de mobilité ?"
           >
             <textarea
+              v-model="fields.message"
               :class="{ 'is-danger': errors.has('message') }"
               :placeholder="'Tapez votre message'"
               class="textarea"
               name="message"
-              v-model="fields.message"
             />
           </ec-field>
         </div>
