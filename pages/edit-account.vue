@@ -236,17 +236,12 @@
             id="password_confirm"
             label="Confirmation de mot de passe"
           >
-            <input
+            <ec-password-confirmation
               id="password_confirm"
               v-model="fields.password_confirm"
-              v-validate="'required'"
-              type="password"
-              class="input"
-              name="password_confirm"
-              data-vv-as="Mot de passe (confirmation)"
-              :class="{ 'is-danger': errors.has('password_confirm') }"
-              placeholder="Tapez votre mot de passe (confirmation)"
-            >
+              :compare-to="fields.password"
+              :is-invalid="errors.has('password_confirm')"
+            />
             <p class="help is-danger">
               {{ errors.first('password_confirm') }}
             </p>
@@ -301,6 +296,7 @@ import ecField from '~/components/form/field.vue';
 import helpButton from '~/components/help.vue';
 import modal from '~/components/modal.vue';
 import ecPassword from '~/components/form/password';
+import ecPasswordConfirmation from '~/components/form/password-confirmation';
 
 import validationIconSwitch from '~/components/validation-icon-switch.vue';
 
@@ -310,6 +306,7 @@ export default {
   components: {
     ecField,
     ecPassword,
+    ecPasswordConfirmation,
     helpButton,
     validationIconSwitch,
     phoneNumberInput,
@@ -362,6 +359,10 @@ export default {
   },
   methods: {
     async sendForm(sendToken = false) {
+      if ((this.fields.password || '') !== (this.fields.password_confirm || '')) {
+        this.$toast.error('Le mot de passe et sa confirmation ne correspondent pas.');
+        return;
+      }
       try {
         const { data: updatedUser } = await this.$api.users.patchUser(
           this.id,
