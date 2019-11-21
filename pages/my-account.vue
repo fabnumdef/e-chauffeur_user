@@ -17,20 +17,20 @@
             <ul>
               <li>
                 <nuxt-link
-                to="/my-account/edit-account"
+                  :to="{name: 'my-account-edit-account'}"
                 >
                   Vos informations
                 </nuxt-link></li>
               <li>
                 <nuxt-link
-                  to="/my-account/current-rides"
+                  :to="{name: 'my-account-current-rides'}"
                 >
                   Réservation en cours
                 </nuxt-link>
               </li>
               <li>
                 <nuxt-link
-                to="/my-account/my-rides"
+                  :to="{name: 'my-account-my-rides'}"
                 >
                 Historique des courses
                 </nuxt-link>
@@ -46,7 +46,6 @@
 
 <script>
 export default {
-  name: 'MyAccount',
   computed: {
     currentPath() {
       return this.$route.path;

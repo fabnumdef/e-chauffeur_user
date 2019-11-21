@@ -20,7 +20,7 @@
       </div>
     <div class="columns">
       <div class="column is-5">
-        <p class="alert-message" v-if="rides.length < 1">
+        <p class="alert-message" v-if="rides === null || rides.length < 1">
           Aucunes courses réalisées en {{ currents.month }} {{ currents.year }}
         </p>
         <ul v-else>
@@ -46,9 +46,9 @@
 <script>
 import RideCard from '~/components/ride-card';
 import FilterDropdown from '~/components/elements/filter-dropdown';
-import FilterManager from '../../helpers/FilterManager';
+import FilterManager from '~/helpers/FilterManager';
 
-const filterManager = new FilterManager('fr-FR', 2019);
+const filterManager = new FilterManager(2019);
 const selects = filterManager.getSelects();
 const currents =  filterManager.getCurrents();
 
@@ -77,57 +77,46 @@ export default {
     RideCard,
     FilterDropdown,
   },
-  async asyncData({ $api, $auth, $toast }) {
-    let data;
+  async asyncData({ $api, $auth }) {
     const { start, end } = filterManager.getFilter(currents);
-    try {
-      data = await filterManager.fetchDatas(
-        $api.rides(null, mask).getRides,
-        {
+    const { data } = await $api.rides(null, mask).getRides(
+      start,
+      end,
+      {},
+      {
+        filter: {
           userId:  $auth.user.id,
-          start,
-          end,
           current: false,
         },
-      );
-    } catch (err) {
-      $toast.error(err);
-    }
+      },
+    );
 
-    const rides = formatData(data);
-
-    return { rides };
+    return { rides: formatData(data) };
   },
   methods: {
     setFilter({ key, value }) {
       this.currents = {
         ...this.currents,
         [key]: value,
-      }
+      };
       this.fetchFilter();
     },
     async fetchFilter() {
-      try {
         const { start, end } = filterManager.getFilter(this.currents);
-        const data = await filterManager.fetchDatas(
-          this.$api.rides(null, mask).getRides,
-          {
-            userId: this.$auth.user.id,
+        const { data } = await this.$api.rides(null, mask).getRides(
             start,
             end,
-            current: false,
-          }
+            {},
+            {
+              filter: {
+                userId: this.$auth.user.id,
+                current: false,
+              },
+            },
         );
 
         this.rides = formatData(data);
-      } catch (err) {
-        this.$toast.error(err);
       }
     }
-  }
 };
 </script>
-
-<style lang="scss" scoped>
-
-</style>

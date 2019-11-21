@@ -16,7 +16,7 @@
           />
         </div>
         <div>
-          <h3>Lieu d'intérêt de départ</h3>
+          <h3>Lieu de départ</h3>
           <p>{{ departure }}</p>
         </div>
       </div>
@@ -28,7 +28,7 @@
           />
         </div>
         <div>
-          <h3>Lieu d'intérêt d'arrivée</h3>
+          <h3>Lieu d'arrivée</h3>
           <p>{{ arrival }}</p>
         </div>
       </div>
@@ -43,7 +43,6 @@
 
 <script>
 export default {
-  name: 'RideCard',
   props: {
     id: {
       type: String,
@@ -70,7 +69,7 @@ export default {
       required: true,
     },
     luggage: {
-      type: Boolean || null,
+      type: Boolean,
     },
     status: {
       type: String,

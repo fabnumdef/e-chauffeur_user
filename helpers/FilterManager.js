@@ -1,17 +1,21 @@
+import { Settings } from 'luxon';
+
 export default class {
-  constructor(locales, initYear) {
+  constructor(initYear) {
+    const locale = Settings.defaultLocale;
     let years = [];
     let months = [];
     for (let year = initYear; year <= new Date().getFullYear(); year += 1) {
       years.push(year);
     }
     for (let month = 0; month < 12; month += 1 ) {
-      months.push(new Date(null, month).toLocaleString(locales, { month: 'long'}));
+      months.push(new Date(null, month).toLocaleString(locale, { month: 'long'}));
     }
+    this.locale = locale;
     this.years = years;
     this.months = months;
     this.currentYear = new Date().getFullYear().toString();
-    this.currentMonth = new Date().toLocaleString(locales, { month: 'long' });
+    this.currentMonth = new Date().toLocaleString(locale, { month: 'long' });
   }
 
   getSelects() {
@@ -37,14 +41,9 @@ export default class {
     };
   }
 
-  async fetchDatas(apiCall, filter) {
-    const res = await apiCall(filter);
-    return res.data;
-  }
-
   formatDate(date) {
-    const day = new Date(date).toLocaleString('fr-FR', { weekday: 'long', day: '2-digit' });
-    const hour = new Date(date).toLocaleString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    const day = new Date(date).toLocaleString(this.locale, { weekday: 'long', day: '2-digit' });
+    const hour = new Date(date).toLocaleString(this.locale, { hour: '2-digit', minute: '2-digit' });
     return {
       day,
       hour,

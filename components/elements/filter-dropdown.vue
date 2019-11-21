@@ -12,7 +12,6 @@
 
 <script>
   export default {
-    name: 'filter-dropdown',
     props: {
       type: {
         type: String,

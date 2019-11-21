@@ -2,7 +2,7 @@
   <div>
     <div class="columns">
       <div class="column is-5">
-        <p class="alert-message" v-if="rides.length < 1">
+        <p class="alert-message" v-if="rides !== null || rides.length < 1">
           Aucune réservation en cours
         </p>
         <ul v-else>
@@ -39,7 +39,8 @@ import Modal from '~/components/modal'
 import RideCard from '~/components/ride-card';
 import FilterManager from '../../helpers/FilterManager';
 
-const filterManager = new FilterManager('fr-FR', 2019);
+const filterManager = new FilterManager(2019);
+const currents =  filterManager.getCurrents();
 
 const mask = 'id,departure(label),arrival(label),createdAt,luggage,passengersCount,status';
 
@@ -55,33 +56,30 @@ const formatData = (data) => data.map((ride) => {
 });
 
 export default {
-  name: 'CurrentRides',
-    components: {
+  components: {
       RideCard,
       Modal,
-    },
+  },
   data() {
     return {
       isModalActive: false,
     }
   },
-  async asyncData({ $api, $auth, $toast}) {
-    let data;
-    try {
-      data = await filterManager.fetchDatas(
-        $api.rides(null, mask).getRides,
-        {
+  async asyncData({ $api, $auth }) {
+    const { start, end } = filterManager.getFilter(currents);
+    const { data } = await $api.rides(null, mask).getRides(
+      start,
+      end,
+      {},
+      {
+        filter: {
           userId: $auth.user.id,
           current: true,
-        }
-      );
-    } catch (err) {
-      $toast.error(err);
-    }
+        },
+      },
+    );
 
-    const rides = formatData(data);
-
-    return { rides };
+    return { rides: formatData(data) };
   },
   methods: {
     toggleModal() {
@@ -94,7 +92,7 @@ export default {
           id,
         );
       } catch (err) {
-        this.$toast.error(err);
+        this.$toast.error('Une erreur est survenue lors de la suppression.');
       }
     }
   }
