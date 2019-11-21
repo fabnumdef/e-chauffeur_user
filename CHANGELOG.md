@@ -1,7 +1,8 @@
 # Changelog
 ## Current
-* User can delete his account from his profile page
 ### Features
+* User can delete his account from his profile page
+* Add new component to enforce password strength
 * Add constraint on password confirmation
 * Add rating form
 ### Fix
