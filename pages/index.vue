@@ -27,22 +27,75 @@
         </div>
       </div>
     </section>
-    <section class="white-section">
-      <div class="fake-container">
-        <div class="title has-text-centered">
-          Pour vous inscrire, entrez tout d'abord votre courriel professionnel
-        </div>
-        <pre-register />
-        Vous avez déjà un compte ? <nuxt-link :to="{name: 'login'}">
-          Connectez-vous
+    <section class="section white-section">
+      <div class="title">
+        Se connecter
+      </div>
+      <p>
+        Vous êtes un nouvel utilisateur ?
+        <nuxt-link :to="{name: 'login'}">
+          Créez un compte
         </nuxt-link>.
+      </p>
+      <form action="">
+        <input
+          class="input is-inline"
+          type="email"
+          placeholder="Tapez votre adresse e-mail..."
+        >
+        <input
+          class="input is-inline"
+          type="password"
+          placeholder="Tapez votre mot de passe..."
+        >
+        <nuxt-link to="#">
+          Mot de passe oublié ?
+        </nuxt-link>
+        <button
+          class="button is-primary is-centered"
+          type="submit"
+        >
+          Connexion
+        </button>
+      </form>
+    </section>
+
+    <section class="section blue-section">
+      <img src="/logo_ec.svg" alt="e-Chauffeur">
+      <div class="title">
+        Réservez votre <strong>e-Chauffeur</strong> dès maintenant
+      </div>
+      <button
+        to="#"
+        class="button is-primary is-inverted"
+      >
+        C'est parti !
+      </button>
+    </section>
+
+    <section class="section white-section">
+      <div class="wrapper">
+        <div class="info blue">
+          <img src="/calendar_icon.png" alt="calendar-icon">
+          <p><strong>Choisissez vos dates et heures</strong></p>
+          <p>Planifiez votre réservation en sélectionnant vos dates, heures et le type de course</p>
+        </div>
+        <div class="info orange">
+          <img src="/car_icon.png" alt="car-icon">
+          <p><strong>Paramétrez votre réservation</strong></p>
+          <p>Signalez si vous êtes seul ou accompagné, la présence de bagages ou un passager spécial</p>
+        </div>
+        <div class="info green">
+          <img src="/map_icon.png" alt="map-icon">
+          <p><strong>Rendez-vous à votre point de rencontre</strong></p>
+          <p>Suivez votre chauffeur jusqu'au point de récupération, votre course va commencer</p>
+        </div>
       </div>
     </section>
   </main>
 </template>
 
 <script>
-import preRegister from '~/components/pre-register.vue';
 import searchCampus from '~/components/form/search-campus.vue';
 
 export default {
@@ -50,7 +103,6 @@ export default {
   auth: false,
   components: {
     searchCampus,
-    preRegister,
   },
 
   data() {
@@ -121,19 +173,19 @@ export default {
       border-radius: .3em;
       transition: all .3s ease-out;
       &:before {
-          content: counter(li);
-          counter-increment: li;
-          position: absolute;
-          left: 0;
-          top: 10px;
-          margin-top: -15px;
-          height: 2em;
-          width: 2em;
-          line-height: 2em;
-          text-align: center;
-          font-weight: bold;
-          background: linear-gradient(141.87deg, #FFFFFF -0.24%, #3374F7 53.22%, #5CBDEA 104.94%);
-          border-radius: 2em;
+        content: counter(li);
+        counter-increment: li;
+        position: absolute;
+        left: 0;
+        top: 10px;
+        margin-top: -15px;
+        height: 2em;
+        width: 2em;
+        line-height: 2em;
+        text-align: center;
+        font-weight: bold;
+        background: linear-gradient(141.87deg, #FFFFFF -0.24%, #3374F7 53.22%, #5CBDEA 104.94%);
+        border-radius: 2em;
       }
     }
   }
@@ -151,14 +203,55 @@ export default {
 
   .white-section {
     width: 100%;
-    .fake-container {
-    margin: 10px auto;
-      max-width: 440px;
-    }
+    color: $blue-dark;
     .title {
-      color: $primary;
+      color: $blue-dark;
       font-size: 1.7rem;
-      margin: 50px 0;
+    }
+    a {
+      color: $primary;
+    }
+  }
+
+  .blue-section {
+    background-color: $primary;
+  }
+
+  .wrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: start;
+    .info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 3em;
+      p {
+        margin: 0;
+        strong {
+          display: block;
+          color: inherit;
+          font-size: 1.2em;
+          margin-top: 2em;
+        }
+      }
+
+    }
+    .info.blue {
+      color: $blue;
+      img {
+        margin-bottom: 1.5em;
+      }
+    }
+    .info.orange {
+      color: $orange;
+    }
+    .info.green {
+      color: $green;
+      img {
+        margin-bottom: 1.3em;
+      }
     }
   }
 
