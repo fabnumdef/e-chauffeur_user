@@ -221,6 +221,7 @@ export default {
     display: flex;
     justify-content: space-around;
     align-items: start;
+    border-bottom: 1px solid $light-gray;
     .info {
       display: flex;
       flex-direction: column;
