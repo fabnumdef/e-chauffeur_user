@@ -1,37 +1,45 @@
 <template>
   <div class="select">
-    <select :id="type" @change="changeValue">
-      <option hidden>{{ current }}</option>
+    <select
+      :id="type"
+      @change="changeValue"
+    >
+      <option hidden>
+        {{ current }}
+      </option>
       <option
-        v-for="item in list"
+        v-for="(item, index) in list"
+        :key="index"
         :value="item"
-      >{{ item }}</option>
+      >
+        {{ item }}
+      </option>
     </select>
   </div>
 </template>
 
 <script>
-  export default {
-    props: {
-      type: {
-        type: String,
-        required: true,
-      },
-      current: {
-        type: String,
-        required: true,
-      },
-      list: {
-        type: Array,
-        required: true,
-      }
+export default {
+  props: {
+    type: {
+      type: String,
+      required: true,
     },
-    methods: {
-      changeValue({ target }) {
-        this.$emit('filter-results', { key: this.type, value: target.value });
-      }
-    }
-  };
+    current: {
+      type: String,
+      required: true,
+    },
+    list: {
+      type: Array,
+      required: true,
+    },
+  },
+  methods: {
+    changeValue({ target }) {
+      this.$emit('filter-results', { key: this.type, value: target.value });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
