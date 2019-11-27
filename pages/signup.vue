@@ -8,9 +8,7 @@
 
     <div class="columns">
       <pre-register class="column is-6 is-offset-2" />
-
     </div>
-
   </main>
 </template>
 
@@ -31,5 +29,10 @@ export default {
     font-size: 2em;
     margin-top: 5em;
     color: $primary;
+  }
+
+  a {
+    display: block;
+    color: $blue-light;
   }
 </style>
