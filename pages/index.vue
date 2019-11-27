@@ -1,10 +1,13 @@
 <template>
-  <main>
-    <section
-      class="section"
-    >
-      <div class="columns">
-        <div class="column is-7-widescreen is-10-fullhd">
+  <div>
+    <div class="background">
+      <ec-header/>
+    </div>
+    <main>
+      <section
+        class="section columns background"
+      >
+        <div class="column is-6-widescreen is-offset-2-desktop">
           <h1 class="title">
             Faites vous conduire à votre prochain rendez-vous professionnel.
           </h1>
@@ -25,77 +28,110 @@
             class="search-campus"
           />
         </div>
-      </div>
-    </section>
-    <section class="section white-section">
-      <div class="title">
-        Se connecter
-      </div>
-      <p>
-        Vous êtes un nouvel utilisateur ?
-        <nuxt-link :to="{name: 'login'}">
-          Créez un compte
-        </nuxt-link>.
-      </p>
-      <form action="">
-        <input
-          class="input is-inline"
-          type="email"
-          placeholder="Tapez votre adresse e-mail..."
-        >
-        <input
-          class="input is-inline"
-          type="password"
-          placeholder="Tapez votre mot de passe..."
-        >
-        <nuxt-link to="#">
-          Mot de passe oublié ?
-        </nuxt-link>
-        <button
-          class="button is-primary is-centered"
-          type="submit"
-        >
-          Connexion
-        </button>
-      </form>
-    </section>
-
-    <section class="section blue-section">
-      <img src="/logo_ec.svg" alt="e-Chauffeur">
-      <div class="title">
-        Réservez votre <strong>e-Chauffeur</strong> dès maintenant
-      </div>
-      <button
-        to="#"
-        class="button is-primary is-inverted"
+      </section>
+      <section
+        id="login-form"
+        class="section white-section columns"
       >
-        C'est parti !
-      </button>
-    </section>
+        <div class="column is-8-widescreen is-offset-2-desktop">
+          <h2 class="title">
+            Se connecter
+          </h2>
+          <p>
+            Vous êtes un nouvel utilisateur ?
+            <nuxt-link :to="{name: 'login'}">
+              Créez un compte
+            </nuxt-link>.
+          </p>
+          <form action="">
+            <div>
+              <input
+                class="input"
+                type="email"
+                placeholder="Tapez votre adresse e-mail..."
+              >
+              <input
+                class="input"
+                type="password"
+                placeholder="Tapez votre mot de passe..."
+              >
+            </div>
+            <div>
+              <nuxt-link
+                class="button is-centered"
+                to="#"
+              >
+                Inscription
+              </nuxt-link>
+              <div>
+                <nuxt-link to="#">
+                  Mot de passe oublié ?
+                </nuxt-link>
+                <button
+                  class="button is-primary is-centered"
+                  type="submit"
+                >
+                  Connexion
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
 
-    <section class="section white-section">
-      <div class="wrapper">
-        <div class="info blue">
-          <img src="/calendar_icon.png" alt="calendar-icon">
-          <p><strong>Choisissez vos dates et heures</strong></p>
-          <p>Planifiez votre réservation en sélectionnant vos dates, heures et le type de course</p>
+      <section class="section blue-section columns is-centered background">
+        <div class="column is-one-quarter">
+          <img
+            src="/logo_ec.svg"
+            alt="e-Chauffeur"
+          >
+          <div class="title">
+            Réservez votre <strong>e-Chauffeur</strong> dès maintenant
+          </div>
+          <button
+            to="#"
+            class="button is-primary is-inverted"
+          >
+            C'est parti !
+          </button>
         </div>
-        <div class="info orange">
-          <img src="/car_icon.png" alt="car-icon">
-          <p><strong>Paramétrez votre réservation</strong></p>
-          <p>Signalez si vous êtes seul ou accompagné, la présence de bagages ou un passager spécial</p>
+      </section>
+
+      <section class="section white-section">
+        <div class="wrapper">
+          <div class="info blue">
+            <img
+              src="/calendar_icon.png"
+              alt="calendar-icon"
+            >
+            <p><strong>Choisissez vos dates et heures</strong></p>
+            <p>Planifiez votre réservation en sélectionnant vos dates, heures et le type de course</p>
+          </div>
+          <div class="info orange">
+            <img
+              src="/car_icon.png"
+              alt="car-icon"
+            >
+            <p><strong>Paramétrez votre réservation</strong></p>
+            <p>Signalez si vous êtes seul ou accompagné, la présence de bagages ou un passager spécial</p>
+          </div>
+          <div class="info green">
+            <img
+              src="/map_icon.png"
+              alt="map-icon"
+            >
+            <p><strong>Rendez-vous à votre point de rencontre</strong></p>
+            <p>Suivez votre chauffeur jusqu'au point de récupération, votre course va commencer</p>
+          </div>
         </div>
-        <div class="info green">
-          <img src="/map_icon.png" alt="map-icon">
-          <p><strong>Rendez-vous à votre point de rencontre</strong></p>
-          <p>Suivez votre chauffeur jusqu'au point de récupération, votre course va commencer</p>
-        </div>
-      </div>
-    </section>
-  </main>
+      </section>
+    </main>
+  </div>
 </template>
 
 <script>
+import ecHeader from '~/components/header.vue';
+
 import searchCampus from '~/components/form/search-campus.vue';
 
 export default {
@@ -103,6 +139,7 @@ export default {
   auth: false,
   components: {
     searchCampus,
+    ecHeader,
   },
 
   data() {
@@ -148,6 +185,11 @@ export default {
   @import "~assets/css/head";
 
   $text-color-blue: $blue-medium;
+
+  div header {
+    max-width: 1152px;
+    margin: auto;
+  }
 
   p {
     margin-top: 20px;
@@ -202,7 +244,6 @@ export default {
   }
 
   .white-section {
-    width: 100%;
     color: $blue-dark;
     .title {
       color: $blue-dark;
@@ -213,8 +254,31 @@ export default {
     }
   }
 
-  .blue-section {
-    background-color: $primary;
+  #login-form {
+    .title {
+      margin-bottom: 0.5em;
+    }
+    p {
+      margin-bottom: 2em;
+    }
+    form div {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2em;
+      div {
+        display: flex;
+        align-items: end;
+        a {
+          margin-right: 1em;
+        }
+      }
+      input {
+        width: 45%;
+      }
+      .button {
+        padding: 1.2em 4em;
+      }
+    }
   }
 
   .wrapper {
@@ -276,6 +340,11 @@ export default {
         }
       }
     }
+  }
+
+  .background {
+    background: linear-gradient(75deg, rgb(80, 62, 255), rgb(41, 143, 255), rgb(116, 211, 224)) no-repeat top;
+    background-size: 100vw;
   }
 
 </style>
