@@ -3,7 +3,7 @@ import { Settings, DateTime, Info } from 'luxon';
 export default class {
   constructor(initYear) {
     const locale = Settings.defaultLocale;
-    let years = [];
+    const years = [];
     for (let year = initYear; year <= DateTime.local().year; year += 1) {
       years.push(year);
     }
@@ -26,11 +26,11 @@ export default class {
     return {
       year: this.currentYear,
       month: this.currentMonth,
-    }
+    };
   }
 
   getFilter({ year, month }) {
-    const monthIndex = this.months.findIndex(currentMonth => currentMonth === month) + 1;
+    const monthIndex = this.months.findIndex((currentMonth) => currentMonth === month) + 1;
     const maxDays = DateTime.local(year, monthIndex).daysInMonth;
     return {
       start: `${year}-${monthIndex}-1`,
@@ -38,12 +38,12 @@ export default class {
     };
   }
 
-  formatDate(date) {
+  static formatDate(date) {
     const day = DateTime.fromISO(date).toLocaleString({ weekday: 'long', day: '2-digit' });
     const hour = DateTime.fromISO(date).toLocaleString({ hour: '2-digit', minute: '2-digit' });
     return {
       day,
       hour,
-    }
+    };
   }
 }

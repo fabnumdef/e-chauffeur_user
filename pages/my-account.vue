@@ -20,7 +20,8 @@
                   :to="{name: 'my-account-edit-account'}"
                 >
                   Vos informations
-                </nuxt-link></li>
+                </nuxt-link>
+              </li>
               <li>
                 <nuxt-link
                   :to="{name: 'my-account-current-rides'}"
@@ -32,7 +33,7 @@
                 <nuxt-link
                   :to="{name: 'my-account-my-rides'}"
                 >
-                Historique des courses
+                  Historique des courses
                 </nuxt-link>
               </li>
             </ul>

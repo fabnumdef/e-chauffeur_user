@@ -206,6 +206,10 @@ export default {
       default: () => ({}),
     },
   },
+  async asyncData({ $api }) {
+    const { data } = await $api.jwt.getUser('gprd,phone(confirmed)');
+    return { user: data };
+  },
   data() {
     return {
       apiErrors: null,
@@ -216,10 +220,6 @@ export default {
     isDraft() {
       return !this.ride.status || this.ride.status === DRAFTED;
     },
-  },
-  async asyncData({ $api }) {
-    const { data } = await $api.jwt.getUser('gprd,phone(confirmed)');
-    return { user: data };
   },
   methods: {
     async save(ride) {

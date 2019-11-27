@@ -7,6 +7,7 @@
 * Add constraint on password confirmation
 * Add rating form
 ### Fix
+* Fix infosec issue with X-Frame header
 ## Version 1.4.3
 ### Features
 * Change GDPR content page

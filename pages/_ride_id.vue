@@ -115,19 +115,6 @@ export default {
   },
   auth: false,
   layout: 'ride',
-
-  computed: {
-    ...mapGetters({
-      ride: 'ride/ride',
-      carPosition: 'driver/carPosition',
-    }),
-    departureCoordinates: reverseCoordinates('departure'),
-    arrivalCoordinates: reverseCoordinates('arrival'),
-    inCar() {
-      return this.ride.status === IN_PROGRESS || this.ride.status === DELIVERED;
-    },
-  },
-
   async asyncData({
     $api,
     query: { token = null } = {},
@@ -137,7 +124,7 @@ export default {
     try {
       const rideAPI = $api
         .rides(null, 'id,departure(label,location(coordinates)),arrival(label,location(coordinates)),'
-          + 'driver(id,name),car(id,model(label)),position,status,token');
+                    + 'driver(id,name),car(id,model(label)),position,status,token');
 
       const { data: ride } = await rideAPI.getRide(rideId, token);
       const { data: { position, date } } = await rideAPI.getDriverPosition(rideId, token);
@@ -156,6 +143,17 @@ export default {
     } catch (e) {
       throw new Error('Cette course n\'a pas été trouvée, ou n\'est pas accessible.');
     }
+  },
+  computed: {
+    ...mapGetters({
+      ride: 'ride/ride',
+      carPosition: 'driver/carPosition',
+    }),
+    departureCoordinates: reverseCoordinates('departure'),
+    arrivalCoordinates: reverseCoordinates('arrival'),
+    inCar() {
+      return this.ride.status === IN_PROGRESS || this.ride.status === DELIVERED;
+    },
   },
 
   mounted() {
