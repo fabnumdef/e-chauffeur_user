@@ -36,7 +36,9 @@
     <ul>
       <li>Nombre de passagers : <em>{{ passengersCount }}</em></li>
       <li>Présence de bagages : <em>{{ luggage ? 'Oui' : 'Non' }}</em></li>
-      <li v-if="status">Statut :  <em>{{ status }}</em></li>
+      <li v-if="status">
+        Statut :  <em>{{ status }}</em>
+      </li>
     </ul>
   </article>
 </template>
@@ -73,13 +75,14 @@ export default {
     },
     status: {
       type: String,
-    }
+      default: null,
+    },
   },
   methods: {
     emitDelete() {
       this.$emit('delete-ride', this.id);
-    }
-  }
+    },
+  },
 };
 </script>
 

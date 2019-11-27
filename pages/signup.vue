@@ -7,7 +7,10 @@
     </div>
 
     <div class="columns is-centered">
-      <pre-register :isWhite="true" class="column is-6" />
+      <pre-register
+        :is-white="true"
+        class="column is-6"
+      />
     </div>
   </main>
 </template>

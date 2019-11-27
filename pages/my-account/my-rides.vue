@@ -17,15 +17,19 @@
           />
         </nav>
       </div>
-      </div>
+    </div>
     <div class="columns">
       <div class="column is-5">
-        <p class="alert-message" v-if="rides === null || rides.length < 1">
+        <p
+          v-if="rides === null || rides.length < 1"
+          class="alert-message"
+        >
           Aucunes courses réalisées en {{ currents.month }} {{ currents.year }}
         </p>
         <ul v-else>
           <li
-            v-for="ride in rides"
+            v-for="(ride, index) in rides"
+            :key="index"
           >
             <RideCard
               :id="ride.id"
@@ -33,7 +37,7 @@
               :hour="ride.hour"
               :departure="ride.departure"
               :arrival="ride.arrival"
-              :passengersCount="ride.passengersCount"
+              :passengers-count="ride.passengersCount"
               :luggage="ride.luggage"
             />
           </li>
@@ -50,31 +54,31 @@ import FilterManager from '~/helpers/FilterManager';
 
 const filterManager = new FilterManager(2019);
 const selects = filterManager.getSelects();
-const currents =  filterManager.getCurrents();
+const currents = filterManager.getCurrents();
 
 const mask = 'id,departure(label),arrival(label),createdAt,luggage,passengersCount';
 
 const formatData = (data) => data.map((ride) => {
-    const { day, hour } = (filterManager.formatDate(ride.createdAt));
-    return {
-      ...ride,
-      departure: ride.departure.label,
-      arrival: ride.arrival.label,
-      day,
-      hour,
-    };
+  const { day, hour } = (filterManager.formatDate(ride.createdAt));
+  return {
+    ...ride,
+    departure: ride.departure.label,
+    arrival: ride.arrival.label,
+    day,
+    hour,
+  };
 });
 
 export default {
+  components: {
+    RideCard,
+    FilterDropdown,
+  },
   data() {
     return {
       selects,
       currents,
     };
-  },
-  components: {
-    RideCard,
-    FilterDropdown,
   },
   async asyncData({ $api, $auth }) {
     const { start, end } = filterManager.getFilter(currents);
@@ -84,7 +88,7 @@ export default {
       {},
       {
         filter: {
-          userId:  $auth.user.id,
+          userId: $auth.user.id,
           current: false,
         },
       },
@@ -101,21 +105,21 @@ export default {
       this.fetchFilter();
     },
     async fetchFilter() {
-        const { start, end } = filterManager.getFilter(this.currents);
-        const { data } = await this.$api.rides(null, mask).getRides(
-            start,
-            end,
-            {},
-            {
-              filter: {
-                userId: this.$auth.user.id,
-                current: false,
-              },
-            },
-        );
+      const { start, end } = filterManager.getFilter(this.currents);
+      const { data } = await this.$api.rides(null, mask).getRides(
+        start,
+        end,
+        {},
+        {
+          filter: {
+            userId: this.$auth.user.id,
+            current: false,
+          },
+        },
+      );
 
-        this.rides = formatData(data);
-      }
-    }
+      this.rides = formatData(data);
+    },
+  },
 };
 </script>

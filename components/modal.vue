@@ -68,6 +68,7 @@ export default {
     },
     placeholder: {
       type: String,
+      default: null,
     },
   },
   data() {

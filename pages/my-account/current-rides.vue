@@ -2,12 +2,16 @@
   <div>
     <div class="columns">
       <div class="column is-5">
-        <p class="alert-message" v-if="rides === null || rides.length < 1">
+        <p
+          v-if="rides === null || rides.length < 1"
+          class="alert-message"
+        >
           Aucune réservation en cours
         </p>
         <ul v-else>
           <li
-            v-for="ride in rides"
+            v-for="(ride, index) in rides"
+            :key="index"
           >
             <RideCard
               :id="ride.id"
@@ -15,7 +19,7 @@
               :hour="ride.hour"
               :departure="ride.departure"
               :arrival="ride.arrival"
-              :passengersCount="ride.passengersCount"
+              :passengers-count="ride.passengersCount"
               :luggage="ride.luggage"
               :status="ride.status"
               @delete-ride="deleteRide"
@@ -35,12 +39,12 @@
 </template>
 
 <script>
-import Modal from '~/components/modal'
+import Modal from '~/components/modal';
 import RideCard from '~/components/ride-card';
 import FilterManager from '~/helpers/FilterManager';
 
 const filterManager = new FilterManager(2019);
-const currents =  filterManager.getCurrents();
+const currents = filterManager.getCurrents();
 
 const mask = 'id,departure(label),arrival(label),createdAt,luggage,passengersCount,status';
 
@@ -57,13 +61,13 @@ const formatData = (data) => data.map((ride) => {
 
 export default {
   components: {
-      RideCard,
-      Modal,
+    RideCard,
+    Modal,
   },
   data() {
     return {
       isModalActive: false,
-    }
+    };
   },
   async asyncData({ $api, $auth }) {
     const { start, end } = filterManager.getFilter(currents);
@@ -94,8 +98,8 @@ export default {
       } catch (err) {
         this.$toast.error('Une erreur est survenue lors de la suppression.');
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

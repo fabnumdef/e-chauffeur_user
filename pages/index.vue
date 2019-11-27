@@ -1,6 +1,6 @@
 <template>
   <div class="background">
-      <ec-header />
+    <ec-header />
     <main>
       <section
         class="section columns first-section"
@@ -44,14 +44,14 @@
           <form @submit.prevent="login(user)">
             <div class="input-wrapper">
               <input
-                class="input"
                 v-model="user.email"
+                class="input"
                 type="email"
                 placeholder="Tapez votre adresse e-mail..."
               >
               <input
-                class="input"
                 v-model="user.password"
+                class="input"
                 type="password"
                 placeholder="Tapez votre mot de passe..."
               >
@@ -89,8 +89,8 @@
             Réservez votre <strong>e-Chauffeur</strong> dès maintenant
           </div>
           <button
-            @click="toggleModal"
             class="button is-primary is-inverted"
+            @click="toggleModal"
           >
             C'est parti !
           </button>
@@ -129,7 +129,7 @@
     <modal
       title="Réservation d'un chauffeur"
       content="Veuillez sélectionner une base"
-      :withList="true"
+      :with-list="true"
       :value="campus"
       placeholder="Liste des bases"
       :active="displayModal"
