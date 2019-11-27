@@ -67,8 +67,5 @@ export default {
   .option__title {
     text-transform: uppercase;
     font-weight: bold;
-    &:after {
-      content: ' :';
-    }
   }
 </style>

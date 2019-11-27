@@ -89,7 +89,7 @@
             Réservez votre <strong>e-Chauffeur</strong> dès maintenant
           </div>
           <button
-            @click="redirectToRide"
+            @click="toggleModal"
             class="button is-primary is-inverted"
           >
             C'est parti !
@@ -126,11 +126,23 @@
         </div>
       </section>
     </main>
+    <modal
+      title="Réservation d'un chauffeur"
+      content="Veuillez sélectionner une base"
+      :withList="true"
+      :value="campus"
+      placeholder="Liste des bases"
+      :active="displayModal"
+      @toggle-modal="toggleModal"
+      @action="redirectToRide"
+      @select-value="selectCampus"
+    />
   </div>
 </template>
 
 <script>
-import ecHeader from '~/components/header.vue';
+import ecHeader from '~/components/header';
+import modal from '~/components/modal';
 
 import searchCampus from '~/components/form/search-campus.vue';
 
@@ -140,6 +152,7 @@ export default {
   components: {
     searchCampus,
     ecHeader,
+    modal,
   },
 
   data() {
@@ -152,6 +165,8 @@ export default {
         email: '',
         password: '',
       },
+      displayModal: false,
+      campus: {},
     };
   },
 
@@ -215,11 +230,20 @@ export default {
     },
     redirectToRide() {
       if (this.$auth.loggedIn) {
-        // @todo Create modal to chose campus here
-        this.$router.push('campus/PRS/rides/new');
-        return;
+        this.$router.push(`campus/${this.campus.id}/rides/new`);
+      } else {
+        this.$toast.error('Veuillez vous connecter pour accéder aux réservations');
       }
-      this.$toast.error('Veuillez vous connecter pour accéder aux réservations');
+    },
+    toggleModal() {
+      if (this.$auth.loggedIn) {
+        this.displayModal = !this.displayModal;
+      } else {
+        this.$toast.error('Veuillez vous connecter pour accéder aux réservations');
+      }
+    },
+    selectCampus(data) {
+      this.campus = data;
     },
   },
 };
