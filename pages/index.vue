@@ -5,7 +5,7 @@
     </div>
     <main>
       <section
-        class="section columns background"
+        class="section columns background first-section"
       >
         <div class="column is-6-widescreen is-offset-2-desktop">
           <h1 class="title">
@@ -313,6 +313,33 @@ export default {
         font-size: .9em;
       }
     }
+
+    @media screen and (max-width: 600px) {
+      form {
+        div {
+          flex-direction: column;
+          align-items: center;
+          input {
+            width: 100%;
+            margin-bottom: 1em;
+          }
+          .button, .button-wrapper .button {
+            width: 50%;
+            margin-bottom: 1em;
+          }
+          .button-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            a {
+              margin-bottom: 1em;
+              order: 1;
+            }
+          }
+        }
+      }
+    }
   }
 
   .wrapper {
@@ -320,14 +347,17 @@ export default {
     justify-content: space-around;
     align-items: start;
     border-bottom: 1px solid $light-gray;
+
     .info {
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       padding: 3em;
+
       p {
         margin: 0;
+
         strong {
           display: block;
           color: inherit;
@@ -337,20 +367,31 @@ export default {
       }
 
     }
+
     .info.blue {
       color: $blue;
+
       img {
         margin-bottom: 1.5em;
       }
     }
+
     .info.orange {
       color: $orange;
     }
+
     .info.green {
       color: $green;
+
       img {
         margin-bottom: 1.3em;
       }
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .wrapper {
+      flex-direction: column;
     }
   }
 
@@ -379,6 +420,24 @@ export default {
   .background {
     background: linear-gradient(75deg, rgb(80, 62, 255), rgb(41, 143, 255), rgb(116, 211, 224)) no-repeat top;
     background-size: 100vw;
+  }
+
+  .first-section {
+    position: relative;
+    @media screen and (min-width: $widescreen) {
+      &:after {
+        content: " ";
+        display: block;
+        background: url("~assets/images/hand-app.png") no-repeat;
+        width: 40%;
+        height: 100%;
+        position: absolute;
+        top: 150px;
+        right: 0;
+        background-size: 100%;
+        z-index: 0;
+      }
+    }
   }
 
 </style>
