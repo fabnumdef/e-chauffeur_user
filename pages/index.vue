@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <div class="background">
-      <ec-header/>
-    </div>
+  <div class="background">
+      <ec-header />
     <main>
       <section
-        class="section columns background first-section"
+        class="section columns first-section"
       >
         <div class="column is-6-widescreen is-offset-2-desktop">
           <h1 class="title">
@@ -187,7 +185,7 @@ export default {
   $text-color-blue: $blue-medium;
 
   div header {
-    max-width: 1152px;
+    max-width: 80%;
     margin: auto;
   }
 
@@ -231,57 +229,26 @@ export default {
       }
     }
   }
-  .section {
-    padding-top: 1rem;
-    .title {
-      font-weight: 600;
-    }
-  }
-  @media screen and (max-width: $desktop - 1) {
-    .section, .white-section {
-      padding: 10px;
-    }
-    .white-section {
-      background: $white;
-    }
+
+  .button {
+    padding: 1.2em 4em;
+    font-size: .9em;
   }
 
+
   .white-section {
+    background-color: $white;
     color: $blue-dark;
+
     .title {
       color: $blue-dark;
-      font-size: 1.7rem;
-      font-weight: 600;
     }
+
     a {
       color: $primary;
     }
-  }
 
-  .blue-section {
-    text-align: center;
-    button {
-      padding: 1.2em 4em;
-      font-size: .9em;
-    }
-    .title {
-      font-size: 1.7em;
-      margin: .5em 0;
-      font-weight: 500;
-      strong {
-        font-weight: 600;
-      }
-    }
-
-  }
-
-  #login-form {
-    .title {
-      margin-bottom: 0.5em;
-      font-weight: 600;
-    }
-
-    p {
+    p, .input-wrapper {
       margin-bottom: 2em;
     }
 
@@ -290,27 +257,15 @@ export default {
         display: flex;
         justify-content: space-between;
       }
-
-      .input-wrapper {
-        margin-bottom: 2em;
-      }
-
       .button-wrapper {
         display: flex;
         align-items: end;
-
         a {
           margin: 0 1em 0 0;
         }
       }
-
       input {
         width: 45%;
-      }
-
-      .button {
-        padding: 1.2em 4em;
-        font-size: .9em;
       }
     }
 
@@ -319,25 +274,42 @@ export default {
         div {
           flex-direction: column;
           align-items: center;
+
           input {
             width: 100%;
             margin-bottom: 1em;
           }
+
           .button, .button-wrapper .button {
             width: 50%;
             margin-bottom: 1em;
           }
+
           .button-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 100%;
+
             a {
               margin-bottom: 1em;
               order: 1;
             }
           }
         }
+      }
+    }
+  }
+
+  .blue-section {
+    text-align: center;
+
+    .title {
+      margin: .5em 0;
+      font-weight: 500;
+
+      strong {
+        font-weight: 600;
       }
     }
   }
