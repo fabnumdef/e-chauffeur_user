@@ -312,12 +312,6 @@ export default {
     phoneNumberInput,
     modal,
   },
-  data() {
-    return {
-      isModalActive: false,
-    };
-  },
-  watchQuery: ['token', 'email'],
   async asyncData({
     redirect, $auth, $api, query: { token, email },
   }) {
@@ -357,6 +351,12 @@ export default {
       }, fields),
     };
   },
+  data() {
+    return {
+      isModalActive: false,
+    };
+  },
+  watchQuery: ['token', 'email'],
   methods: {
     async sendForm(sendToken = false) {
       if ((this.fields.password || '') !== (this.fields.password_confirm || '')) {

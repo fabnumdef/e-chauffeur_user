@@ -41,7 +41,7 @@
 <script>
 import Modal from '~/components/modal';
 import RideCard from '~/components/ride-card';
-import FilterManager from '~/helpers/FilterManager';
+import FilterManager from '~/helpers/filter-manager';
 
 const filterManager = new FilterManager(2019);
 const currents = filterManager.getCurrents();
@@ -49,7 +49,7 @@ const currents = filterManager.getCurrents();
 const mask = 'id,departure(label),arrival(label),createdAt,luggage,passengersCount,status';
 
 const formatData = (data) => data.map((ride) => {
-  const { day, hour } = (filterManager.formatDate(ride.createdAt));
+  const { day, hour } = (FilterManager.formatDate(ride.createdAt));
   return {
     ...ride,
     departure: ride.departure.label,

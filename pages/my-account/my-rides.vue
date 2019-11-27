@@ -50,7 +50,7 @@
 <script>
 import RideCard from '~/components/ride-card';
 import FilterDropdown from '~/components/elements/filter-dropdown';
-import FilterManager from '~/helpers/FilterManager';
+import FilterManager from '~/helpers/filter-manager';
 
 const filterManager = new FilterManager(2019);
 const selects = filterManager.getSelects();
