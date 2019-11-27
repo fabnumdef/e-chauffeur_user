@@ -37,19 +37,21 @@
           </h2>
           <p>
             Vous êtes un nouvel utilisateur ?
-            <nuxt-link :to="{name: 'login'}">
+            <nuxt-link :to="{name: 'signup'}">
               Créez un compte
             </nuxt-link>.
           </p>
-          <form action="">
+          <form @submit.prevent="login(user)">
             <div class="input-wrapper">
               <input
                 class="input"
+                v-model="user.email"
                 type="email"
                 placeholder="Tapez votre adresse e-mail..."
               >
               <input
                 class="input"
+                v-model="user.password"
                 type="password"
                 placeholder="Tapez votre mot de passe..."
               >
@@ -57,12 +59,12 @@
             <div>
               <nuxt-link
                 class="button is-centered"
-                to="#"
+                :to="{name: 'signup'}"
               >
                 Inscription
               </nuxt-link>
               <div class="button-wrapper">
-                <nuxt-link to="#">
+                <nuxt-link :to="{ name: 'reset-password' }">
                   Mot de passe oublié ?
                 </nuxt-link>
                 <button
@@ -87,7 +89,7 @@
             Réservez votre <strong>e-Chauffeur</strong> dès maintenant
           </div>
           <button
-            to="#"
+            @click="redirectToRide"
             class="button is-primary is-inverted"
           >
             C'est parti !
@@ -146,6 +148,10 @@ export default {
       campuses: [],
       image: '',
       btnActive: {},
+      user: {
+        email: '',
+        password: '',
+      },
     };
   },
 
@@ -174,6 +180,46 @@ export default {
       } else {
         this.image = '';
       }
+    },
+    async login(data) {
+      try {
+        await this.$auth.login({ data });
+        this.$router.push('/');
+        this.user.email = '';
+        this.user.password = '';
+        this.$toast.success('Bienvenue !');
+      } catch ({ response: { status }, message }) {
+        switch (status) {
+          case 404:
+            this.$toast.error('Impossible de se connecter, l\'utilisateur n\'existe pas. '
+              + 'Merci de vérifier votre identifiant.');
+            break;
+          case 403:
+            this.$toast.error('Impossible de se connecter, le mot de passe est incorrect. '
+              + 'Merci de retaper votre mot de passe.');
+            this.user.password = null;
+            break;
+          case 401:
+            this.$toast.error('Impossible de se connecter, le mot de passe a expiré. Merci de le réinitialiser.', {
+              action: {
+                text: 'Réinitialiser',
+                onClick: () => this.$router.push({ name: 'reset-password' }),
+              },
+            });
+            break;
+          default:
+            this.$toast.error('Une erreur est survenue, merci de vérifier votre email et mot de passe. \n'
+              + 'Si le problème persiste, contactez nous pour réinitialiser votre mot de passe.');
+        }
+      }
+    },
+    redirectToRide() {
+      if (this.$auth.loggedIn) {
+        // @todo Create modal to chose campus here
+        this.$router.push('campus/PRS/rides/new');
+        return;
+      }
+      this.$toast.error('Veuillez vous connecter pour accéder aux réservations');
     },
   },
 };

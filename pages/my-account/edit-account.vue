@@ -323,13 +323,13 @@ export default {
   }) {
     if (token && email) {
       try {
-        await $auth.login({ data: { token, email } });
+        await $auth.signup({ data: { token, email } });
       } catch (e) {
         throw new Error('Email ou code de vérification non reconnu.');
       }
     }
     if (!$auth.loggedIn) {
-      return redirect({ name: 'login' });
+      return redirect({ name: 'signup.vue' });
     }
     const fields = {};
     try {
