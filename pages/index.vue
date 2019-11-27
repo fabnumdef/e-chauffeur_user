@@ -44,7 +44,7 @@
             </nuxt-link>.
           </p>
           <form action="">
-            <div>
+            <div class="input-wrapper">
               <input
                 class="input"
                 type="email"
@@ -63,7 +63,7 @@
               >
                 Inscription
               </nuxt-link>
-              <div>
+              <div class="button-wrapper">
                 <nuxt-link to="#">
                   Mot de passe oublié ?
                 </nuxt-link>
@@ -80,7 +80,7 @@
       </section>
 
       <section class="section blue-section columns is-centered background">
-        <div class="column is-one-quarter">
+        <div class="column is-4">
           <img
             src="/logo_ec.svg"
             alt="e-Chauffeur"
@@ -97,8 +97,8 @@
         </div>
       </section>
 
-      <section class="section white-section">
-        <div class="wrapper">
+      <section class="section white-section columns is-centered">
+        <div class="wrapper column is-9">
           <div class="info blue">
             <img
               src="/calendar_icon.png"
@@ -233,6 +233,9 @@ export default {
   }
   .section {
     padding-top: 1rem;
+    .title {
+      font-weight: 600;
+    }
   }
   @media screen and (max-width: $desktop - 1) {
     .section, .white-section {
@@ -248,35 +251,66 @@ export default {
     .title {
       color: $blue-dark;
       font-size: 1.7rem;
+      font-weight: 600;
     }
     a {
       color: $primary;
     }
   }
 
+  .blue-section {
+    text-align: center;
+    button {
+      padding: 1.2em 4em;
+      font-size: .9em;
+    }
+    .title {
+      font-size: 1.7em;
+      margin: .5em 0;
+      font-weight: 500;
+      strong {
+        font-weight: 600;
+      }
+    }
+
+  }
+
   #login-form {
     .title {
       margin-bottom: 0.5em;
+      font-weight: 600;
     }
+
     p {
       margin-bottom: 2em;
     }
-    form div {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 2em;
+
+    form {
       div {
         display: flex;
+        justify-content: space-between;
+      }
+
+      .input-wrapper {
+        margin-bottom: 2em;
+      }
+
+      .button-wrapper {
+        display: flex;
         align-items: end;
+
         a {
-          margin-right: 1em;
+          margin: 0 1em 0 0;
         }
       }
+
       input {
         width: 45%;
       }
+
       .button {
         padding: 1.2em 4em;
+        font-size: .9em;
       }
     }
   }
