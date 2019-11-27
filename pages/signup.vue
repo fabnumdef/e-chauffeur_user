@@ -1,13 +1,13 @@
 <template>
   <main>
-    <div class="columns">
-      <div class="title has-text-centered column is-6 is-offset-2">
+    <div class="columns is-centered">
+      <div class="title has-text-centered column is-6">
         Pour vous inscrire, entrez tout d'abord votre courriel professionnel
       </div>
     </div>
 
-    <div class="columns">
-      <pre-register class="column is-6 is-offset-2" />
+    <div class="columns is-centered">
+      <pre-register :isWhite="true" class="column is-6" />
     </div>
   </main>
 </template>
@@ -17,6 +17,7 @@ import PreRegister from '~/components/pre-register';
 
 export default {
   auth: false,
+  layout: 'blue-background',
   components: {
     PreRegister,
   },
@@ -28,11 +29,15 @@ export default {
   .title {
     font-size: 2em;
     margin-top: 5em;
-    color: $primary;
+    color: $white;
   }
 
   a {
     display: block;
     color: $blue-light;
+  }
+
+  input::placeholder {
+    color: $white;
   }
 </style>
