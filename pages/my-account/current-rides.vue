@@ -64,6 +64,11 @@ export default {
     RideCard,
     Modal,
   },
+  data() {
+    return {
+      isModalActive: false,
+    };
+  },
   async asyncData({ $api, $auth }) {
     const { start, end } = filterManager.getFilter(currents);
     const { data } = await $api.rides(null, mask).getRides(
@@ -79,11 +84,6 @@ export default {
     );
 
     return { rides: formatData(data) };
-  },
-  data() {
-    return {
-      isModalActive: false,
-    };
   },
   methods: {
     toggleModal() {

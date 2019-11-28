@@ -74,6 +74,12 @@ export default {
     RideCard,
     FilterDropdown,
   },
+  data() {
+    return {
+      selects,
+      currents,
+    };
+  },
   async asyncData({ $api, $auth }) {
     const { start, end } = filterManager.getFilter(currents);
     const { data } = await $api.rides(null, mask).getRides(
@@ -89,12 +95,6 @@ export default {
     );
 
     return { rides: formatData(data) };
-  },
-  data() {
-    return {
-      selects,
-      currents,
-    };
   },
   methods: {
     setFilter({ key, value }) {

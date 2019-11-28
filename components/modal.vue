@@ -17,6 +17,12 @@
       </header>
       <section class="modal-card-body">
         <p>{{ content }}</p>
+        <search-campus
+          v-if="withList"
+          v-model="campus"
+          :placeholder="placeholder"
+          @input="emitValue"
+        />
         <div>
           <button
             class="button is-primary"
@@ -37,7 +43,12 @@
 </template>
 
 <script>
+import searchCampus from '~/components/form/search-campus';
+
 export default {
+  components: {
+    searchCampus,
+  },
   props: {
     active: {
       type: Boolean,
@@ -51,6 +62,19 @@ export default {
       type: String,
       required: true,
     },
+    withList: {
+      type: Boolean,
+      required: true,
+    },
+    placeholder: {
+      type: String,
+      default: null,
+    },
+  },
+  data() {
+    return {
+      campus: null,
+    };
   },
   methods: {
     toggleModal() {
@@ -58,6 +82,9 @@ export default {
     },
     emitAction() {
       this.$emit('action');
+    },
+    emitValue(data) {
+      this.$emit('select-value', data);
     },
   },
 };
@@ -70,8 +97,6 @@ export default {
     color: $text-color;
     text-align: center;
     .modal-card-body > div {
-      display: flex;
-      justify-content: center;
       button {
         margin: 1em;
       }
