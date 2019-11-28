@@ -59,7 +59,7 @@ const currents = filterManager.getCurrents();
 const mask = 'id,departure(label),arrival(label),createdAt,luggage,passengersCount';
 
 const formatData = (data) => data.map((ride) => {
-  const { day, hour } = (filterManager.formatDate(ride.createdAt));
+  const { day, hour } = (FilterManager.formatDate(ride.createdAt));
   return {
     ...ride,
     departure: ride.departure.label,

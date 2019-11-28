@@ -199,7 +199,6 @@ export default {
     async login(data) {
       try {
         await this.$auth.login({ data });
-        this.$router.push('/');
         this.user.email = '';
         this.user.password = '';
         this.$toast.success('Bienvenue !');
@@ -229,8 +228,13 @@ export default {
       }
     },
     redirectToRide() {
-      if (this.$auth.loggedIn) {
-        this.$router.push(`campus/${this.campus.id}/rides/new`);
+      if (this.$auth.loggedIn && this.campus.id) {
+        this.$router.push({
+          name: 'campus-campus_id-rides-new',
+          params: { campus_id: this.campus.id },
+        });
+      } else if (this.$auth.loggedIn) {
+        this.$toast.error('Veuillez sélectionner une base');
       } else {
         this.$toast.error('Veuillez vous connecter pour accéder aux réservations');
       }

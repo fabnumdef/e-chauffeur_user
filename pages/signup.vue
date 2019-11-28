@@ -16,13 +16,13 @@
 </template>
 
 <script>
-import PreRegister from '~/components/pre-register';
+import preRegister from '~/components/pre-register';
 
 export default {
   auth: false,
   layout: 'blue-background',
   components: {
-    PreRegister,
+    preRegister,
   },
 };
 </script>
