@@ -6,6 +6,7 @@
 * Add new component to enforce password strength
 * Add constraint on password confirmation
 * Add rating form
+* Added max date to create ride according to defaultReservationScope
 ### Fix
 * UI Homepage
 * Added signup page
