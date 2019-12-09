@@ -64,7 +64,7 @@ export default {
     },
     withList: {
       type: Boolean,
-      required: true,
+      default: false,
     },
     placeholder: {
       type: String,

@@ -11,6 +11,8 @@
 * Added signup page
 * Added modal to select campus to create a new ride from homepage
 * Fix infosec issue with X-Frame header
+* Fix type error for dropdown
+* Fix modal prop
 ## Version 1.4.3
 ### Features
 * Change GDPR content page
