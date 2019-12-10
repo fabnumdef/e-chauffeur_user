@@ -14,7 +14,7 @@
       >
         <fieldset class="form blue-box">
           Avant toute commande de course, vous devez accepter les conditions d'utilisation
-          <nuxt-link :to="{name: 'edit-account'}">
+          <nuxt-link :to="{name: 'my-account-edit-account'}">
             au sein de votre compte
           </nuxt-link>.
           <help-button class="has-text-centered">
@@ -30,7 +30,7 @@
         <fieldset class="fields-box">
           <b-field v-if="!user.phone || !user.phone.confirmed">
             Si vous souhaitez être notifié sur votre téléphone, vous devez
-            <nuxt-link :to="{name: 'edit-account'}">
+            <nuxt-link :to="{name: 'my-account-edit-account'}">
               renseigner et confirmer votre numéro de téléphone
             </nuxt-link>.
           </b-field>
@@ -45,6 +45,7 @@
                 id="start"
                 v-model="ride.start"
                 :not-before="new Date()"
+                :not-after="maxReservationDate"
                 lang="fr"
                 append-to-body
                 type="datetime"
@@ -170,6 +171,7 @@
 
 <script>
 import lGet from 'lodash.get';
+import { DateTime } from 'luxon';
 import { DRAFTED } from '@fabnumdef/e-chauffeur_lib-vue/api/status/states';
 import searchPoi from '~/components/form/search-poi';
 import numberInput from '~/components/form/number-input';
@@ -219,6 +221,9 @@ export default {
   computed: {
     isDraft() {
       return !this.ride.status || this.ride.status === DRAFTED;
+    },
+    maxReservationDate() {
+      return DateTime.local().plus({ seconds: this.campus.defaultReservationScope });
     },
   },
   methods: {

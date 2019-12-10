@@ -7,7 +7,10 @@ export default {
   layout: 'ride-creation',
   async asyncData({ params, $api }) {
     try {
-      const { data: campus } = await $api.campuses.getCampus(params.campus_id, 'id,label,location(coordinates)');
+      const { data: campus } = await $api.campuses.getCampus(
+        params.campus_id,
+        'id,label,location(coordinates),defaultReservationScope',
+      );
       return {
         campus,
       };
