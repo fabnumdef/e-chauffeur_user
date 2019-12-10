@@ -223,7 +223,7 @@ export default {
       return !this.ride.status || this.ride.status === DRAFTED;
     },
     maxReservationDate() {
-      return DateTime.local().plus({ days: this.campus.defaultReservationScope });
+      return DateTime.local().plus({ seconds: this.campus.defaultReservationScope });
     },
   },
   methods: {
