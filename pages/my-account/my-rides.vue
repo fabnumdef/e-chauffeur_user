@@ -5,7 +5,7 @@
         <nav>
           <FilterDropdown
             type="year"
-            :current="currents.year"
+            :current="currents.year.toString()"
             :list="selects.years"
             @filter-results="setFilter"
           />
