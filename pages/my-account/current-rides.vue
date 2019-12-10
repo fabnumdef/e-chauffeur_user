@@ -64,11 +64,6 @@ export default {
     RideCard,
     Modal,
   },
-  data() {
-    return {
-      isModalActive: false,
-    };
-  },
   async asyncData({ $api, $auth }) {
     const { start, end } = filterManager.getFilter(currents);
     const { data } = await $api.rides(null, mask).getRides(
@@ -85,6 +80,11 @@ export default {
 
     return { rides: formatData(data) };
   },
+  data() {
+    return {
+      isModalActive: false,
+    };
+  },
   methods: {
     toggleModal() {
       this.isModalActive = !this.isModalActive;
@@ -95,6 +95,20 @@ export default {
           this.$auth.user.id,
           id,
         );
+        this.$toast.success('Course supprimée avec succès');
+        const { start, end } = filterManager.getFilter(currents);
+        const { data } = await this.$api.rides(null, mask).getRides(
+          start,
+          end,
+          {},
+          {
+            filter: {
+              userId: this.$auth.user.id,
+              current: true,
+            },
+          },
+        );
+        this.rides = formatData(data);
       } catch (err) {
         this.$toast.error('Une erreur est survenue lors de la suppression.');
       }
