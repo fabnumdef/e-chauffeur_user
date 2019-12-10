@@ -14,6 +14,7 @@
 * Fix infosec issue with X-Frame header
 * Fix type error for dropdown
 * Fix modal prop
+* Fix realtime driver tracking bug
 ## Version 1.4.3
 ### Features
 * Change GDPR content page
