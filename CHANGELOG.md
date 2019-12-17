@@ -15,6 +15,7 @@
 * Fix type error for dropdown
 * Fix modal prop
 * Fix realtime driver tracking bug
+* Fix delete current ride in my-account
 ## Version 1.4.3
 ### Features
 * Change GDPR content page
