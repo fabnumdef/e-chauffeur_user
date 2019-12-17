@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import searchCampus from '~/components/form/search-campus';
+import searchCampus from '~/components/form/search-campus.vue';
 
 export default {
   components: {

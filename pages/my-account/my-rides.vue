@@ -48,8 +48,8 @@
 </template>
 
 <script>
-import RideCard from '~/components/ride-card';
-import FilterDropdown from '~/components/elements/filter-dropdown';
+import RideCard from '~/components/ride-card.vue';
+import FilterDropdown from '~/components/elements/filter-dropdown.vue';
 import FilterManager from '~/helpers/filter-manager';
 
 const filterManager = new FilterManager(2019);
