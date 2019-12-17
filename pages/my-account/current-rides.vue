@@ -40,7 +40,7 @@
 
 <script>
 import {
-  CREATED, VALIDATED, ACCEPTED, STARTED, WAITING, IN_PROGRESS,
+  CREATED, VALIDATED, ACCEPTED, STARTED, WAITING, IN_PROGRESS, CANCEL_REQUESTED_CUSTOMER,
 } from '@fabnumdef/e-chauffeur_lib-vue/api/status/states';
 import Modal from '~/components/modal';
 import RideCard from '~/components/ride-card';
@@ -50,7 +50,6 @@ const filterManager = new FilterManager(2019);
 const currents = filterManager.getCurrents();
 
 const mask = 'id,departure(label),arrival(label),createdAt,luggage,passengersCount,status';
-const CANCEL_REQUESTED_CUSTOMER = 'cancel_requested_by_customer';
 
 const translateStatus = (status) => {
   switch (status) {
