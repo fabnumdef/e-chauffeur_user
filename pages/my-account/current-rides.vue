@@ -22,7 +22,7 @@
               :passengers-count="ride.passengersCount"
               :luggage="ride.luggage"
               :status="ride.status"
-              @delete-ride="deleteRide"
+              @delete-ride="toggleModal"
             />
           </li>
         </ul>
@@ -47,6 +47,7 @@ const filterManager = new FilterManager(2019);
 const currents = filterManager.getCurrents();
 
 const mask = 'id,departure(label),arrival(label),createdAt,luggage,passengersCount,status';
+const CANCEL_REQUESTED_CUSTOMER = 'cancel_requested_by_customer';
 
 const formatData = (data) => data.map((ride) => {
   const { day, hour } = (FilterManager.formatDate(ride.createdAt));
@@ -64,11 +65,6 @@ export default {
     RideCard,
     Modal,
   },
-  data() {
-    return {
-      isModalActive: false,
-    };
-  },
   async asyncData({ $api, $auth }) {
     const { start, end } = filterManager.getFilter(currents);
     const { data } = await $api.rides(null, mask).getRides(
@@ -85,19 +81,43 @@ export default {
 
     return { rides: formatData(data) };
   },
+  data() {
+    return {
+      isModalActive: false,
+      currentRide: null,
+    };
+  },
   methods: {
-    toggleModal() {
+    toggleModal(id) {
       this.isModalActive = !this.isModalActive;
+      if (id) {
+        [this.currentRide] = this.rides.filter((ride) => ride.id === id);
+      }
     },
-    async deleteRide(id) {
+    async deleteRide() {
       try {
-        await this.$api.rides().deleteRide(
-          this.$auth.user.id,
-          id,
+        await this.$api.rides().mutateRide(
+          this.currentRide,
+          CANCEL_REQUESTED_CUSTOMER,
         );
+        this.$toast.success('Course supprimée avec succès');
       } catch (err) {
         this.$toast.error('Une erreur est survenue lors de la suppression.');
       }
+      const { start, end } = filterManager.getFilter(currents);
+      const { data } = await this.$api.rides(null, mask).getRides(
+        start,
+        end,
+        {},
+        {
+          filter: {
+            userId: this.$auth.user.id,
+            current: true,
+          },
+        },
+      );
+      this.toggleModal();
+      this.rides = formatData(data);
     },
   },
 };
