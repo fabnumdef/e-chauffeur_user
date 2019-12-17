@@ -48,8 +48,8 @@
 </template>
 
 <script>
-import RideCard from '~/components/ride-card';
-import FilterDropdown from '~/components/elements/filter-dropdown';
+import RideCard from '~/components/ride-card.vue';
+import FilterDropdown from '~/components/elements/filter-dropdown.vue';
 import FilterManager from '~/helpers/filter-manager';
 
 const filterManager = new FilterManager(2019);
@@ -74,12 +74,6 @@ export default {
     RideCard,
     FilterDropdown,
   },
-  data() {
-    return {
-      selects,
-      currents,
-    };
-  },
   async asyncData({ $api, $auth }) {
     const { start, end } = filterManager.getFilter(currents);
     const { data } = await $api.rides(null, mask).getRides(
@@ -95,6 +89,12 @@ export default {
     );
 
     return { rides: formatData(data) };
+  },
+  data() {
+    return {
+      selects,
+      currents,
+    };
   },
   methods: {
     setFilter({ key, value }) {

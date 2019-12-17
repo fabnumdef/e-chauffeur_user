@@ -173,9 +173,9 @@
 import lGet from 'lodash.get';
 import { DateTime } from 'luxon';
 import { DRAFTED } from '@fabnumdef/e-chauffeur_lib-vue/api/status/states';
-import searchPoi from '~/components/form/search-poi';
-import numberInput from '~/components/form/number-input';
-import poiMap from '~/components/poi-map';
+import searchPoi from '~/components/form/search-poi.vue';
+import numberInput from '~/components/form/number-input.vue';
+import poiMap from '~/components/poi-map.vue';
 import helpButton from '~/components/help.vue';
 
 export default {
