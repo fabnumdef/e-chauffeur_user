@@ -21,7 +21,7 @@
               :arrival="ride.arrival"
               :passengers-count="ride.passengersCount"
               :luggage="ride.luggage"
-              :status="ride.status"
+              :status="ride.translatedStatus"
               @delete-ride="toggleModal"
             />
           </li>
@@ -39,6 +39,9 @@
 </template>
 
 <script>
+import {
+  CREATED, VALIDATED, ACCEPTED, STARTED, WAITING, IN_PROGRESS,
+} from '@fabnumdef/e-chauffeur_lib-vue/api/status/states';
 import Modal from '~/components/modal';
 import RideCard from '~/components/ride-card';
 import FilterManager from '~/helpers/filter-manager';
@@ -49,10 +52,30 @@ const currents = filterManager.getCurrents();
 const mask = 'id,departure(label),arrival(label),createdAt,luggage,passengersCount,status';
 const CANCEL_REQUESTED_CUSTOMER = 'cancel_requested_by_customer';
 
+const translateStatus = (status) => {
+  switch (status) {
+    case CREATED:
+      return 'Créée';
+    case VALIDATED:
+      return 'Validée';
+    case ACCEPTED:
+      return 'Acceptée';
+    case STARTED:
+      return 'Commencée';
+    case WAITING:
+      return 'En attente';
+    case IN_PROGRESS:
+      return 'En cours';
+    default:
+      return '';
+  }
+};
+
 const formatData = (data) => data.map((ride) => {
   const { day, hour } = (FilterManager.formatDate(ride.createdAt));
   return {
     ...ride,
+    translatedStatus: translateStatus(ride.status),
     departure: ride.departure.label,
     arrival: ride.arrival.label,
     day,
@@ -60,26 +83,28 @@ const formatData = (data) => data.map((ride) => {
   };
 });
 
+const fetchRides = async (apiCall, userId) => {
+  const { start, end } = filterManager.getFilter(currents);
+  const { data } = await apiCall(
+    start, end, {},
+    {
+      filter: {
+        userId,
+        current: true,
+      },
+    },
+  );
+  return formatData(data);
+};
+
 export default {
   components: {
     RideCard,
     Modal,
   },
   async asyncData({ $api, $auth }) {
-    const { start, end } = filterManager.getFilter(currents);
-    const { data } = await $api.rides(null, mask).getRides(
-      start,
-      end,
-      {},
-      {
-        filter: {
-          userId: $auth.user.id,
-          current: true,
-        },
-      },
-    );
-
-    return { rides: formatData(data) };
+    const rides = await fetchRides($api.rides(null, mask).getRides, $auth.user.id);
+    return { rides };
   },
   data() {
     return {
@@ -104,20 +129,9 @@ export default {
       } catch (err) {
         this.$toast.error('Une erreur est survenue lors de la suppression.');
       }
-      const { start, end } = filterManager.getFilter(currents);
-      const { data } = await this.$api.rides(null, mask).getRides(
-        start,
-        end,
-        {},
-        {
-          filter: {
-            userId: this.$auth.user.id,
-            current: true,
-          },
-        },
-      );
+
       this.toggleModal();
-      this.rides = formatData(data);
+      this.rides = await fetchRides(this.$api.rides(null, mask).getRides, this.$auth.user.id);
     },
   },
 };
