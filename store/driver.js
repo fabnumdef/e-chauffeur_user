@@ -9,8 +9,11 @@ export const state = () => ({
 export const getters = {
   position: (s) => s.position,
   carPosition: (s) => {
-    const [lon, lat] = s.position.coordinates;
-    return [lat, lon];
+    if (s.position && s.position.coordinates) {
+      const [lon, lat] = s.position.coordinates;
+      return [lat, lon];
+    }
+    return null;
   },
 };
 
