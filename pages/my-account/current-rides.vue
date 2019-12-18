@@ -42,8 +42,8 @@
 import {
   CREATED, VALIDATED, ACCEPTED, STARTED, WAITING, IN_PROGRESS, CANCEL_REQUESTED_CUSTOMER,
 } from '@fabnumdef/e-chauffeur_lib-vue/api/status/states';
-import Modal from '~/components/modal';
-import RideCard from '~/components/ride-card';
+import Modal from '~/components/modal.vue';
+import RideCard from '~/components/ride-card.vue';
 import FilterManager from '~/helpers/filter-manager';
 
 const filterManager = new FilterManager(2019);

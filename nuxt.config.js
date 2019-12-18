@@ -36,6 +36,7 @@ module.exports = {
           jwt: 'jwt',
           users: 'users',
           pois: 'pois',
+          ratings: 'ratings',
         },
         mockAxios: (process.env.MOCK_AXIOS || '').toLowerCase() === 'true',
         withAuth: true,
