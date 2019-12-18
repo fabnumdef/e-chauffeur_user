@@ -1,8 +1,5 @@
 {
-  "name": "user-app",
-  "version": "1.4.2",
-  "description": "User app",
-  "author": "Gaël",
+  "name": "e-chauffeur_user",
   "private": true,
   "scripts": {
     "dev": "nuxt",
