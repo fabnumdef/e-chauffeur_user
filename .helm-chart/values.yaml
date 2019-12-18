@@ -27,7 +27,7 @@ service:
 ingress:
   enabled: true
   host: user.localhost
-  issuer: letsencrypt-staging
+  issuer: self-signing
 
 resources:
   limits:
