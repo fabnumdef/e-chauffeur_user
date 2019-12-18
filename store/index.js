@@ -7,10 +7,7 @@ export const actions = {
     await dispatch('campus/fetchCampuses');
   },
   socket_positionUpdate({ commit }, { position, date }) {
-    const pos = {
-      coordinates: position,
-    };
-    commit('driver/setDriverPosition', { position: pos, date });
+    commit('driver/setDriverPosition', { position, date });
   },
   socket_rideUpdate({ commit }, payload) {
     commit('ride/setRide', payload);
