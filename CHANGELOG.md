@@ -7,6 +7,7 @@
 * Add constraint on password confirmation
 * Add rating form
 * Added max date to create ride according to defaultReservationScope
+* Export dashboard and monitoring on deploy
 ### Fix
 * UI Homepage
 * Added signup page
