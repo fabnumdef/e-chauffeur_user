@@ -17,7 +17,7 @@
               name="firstname"
               data-vv-as="Prénom"
               :class="{ 'is-danger': errors.has('firstname') }"
-              :placeholder="'Tapez votre prénom'"
+              placeholder="Tapez votre prénom"
             >
             <p class="help is-danger">
               {{ errors.first('firstname') }}
@@ -40,7 +40,7 @@
               name="lastname"
               data-vv-as="nom"
               :class="{ 'is-danger': errors.has('lastname') }"
-              :placeholder="'Tapez votre nom'"
+              placeholder="Tapez votre nom"
             >
             <p class="help is-danger">
               {{ errors.first('lastname') }}
@@ -67,7 +67,7 @@
                   name="email"
                   data-vv-as="Email"
                   :class="{ 'is-danger': errors.has('email') }"
-                  :placeholder="'Tapez votre email'"
+                  placeholder="Tapez votre email"
                 >
                 <p class="help is-danger">
                   {{ errors.first('email') }}
@@ -106,7 +106,7 @@
                   data-vv-as="Code de confirmation (email)"
                   :disabled="fields.email_confirmed"
                   :class="{ 'is-danger': errors.has('email_token') }"
-                  :placeholder="'Tapez le jeton de confirmation reçu sur votre courriel'"
+                  placeholder="Tapez le jeton de confirmation reçu sur votre courriel"
                 >
                 <p class="help is-danger">
                   {{ errors.first('email_token') }}
@@ -191,7 +191,7 @@
                   data-vv-as="Code de confirmation (téléphone)"
                   :disabled="fields.phone.confirmed"
                   :class="{ 'is-danger': errors.has('phone.token') }"
-                  :placeholder="'Tapez le code de confirmation reçu sur votre téléphone'"
+                  placeholder="Tapez le code de confirmation reçu sur votre téléphone"
                 >
                 <p class="help is-danger">
                   {{ errors.first('phone.token') }}
@@ -220,17 +220,11 @@
             id="password"
             label="Votre mot de passe"
           >
-            <input
+            <ec-password
               id="password"
               v-model="fields.password"
-              v-validate="'required'"
-              type="password"
-              class="input"
-              name="password"
-              data-vv-as="Mot de passe"
-              :class="{ 'is-danger': errors.has('password') }"
-              :placeholder="'Tapez votre mot de passe'"
-            >
+              :is-invalid="errors.has('password')"
+            />
             <p class="help is-danger">
               {{ errors.first('password') }}
             </p>
@@ -242,17 +236,12 @@
             id="password_confirm"
             label="Confirmation de mot de passe"
           >
-            <input
+            <ec-password-confirmation
               id="password_confirm"
               v-model="fields.password_confirm"
-              v-validate="'required'"
-              type="password"
-              class="input"
-              name="password_confirm"
-              data-vv-as="Mot de passe (confirmation)"
-              :class="{ 'is-danger': errors.has('password_confirm') }"
-              :placeholder="'Tapez votre mot de passe (confirmation)'"
-            >
+              :compare-to="fields.password"
+              :is-invalid="errors.has('password_confirm')"
+            />
             <p class="help is-danger">
               {{ errors.first('password_confirm') }}
             </p>
@@ -281,8 +270,22 @@
         <help-button class="help-button">
           Besoin d'aide ?
         </help-button>
+        <button
+          type="button"
+          class="delete-button"
+          @click="toggleModal"
+        >
+          Vous souhaitez supprimer votre compte ?
+        </button>
       </div>
     </form>
+    <modal
+      :active="isModalActive"
+      title="Suppression du compte"
+      content="Êtes-vous sûr de vouloir supprimer votre compte ?"
+      @toggle-modal="toggleModal"
+      @action="deleteAccount"
+    />
   </main>
 </template>
 
@@ -291,6 +294,9 @@ import merge from 'lodash.merge';
 import phoneNumberInput from 'vue-phone-number-input';
 import ecField from '~/components/form/field.vue';
 import helpButton from '~/components/help.vue';
+import modal from '~/components/modal.vue';
+import ecPassword from '~/components/form/password.vue';
+import ecPasswordConfirmation from '~/components/form/password-confirmation.vue';
 
 import validationIconSwitch from '~/components/validation-icon-switch.vue';
 
@@ -299,11 +305,13 @@ export default {
   auth: false,
   components: {
     ecField,
+    ecPassword,
+    ecPasswordConfirmation,
     helpButton,
     validationIconSwitch,
     phoneNumberInput,
+    modal,
   },
-  watchQuery: ['token', 'email'],
   async asyncData({
     redirect, $auth, $api, query: { token, email },
   }) {
@@ -343,8 +351,18 @@ export default {
       }, fields),
     };
   },
+  data() {
+    return {
+      isModalActive: false,
+    };
+  },
+  watchQuery: ['token', 'email'],
   methods: {
     async sendForm(sendToken = false) {
+      if ((this.fields.password || '') !== (this.fields.password_confirm || '')) {
+        this.$toast.error('Le mot de passe et sa confirmation ne correspondent pas.');
+        return;
+      }
       try {
         const { data: updatedUser } = await this.$api.users.patchUser(
           this.id,
@@ -368,12 +386,31 @@ export default {
         }
       }
     },
+    async deleteAccount() {
+      try {
+        await this.$api.users.deleteUser(this.$auth.user.id);
+        this.$auth.logout();
+      } catch (e) {
+        this.$toast.error('Une erreur est survenue lors de la suppression du compte');
+      } finally {
+        this.$router.push('/');
+        this.$toast.success('Compte supprimé avec succès, vous êtes maintenant déconnecté.');
+      }
+    },
+    toggleModal() {
+      this.isModalActive = !this.isModalActive;
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
   @import "~assets/css/head";
   $field-color: #abb8cb;
+  $text-color: $blue-medium;
+
+  main {
+    margin-top: 1em;
+  }
 
   /deep/ .label small {
     font-weight: normal;
@@ -405,5 +442,14 @@ export default {
       border: 1px solid $field-color;
       border-radius: 0;
     }
+  }
+
+  .delete-button {
+    background: none;
+    border: none;
+    color: $primary;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
   }
 </style>

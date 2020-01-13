@@ -2,6 +2,24 @@
 ## Current
 ### Features
 ### Fix
+## Version 1.4.4
+### Features
+* Page my-account has 3 sub-pages : edit-account, my-rides and current-rides
+* User can delete his account from his profile page
+* Add new component to enforce password strength
+* Add constraint on password confirmation
+* Add rating form
+* Added max date to create ride according to defaultReservationScope
+* Export dashboard and monitoring on deploy
+### Fix
+* UI Homepage
+* Added signup page
+* Added modal to select campus to create a new ride from homepage
+* Fix infosec issue with X-Frame header
+* Fix type error for dropdown
+* Fix modal prop
+* Fix realtime driver tracking bug
+* Fix delete current ride in my-account
 ## Version 1.4.3
 ### Features
 * Change GDPR content page

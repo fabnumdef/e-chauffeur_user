@@ -122,6 +122,9 @@ export default {
   .is-white {
     &.input {
       color: $white;
+      &::placeholder {
+        color: $white;
+      }
     }
   }
   .token {
