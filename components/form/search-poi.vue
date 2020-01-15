@@ -27,7 +27,7 @@ export default {
   },
   async mounted() {
     this.loading = true;
-    const { data } = await this.$api.pois(this.campus, 'id,label').getPois(0, 1000);
+    const { data } = await this.$api.pois(this.campus, 'id,label').getPois({ offset: 0, limit: 1000 });
     this.loading = false;
     this.pois = data;
   },
