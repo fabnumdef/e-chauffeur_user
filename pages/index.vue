@@ -141,8 +141,8 @@
 </template>
 
 <script>
-import ecHeader from '~/components/header';
-import modal from '~/components/modal';
+import ecHeader from '~/components/header.vue';
+import modal from '~/components/modal.vue';
 
 import searchCampus from '~/components/form/search-campus.vue';
 

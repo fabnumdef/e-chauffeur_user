@@ -295,8 +295,8 @@ import phoneNumberInput from 'vue-phone-number-input';
 import ecField from '~/components/form/field.vue';
 import helpButton from '~/components/help.vue';
 import modal from '~/components/modal.vue';
-import ecPassword from '~/components/form/password';
-import ecPasswordConfirmation from '~/components/form/password-confirmation';
+import ecPassword from '~/components/form/password.vue';
+import ecPasswordConfirmation from '~/components/form/password-confirmation.vue';
 
 import validationIconSwitch from '~/components/validation-icon-switch.vue';
 

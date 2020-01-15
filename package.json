@@ -1,8 +1,5 @@
 {
-  "name": "user-app",
-  "version": "1.4.2",
-  "description": "User app",
-  "author": "Gaël",
+  "name": "e-chauffeur_user",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -15,14 +12,14 @@
   "dependencies": {
     "@fabnumdef/e-chauffeur_lib-vue": "0.0.34",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
-    "buefy": "^0.8.8",
+    "buefy": "^0.8.9",
     "lodash.get": "^4.4.2",
     "lodash.merge": "^4.6.2",
     "node-sass": "^4.13.0",
     "nuxt": "^2.10.2",
     "nuxt-leaflet": "0.0.19",
     "polyline-encoded": "0.0.8",
-    "sass-loader": "^8.0.0",
+    "sass-loader": "^8.0.2",
     "vee-validate": "^2.2.12",
     "vue-float-label": "^1.6.1",
     "vue-multiselect": "^2.1.6",
@@ -30,11 +27,11 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.2",
-    "eslint": "^6.7.1",
+    "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-import-resolver-webpack": "^0.11.0",
-    "eslint-plugin-import": "^2.18.0",
-    "eslint-plugin-vue": "^6.0.1"
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-vue": "^6.1.2"
   },
   "peerDependencies": {
     "vuex": "3.x",

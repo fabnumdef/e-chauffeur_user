@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import searchCampus from '~/components/form/search-campus';
+import searchCampus from '~/components/form/search-campus.vue';
 
 export default {
   components: {
@@ -64,7 +64,7 @@ export default {
     },
     withList: {
       type: Boolean,
-      required: true,
+      default: false,
     },
     placeholder: {
       type: String,

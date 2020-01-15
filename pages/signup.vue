@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import preRegister from '~/components/pre-register';
+import preRegister from '~/components/pre-register.vue';
 
 export default {
   auth: false,

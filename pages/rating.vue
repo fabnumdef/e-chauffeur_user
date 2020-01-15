@@ -5,7 +5,7 @@
       class="section"
     >
       <div class="columns">
-        <div class="column is-5">
+        <div class="column is-8">
           <h1 class="title">
             Questionnaire de satisfaction du service e-Chauffeur
           </h1>
@@ -25,44 +25,40 @@
             id="ec-form-ux-grade"
             label="Sur une échelle de 1 à 5, comment évaluez vous le service e-chauffeur ? *"
           >
-            <div>
-              <label
-                v-for="index in 5"
-                :key="index"
-                class="radio"
-                :for="`ux-grade--${index}`"
-              >{{ index }}
-                <input
-                  :id="`ux-grade--${index}`"
-                  v-model="fields.uxGrade"
-                  type="radio"
-                  :value="index"
-                >
-              </label>
-            </div>
+            <label
+              v-for="index in 5"
+              :key="index"
+              class="radio"
+              :for="`ux-grade--${index}`"
+            >{{ index }}
+              <input
+                :id="`ux-grade--${index}`"
+                v-model="fields.uxGrade"
+                type="radio"
+                :value="index"
+              >
+            </label>
           </ec-field>
         </div>
 
         <div class="column">
           <ec-field
             id="ec-form-ux-recommandation"
-            label="Sur une échelle de 1 à 5, comment évaluez vous le service e-chauffeur ? *"
+            label="Sur une échelle de 1 à 10, recommanderiez-vous e-Chauffeur au personnel du ministère des Armées ? *"
           >
-            <div>
-              <label
-                v-for="index in 5"
-                :key="index"
-                class="radio"
-                :for="`ux-recommandation--${index}`"
-              >{{ index }}
-                <input
-                  :id="`ux-recommandation--${index}`"
-                  v-model="fields.recommandationGrade"
-                  type="radio"
-                  :value="index"
-                >
-              </label>
-            </div>
+            <label
+              v-for="index in 10"
+              :key="index"
+              class="radio"
+              :for="`ux-recommandation--${index}`"
+            >{{ index }}
+              <input
+                :id="`ux-recommandation--${index}`"
+                v-model="fields.recommandationGrade"
+                type="radio"
+                :value="index"
+              >
+            </label>
           </ec-field>
         </div>
 
@@ -101,38 +97,31 @@
         </div>
       </form>
     </div>
-    <div
-      v-if="hasNotifications()"
-      class="notification"
-      :class="notification.class"
-    >
-      <button
-        class="delete"
-        @click="closeNotification()"
-      />
-      {{ notification.mess }}
-    </div>
   </main>
 </template>
 
 <script>
 import ecField from '~/components/form/field.vue';
 
+function resetData(_id) {
+  return {
+    uxGrade: null,
+    recommandationGrade: null,
+    message: null,
+    ride: {
+      _id,
+    },
+  };
+}
+
 export default {
+  auth: false,
   components: {
     ecField,
   },
-  data() {
+  asyncData({ query }) {
     return {
-      fields: {
-        uxGrade: null,
-        recommandationGrade: null,
-        message: null,
-        ride: {
-          _id: this.$route.query.rideId,
-        },
-      },
-      notification: {},
+      fields: resetData(query.rideId),
       pending: false,
     };
   },
@@ -144,14 +133,6 @@ export default {
   },
 
   methods: {
-    hasNotifications() {
-      return Object.keys(this.notification).length > 0;
-    },
-
-    closeNotification() {
-      this.notification = {};
-    },
-
     async validateForm() {
       await this.$validator.validate();
       return !Object.keys(this.veeFields).some((key) => this.veeFields[key].valid === false);
@@ -165,19 +146,15 @@ export default {
       this.pending = true;
 
       try {
-        await this.$api.forms.postRating(this.fields);
-        this.notification = {
-          class: 'is-success',
-          mess: 'votre message a bien été envoyé.',
-        };
-      } catch (err) {
-        this.notification = {
-          class: 'is-danger',
-          mess: 'un problème est survenue dans l\'envoi de votre message.',
-        };
+        await this.$api.ratings().postRating(this.fields);
+        this.fields = resetData(this.$route.query.rideId);
+        this.$toast.success('votre message a bien été envoyé.');
+      } catch ({ response }) {
+        this.$toast.error(`Un problème est survenue dans l'envoi de votre message. ${
+          (response && response.status) ? 'Course liée non trouvée' : ''}`);
+      } finally {
+        this.pending = false;
       }
-
-      this.pending = false;
     },
   },
 };
@@ -208,20 +185,6 @@ export default {
     }
 
   }
-  main {
-    .notification {
-      animation: slide-show 1s 1 forwards ;
-      position: fixed;
-      top: 15px;
-      right: -225px;
-      width: 225px;
-      z-index: 1500;
-
-      &::first-letter {
-        text-transform: capitalize;
-      }
-    }
-  }
 
   @keyframes slide-show {
     0% { transform: translateX(0); }
@@ -229,9 +192,6 @@ export default {
   }
 
   form {
-    margin-top: 150px;
-    padding-left: $form-pading-left-right;
-    padding-right: $form-pading-left-right;
     label.radio {
       color: $text-color;
       margin-right: 1em;
