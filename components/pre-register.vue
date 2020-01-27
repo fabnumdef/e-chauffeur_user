@@ -6,7 +6,7 @@
     >
       <div class="control is-expanded">
         <input
-          v-model="email"
+          v-model.trim="email"
           type="email"
           class="input"
           :class="colorClass"
@@ -36,7 +36,7 @@
       <div class="field">
         <div class="control">
           <input
-            v-model="token"
+            v-model.trim="token"
             type="text"
             :class="colorClass"
             class="input"

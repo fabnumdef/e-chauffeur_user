@@ -2,6 +2,7 @@
 ## Current
 ### Features
 * Export metrics for prometheus
+* Add automatically trim
 ### Fix
 * Updated api calls according to lib-vue
 ## Version 1.4.4
