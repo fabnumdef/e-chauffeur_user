@@ -4,6 +4,7 @@
 * Export metrics for prometheus
 * Add automatically trim
 ### Fix
+* Fix potential memory leak
 * Updated api calls according to lib-vue
 ## Version 1.4.4
 ### Features
