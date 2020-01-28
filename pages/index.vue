@@ -44,7 +44,7 @@
           <form @submit.prevent="login(user)">
             <div class="input-wrapper">
               <input
-                v-model="user.email"
+                v-model.trim="user.email"
                 class="input"
                 type="email"
                 placeholder="Tapez votre adresse e-mail..."
