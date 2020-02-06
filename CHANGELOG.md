@@ -7,6 +7,7 @@
 * Fix potential memory leak
 * Updated api calls according to lib-vue
 * Fixed rating submit
+* Fix container restart
 ## Version 1.4.4
 ### Features
 * Page my-account has 3 sub-pages : edit-account, my-rides and current-rides
