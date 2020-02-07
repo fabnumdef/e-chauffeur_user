@@ -58,7 +58,7 @@
         <div class="level-right">
           <p class="level-item">
             <nuxt-link
-              :to="{name: 'index'}"
+              :to="{name: 'signup'}"
               class="button is-white"
             >
               Inscription
