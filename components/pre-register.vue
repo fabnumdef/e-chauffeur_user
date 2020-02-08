@@ -102,7 +102,7 @@ export default {
     },
     goToForm() {
       this.$router.push({
-        name: 'edit-account',
+        name: 'my-account-edit-account',
         query: {
           email: this.email,
           token: this.token,

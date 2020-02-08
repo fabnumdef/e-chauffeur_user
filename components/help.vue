@@ -83,6 +83,9 @@ export default {
       background: transparent;
     }
   }
+  /deep/ .modal-content {
+    overflow: visible;
+  }
   .modal-background {
     background-color: rgba(#00245F, 0.97);
   }

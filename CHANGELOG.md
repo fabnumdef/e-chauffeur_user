@@ -4,6 +4,9 @@
 * Export metrics for prometheus
 * Add automatically trim
 ### Fix
+* Fix registration link
+* Fix token redirection
+* Fix modale overflow
 * Fix potential memory leak
 * Updated api calls according to lib-vue
 * Fixed rating submit
