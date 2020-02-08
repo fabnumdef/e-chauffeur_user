@@ -42,8 +42,8 @@ module.exports = {
         withAuth: true,
         accountRoute: 'my-account',
         authPlugins: [
-          'auth-renew',
-          'user-expiration',
+          { src: 'auth-renew', mode: 'client' },
+          { src: 'user-expiration', mode: 'client' },
         ],
         prometheus: {
           host: '0.0.0.0',
