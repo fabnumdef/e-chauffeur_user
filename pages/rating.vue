@@ -123,12 +123,13 @@ export default {
     return {
       fields: resetData(query.rideId),
       pending: false,
+      submitted: false,
     };
   },
 
   computed: {
     isBtnSubDisabled() {
-      return (!this.fields.uxGrade || !this.fields.recommandationGrade);
+      return (!this.fields.uxGrade || !this.fields.recommandationGrade || this.submitted);
     },
   },
 
@@ -141,14 +142,16 @@ export default {
     async sendForm() {
       const validation = await this.validateForm();
       if (!validation) {
+        this.$toast.error("Le formulaire n'est pas valide, veuillez vérifier tous les champs");
         return;
       }
       this.pending = true;
 
       try {
-        await this.$api.ratings().postRating(this.fields);
+        await this.$api.ratings.postRating(this.fields);
         this.fields = resetData(this.$route.query.rideId);
         this.$toast.success('votre message a bien été envoyé.');
+        this.submitted = true;
       } catch ({ response }) {
         this.$toast.error(`Un problème est survenue dans l'envoi de votre message. ${
           (response && response.status) ? 'Course liée non trouvée' : ''}`);

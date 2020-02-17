@@ -15,9 +15,9 @@ module.exports = {
   ],
 
   plugins: [
-    { src: '~/plugins/datetime-picker.js', ssr: false },
-    { src: '~/plugins/ride-map.js', ssr: false },
-    '~/plugins/socket.js',
+    { src: '~/plugins/datetime-picker.js', mode: 'client' },
+    { src: '~/plugins/ride-map.js', mode: 'client' },
+    { src: '~/plugins/socket.js', mode: 'client' },
     '~/plugins/validator.js',
     '~/plugins/multiselect.js',
     '~/plugins/buefy.js',
@@ -42,9 +42,12 @@ module.exports = {
         withAuth: true,
         accountRoute: 'my-account',
         authPlugins: [
-          'auth-renew',
-          'user-expiration',
+          { src: 'auth-renew', mode: 'client' },
+          { src: 'user-expiration', mode: 'client' },
         ],
+        prometheus: {
+          host: '0.0.0.0',
+        },
       },
     ],
   ],

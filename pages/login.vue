@@ -14,7 +14,7 @@
       >
         <input
           id="email"
-          v-model="user.email"
+          v-model.trim="user.email"
           required="required"
           class="input is-white"
           type="email"
@@ -58,7 +58,7 @@
         <div class="level-right">
           <p class="level-item">
             <nuxt-link
-              :to="{name: 'index'}"
+              :to="{name: 'signup'}"
               class="button is-white"
             >
               Inscription

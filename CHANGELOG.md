@@ -2,6 +2,19 @@
 ## Current
 ### Features
 ### Fix
+## Version 1.4.5
+### Features
+* Export metrics for prometheus
+* Add automatically trim
+### Fix
+* Fix registration link
+* Fix token redirection
+* Fix modale overflow
+* Fix potential memory leak
+* Updated api calls according to lib-vue
+* Fixed rating submit
+* Fix container restart
+* Disabled possibility to send rating form twice
 ## Version 1.4.4
 ### Features
 * Page my-account has 3 sub-pages : edit-account, my-rides and current-rides
