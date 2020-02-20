@@ -2,6 +2,7 @@
 ## Current
 ### Features
 ### Fix
+* Fix redirect to login on "c'est parti" button
 ## Version 1.4.5
 ### Features
 * Export metrics for prometheus
