@@ -241,10 +241,14 @@ export default {
           name: 'campus-campus_id-rides-ride_id-confirm',
           params: { campus_id: this.campus.id, ride_id: data.id },
         });
-      } catch (e) {
-        this.$toast.error('Une erreur est survenue lors de la création de votre course. '
-          + 'Celle-ci n\'a pas été créée. Vérifiez vos informations puis réessayez.');
-        this.apiErrors = lGet(e, 'response.data', {});
+      } catch ({ response }) {
+        if (response.status === 422) {
+          this.$toast.error('Erreur : Veuillez vérifier les données renseignées.');
+        } else {
+          this.$toast.error('Une erreur est survenue lors de la création de votre course. '
+            + 'Celle-ci n\'a pas été créée. Vérifiez vos informations puis réessayez.');
+          this.apiErrors = lGet(response, 'data', {});
+        }
       } finally {
         this.loading = false;
       }
