@@ -243,7 +243,7 @@ export default {
       if (this.$auth.loggedIn) {
         this.displayModal = !this.displayModal;
       } else {
-        this.$router.push('/login');
+        this.$router.push({ name: 'login' });
       }
     },
     selectCampus(data) {
