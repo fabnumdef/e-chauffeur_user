@@ -27,6 +27,7 @@ nameOverride: ""
 fullnameOverride: ""
 env:
   API_URL: api.localhost
+  VERSION: null
 imageCredentials:
   name: e-chauffeur-user
   registry: registry.gitlab.com

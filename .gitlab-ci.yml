@@ -42,6 +42,7 @@ deploy_review:
       --set imageCredentials.password="${DOCKER_REGISTRY_PASSWORD}"
       --set imageCredentials.registry="${CI_REGISTRY}"
       --set env.API_URL="${STAGING_API_URL}"
+      --set env.VERSION="Version ${CI_COMMIT_REF_NAME} - ${CI_COMMIT_SHA} (job \#${CI_JOB_ID})"
       --set monitoring.alert.enabled="false"
       --wait
       user-${CI_COMMIT_REF_SLUG}
@@ -69,6 +70,7 @@ deploy_staging:
       --set imageCredentials.password="${DOCKER_REGISTRY_PASSWORD}"
       --set imageCredentials.registry="${CI_REGISTRY}"
       --set env.API_URL="${STAGING_API_URL}"
+      --set env.VERSION="Version ${CI_COMMIT_REF_NAME} - ${CI_COMMIT_SHA} (job \#${CI_JOB_ID})"
       --set ingress.issuer="letsencrypt-prod"
       --set monitoring.alert.minimumPod=2
       --wait
@@ -98,6 +100,7 @@ deploy_prod:
       --set imageCredentials.password="${DOCKER_REGISTRY_PASSWORD}"
       --set imageCredentials.registry="${CI_REGISTRY}"
       --set env.API_URL="${PRODUCTION_API_URL}"
+      --set env.VERSION="Version ${CI_COMMIT_REF_NAME} - ${CI_COMMIT_SHA} (job \#${CI_JOB_ID})"
       --set ingress.issuer="letsencrypt-prod"
       --set monitoring.alert.minimumPod=3
       --wait
