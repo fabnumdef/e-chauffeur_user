@@ -148,13 +148,18 @@ export default {
       this.pending = true;
 
       try {
-        await this.$api.ratings.postRating(this.fields);
+        await this.$api.ratings().postRating(this.fields);
         this.fields = resetData(this.$route.query.rideId);
         this.$toast.success('votre message a bien été envoyé.');
         this.submitted = true;
       } catch ({ response }) {
-        this.$toast.error(`Un problème est survenue dans l'envoi de votre message. ${
-          (response && response.status) ? 'Course liée non trouvée' : ''}`);
+        let message = "Un problème est survenu dans l'envoi de votre message.";
+        if (response && response.status === 404) {
+          message += 'Course liée non trouvée';
+        } else if (response && response.status === 403) {
+          message += 'Appréciation déjà envoyée';
+        }
+        this.$toast.error(message);
       } finally {
         this.pending = false;
       }

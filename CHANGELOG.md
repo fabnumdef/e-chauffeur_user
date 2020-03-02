@@ -3,6 +3,7 @@
 ### Features
 ### Fix
 * Fix redirect to login on "c'est parti" button
+* Fix rating call according to lib-vue update
 ## Version 1.4.5
 ### Features
 * Export metrics for prometheus
