@@ -305,7 +305,6 @@ export default {
   }
 
   .button {
-    padding: 1.2em 4em;
     font-size: .9em;
   }
 
