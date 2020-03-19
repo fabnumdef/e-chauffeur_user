@@ -1,6 +1,9 @@
 # Changelog
 ## Current
 ### Features
+### Fix
+## Version 1.4.6
+### Features
 * Change terms of use
 ### Fix
 * Fix redirect to login on "c'est parti" button
