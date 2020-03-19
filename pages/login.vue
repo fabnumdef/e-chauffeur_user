@@ -142,7 +142,7 @@ export default {
   }
   .level {
     padding-top: 30px;
-    align-items: start;
+    align-items: flex-start;
     .level-left {
       flex-direction: column;
       .is-reset-password {

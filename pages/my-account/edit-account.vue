@@ -117,7 +117,7 @@
                   type="button"
                   class="button is-primary"
                   :disabled="fields.email_confirmed"
-                  @click="sendForm('phone')"
+                  @click="sendForm('email')"
                 >
                   OK
                 </button>

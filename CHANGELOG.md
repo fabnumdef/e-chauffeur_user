@@ -2,6 +2,13 @@
 ## Current
 ### Features
 ### Fix
+## Version 1.4.6
+### Features
+* Change terms of use
+### Fix
+* Fix redirect to login on "c'est parti" button
+* Fix button display for firefox 5.3
+* Fix X-SEND header for mail confirmation
 ## Version 1.4.5
 ### Features
 * Export metrics for prometheus

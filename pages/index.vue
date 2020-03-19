@@ -243,7 +243,7 @@ export default {
       if (this.$auth.loggedIn) {
         this.displayModal = !this.displayModal;
       } else {
-        this.$toast.error('Veuillez vous connecter pour accéder aux réservations');
+        this.$router.push({ name: 'login' });
       }
     },
     selectCampus(data) {
@@ -305,7 +305,6 @@ export default {
   }
 
   .button {
-    padding: 1.2em 4em;
     font-size: .9em;
   }
 
@@ -333,7 +332,7 @@ export default {
       }
       .button-wrapper {
         display: flex;
-        align-items: end;
+        align-items: flex-end;
         a {
           margin: 0 1em 0 0;
         }
@@ -391,7 +390,7 @@ export default {
   .wrapper {
     display: flex;
     justify-content: space-around;
-    align-items: start;
+    align-items: flex-start;
     border-bottom: 1px solid $light-gray;
 
     .info {
