@@ -137,7 +137,7 @@
             <div class="field has-addons">
               <div class="control is-expanded">
                 <client-only>
-                  <phone-number-input
+                  <vue-phone-number-input
                     id="phone"
                     v-model="fields.phone.original"
                     name="phone"

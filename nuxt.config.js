@@ -15,7 +15,6 @@ module.exports = {
   ],
 
   plugins: [
-    { src: '~/plugins/vue-phone.js', mode: 'client' },
     { src: '~/plugins/datetime-picker.js', mode: 'client' },
     { src: '~/plugins/ride-map.js', mode: 'client' },
     { src: '~/plugins/socket.js', mode: 'client' },
@@ -26,6 +25,7 @@ module.exports = {
 
   modules: [
     'nuxt-leaflet',
+    'vue-phone-number-input/nuxt',
     [
       '@fabnumdef/e-chauffeur_lib-vue',
       {
