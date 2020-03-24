@@ -15,6 +15,7 @@ module.exports = {
   ],
 
   plugins: [
+    { src: '~/plugins/vue-phone.js', mode: 'client' },
     { src: '~/plugins/datetime-picker.js', mode: 'client' },
     { src: '~/plugins/ride-map.js', mode: 'client' },
     { src: '~/plugins/socket.js', mode: 'client' },

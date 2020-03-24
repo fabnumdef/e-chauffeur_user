@@ -136,23 +136,25 @@
             </template>
             <div class="field has-addons">
               <div class="control is-expanded">
-                <phone-number-input
-                  id="phone"
-                  v-model="fields.phone.original"
-                  name="phone"
-                  default-country-code="FR"
-                  size="sm"
-                  color="#abb8cb"
-                  class="input-phone"
-                  valid-color="#23d160"
-                  :preferred-countries="['FR', 'BE', 'DE']"
-                  :translations="{
-                    countrySelectorLabel: 'Prefix',
-                    countrySelectorError: 'Choisir un pays',
-                    phoneNumberLabel: 'Tapez votre numéro de téléphone',
-                    example: 'Exemple :'
-                  }"
-                />
+                <client-only>
+                  <phone-number-input
+                    id="phone"
+                    v-model="fields.phone.original"
+                    name="phone"
+                    default-country-code="FR"
+                    size="sm"
+                    color="#abb8cb"
+                    class="input-phone"
+                    valid-color="#23d160"
+                    :preferred-countries="['FR', 'BE', 'DE']"
+                    :translations="{
+                      countrySelectorLabel: 'Prefix',
+                      countrySelectorError: 'Choisir un pays',
+                      phoneNumberLabel: 'Tapez votre numéro de téléphone',
+                      example: 'Exemple :'
+                    }"
+                  />
+                </client-only>
                 <p class="help is-danger">
                   {{ errors.first('email') }}
                 </p>
@@ -291,7 +293,6 @@
 
 <script>
 import merge from 'lodash.merge';
-import phoneNumberInput from 'vue-phone-number-input';
 import ecField from '~/components/form/field.vue';
 import helpButton from '~/components/help.vue';
 import modal from '~/components/modal.vue';
@@ -309,7 +310,6 @@ export default {
     ecPasswordConfirmation,
     helpButton,
     validationIconSwitch,
-    phoneNumberInput,
     modal,
   },
   async asyncData({
