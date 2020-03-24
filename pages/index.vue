@@ -141,6 +141,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import ecHeader from '~/components/header.vue';
 import modal from '~/components/modal.vue';
 
@@ -158,7 +159,6 @@ export default {
   data() {
     return {
       phoneCampus: null,
-      campuses: [],
       image: '',
       btnActive: {},
       user: {
@@ -170,32 +170,10 @@ export default {
     };
   },
 
-  async created() {
-    this.campuses = await this.getCampuses();
-    if (this.campuses.length) {
-      this.setInformation(this.campuses[0].id);
-    }
+  computed: {
+    ...mapGetters('campus', ['campuses']),
   },
-
   methods: {
-    async getCampuses() {
-      const response = await this.$api.campuses.getCampuses('id,name');
-      return response.data;
-    },
-
-    setInformation(id) {
-      this.campuses.forEach((campuse) => {
-        this.btnActive[campuse.id] = false;
-      });
-
-      this.btnActive[id] = true;
-      // @todo: Refactor this when decision on how to handle image is taken
-      if (id.indexOf('BSL') > -1) {
-        this.image = 'bsl.png';
-      } else {
-        this.image = '';
-      }
-    },
     async login(data) {
       try {
         await this.$auth.login({ data });

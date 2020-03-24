@@ -119,10 +119,6 @@ export default {
         this.$router.push('/');
       }
     },
-    async getCampuses() {
-      const { data } = await this.$api.campuses.getCampuses('id,name');
-      return data;
-    },
   },
 };
 </script>
