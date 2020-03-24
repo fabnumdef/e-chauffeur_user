@@ -473,7 +473,7 @@ export default {
       &:after {
         content: " ";
         display: block;
-        background: url("~assets/images/hand-app.png") no-repeat;
+        background: url("/hand-app.png") no-repeat;
         width: 40%;
         height: 100%;
         position: absolute;
@@ -484,5 +484,4 @@ export default {
       }
     }
   }
-
 </style>
