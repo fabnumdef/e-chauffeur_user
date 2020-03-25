@@ -25,7 +25,6 @@ module.exports = {
 
   modules: [
     'nuxt-leaflet',
-    'vue-phone-number-input/nuxt',
     [
       '@fabnumdef/e-chauffeur_lib-vue',
       {

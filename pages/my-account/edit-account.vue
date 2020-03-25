@@ -137,22 +137,11 @@
             <div class="field has-addons">
               <div class="control is-expanded">
                 <client-only>
-                  <vue-phone-number-input
-                    id="phone"
+                  <vue-tel-input
                     v-model="fields.phone.original"
                     name="phone"
-                    default-country-code="FR"
-                    size="sm"
-                    color="#abb8cb"
-                    class="input-phone"
-                    valid-color="#23d160"
-                    :preferred-countries="['FR', 'BE', 'DE']"
-                    :translations="{
-                      countrySelectorLabel: 'Prefix',
-                      countrySelectorError: 'Choisir un pays',
-                      phoneNumberLabel: 'Tapez votre numéro de téléphone',
-                      example: 'Exemple :'
-                    }"
+                    default-country="FR"
+                    :disabled-fetching-country="false"
                   />
                 </client-only>
                 <p class="help is-danger">
@@ -293,6 +282,7 @@
 
 <script>
 import merge from 'lodash.merge';
+import { VueTelInput } from 'vue-tel-input';
 import ecField from '~/components/form/field.vue';
 import helpButton from '~/components/help.vue';
 import modal from '~/components/modal.vue';
@@ -311,6 +301,7 @@ export default {
     helpButton,
     validationIconSwitch,
     modal,
+    VueTelInput,
   },
   async asyncData({
     redirect, $auth, $api, query: { token, email },
@@ -435,12 +426,6 @@ export default {
   @media screen and (max-width: $desktop - 1) {
     form {
       padding: 10px;
-    }
-  }
-  .input-phone /deep/ {
-    .field.vue-input-ui .field-input, .country-selector .field-input[data-v-334d91fc] {
-      border: 1px solid $field-color;
-      border-radius: 0;
     }
   }
 
