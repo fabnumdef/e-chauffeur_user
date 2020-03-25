@@ -9,7 +9,7 @@ export default {
     try {
       const { data: campus } = await $api.campuses.getCampus(
         params.campus_id,
-        'id,label,location(coordinates),defaultReservationScope',
+        'id,name,location(coordinates),defaultReservationScope',
       );
       return {
         campus,

@@ -1,6 +1,7 @@
 # Changelog
 ## Current
 ### Features
+* Added campus name information on ride creation
 ### Fix
 ## Version 1.4.6
 ### Features
