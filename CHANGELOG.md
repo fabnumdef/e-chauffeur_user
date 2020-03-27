@@ -1,7 +1,10 @@
 # Changelog
 ## Current
 ### Features
+* migration to lib-vue 0.1.0.alpha.3
 ### Fix
+* Fix time selection in rides history
+* Fix follow-the-ride feature
 ## Version 1.4.6
 ### Features
 * Change terms of use

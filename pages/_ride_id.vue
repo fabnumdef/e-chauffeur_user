@@ -35,7 +35,10 @@
             </l-icon>
           </l-marker>
 
-          <l-marker :lat-lng="carPosition" v-if="carPosition">
+          <l-marker
+            v-if="carPosition"
+            :lat-lng="carPosition"
+          >
             <l-icon icon-url="/icon.svg" />
           </l-marker>
 
