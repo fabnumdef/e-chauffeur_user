@@ -87,9 +87,7 @@ export default {
     async sendToken() {
       this.isLoading = true;
       try {
-        await this.$api.users.postUser({ email: this.email }, '', {
-          sendToken: true,
-        });
+        await this.$api.query('users').create({ email: this.email }).setSendToken();
         this.$toast.success('Un email a été envoyé. Pour poursuivre, entrez ci-dessous le code qu\'il contient.');
       } catch ({ response }) {
         const whitelistDomains = lGet(response, 'data.whitelistDomains', []);

@@ -150,7 +150,7 @@ export default {
       try {
         this.loading = true;
         this.apiErrors = {};
-        const { data } = await this.$api.rides(this.campus.id, FETCHED_DATA).mutateRide(ride, CREATE);
+        const { data } = await this.$api.query('rides').setMask(FETCHED_DATA).mutate(ride.id, CREATE);
         this.$toast.success('Votre demande de course a bien été reçue, '
           + 'nous allons la traiter dans les meilleurs délais.');
         Object.assign(this.ride, data);

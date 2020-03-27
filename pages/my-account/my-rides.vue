@@ -75,18 +75,12 @@ export default {
     FilterDropdown,
   },
   async asyncData({ $api, $auth }) {
-    const { start, end } = filterManager.getFilter(currents);
-    const { data } = await $api.rides(null, mask).getRides(
-      start,
-      end,
-      {},
-      {
-        filter: {
-          userId: $auth.user.id,
-          current: false,
-        },
-      },
-    );
+    const { start, end } = FilterManager.getFilter(currents);
+    const { data } = await $api.query('rides')
+      .setMask(mask)
+      .list(start, end)
+      .setFilter('userId', $auth.user.id)
+      .setFilter('current', false);
 
     return { rides: formatData(data) };
   },
@@ -105,18 +99,12 @@ export default {
       this.fetchFilter();
     },
     async fetchFilter() {
-      const { start, end } = filterManager.getFilter(this.currents);
-      const { data } = await this.$api.rides(null, mask).getRides(
-        start,
-        end,
-        {},
-        {
-          filter: {
-            userId: this.$auth.user.id,
-            current: false,
-          },
-        },
-      );
+      const { start, end } = FilterManager.getFilter(this.currents);
+      const { data } = await this.$api.query('rides')
+        .setMask(mask)
+        .list(start, end)
+        .setFilter('userId', this.$auth.user.id)
+        .setFilter('current', false);
 
       this.rides = formatData(data);
     },

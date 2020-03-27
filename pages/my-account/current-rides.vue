@@ -82,28 +82,21 @@ const formatData = (data) => data.map((ride) => {
   };
 });
 
-const fetchRides = async (apiCall, userId) => {
-  const { start, end } = filterManager.getFilter(currents);
-  const { data } = await apiCall(
-    start, end, {},
-    {
-      filter: {
-        userId,
-        current: true,
-      },
-    },
-  );
-  return formatData(data);
-};
-
 export default {
   components: {
     RideCard,
     Modal,
   },
   async asyncData({ $api, $auth }) {
-    const rides = await fetchRides($api.rides(null, mask).getRides, $auth.user.id);
-    return { rides };
+    // @todo: start/end should not be relative to month here,
+    // but start should be `current date - 30d` and end should be `now`
+    const { start, end } = FilterManager.getFilter(currents);
+    const { data } = await $api.query('rides')
+      .setMask(mask)
+      .list(start, end)
+      .setFilter('userId', $auth.user.id)
+      .setFilter('current', false);
+    return { rides: formatData(data) };
   },
   data() {
     return {
@@ -120,17 +113,22 @@ export default {
     },
     async deleteRide() {
       try {
-        await this.$api.rides().mutateRide(
-          this.currentRide,
-          CANCEL_REQUESTED_CUSTOMER,
-        );
+        await this.$api.query('rides').mutate(this.currentRide.id, CANCEL_REQUESTED_CUSTOMER);
         this.$toast.success('Course supprimée avec succès');
       } catch (err) {
         this.$toast.error('Une erreur est survenue lors de la suppression.');
       }
 
       this.toggleModal();
-      this.rides = await fetchRides(this.$api.rides(null, mask).getRides, this.$auth.user.id);
+      // @todo: start/end should not be relative to month here,
+      // but start should be `current date - 30d` and end should be `now`
+      const { start, end } = FilterManager.getFilter(currents);
+      const { data } = await this.$api.query('rides')
+        .setMask(mask)
+        .list(start, end)
+        .setFilter('userId', this.$auth.user.id)
+        .setFilter('current', false);
+      this.rides = formatData(data);
     },
   },
 };

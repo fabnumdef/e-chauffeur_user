@@ -148,7 +148,7 @@ export default {
       this.pending = true;
 
       try {
-        await this.$api.ratings().postRating(this.fields);
+        await this.$api.query('ratings').create(this.fields);
         this.fields = resetData(this.$route.query.rideId);
         this.$toast.success('votre message a bien été envoyé.');
         this.submitted = true;

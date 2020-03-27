@@ -17,8 +17,9 @@ export default {
   },
   async asyncData({ params, $api }) {
     try {
-      const { data: ride } = await $api.rides(params.campus_id, FETCHED_DATA)
-        .getRide(params.ride_id);
+      const { data: ride } = await $api.query('rides')
+        .setMask(FETCHED_DATA)
+        .get(params.ride_id);
       return {
         ride,
       };

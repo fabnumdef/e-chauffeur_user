@@ -318,7 +318,7 @@ export default {
     }
     const fields = {};
     try {
-      const { data } = await $api.jwt.getUser(UPDATABLE_FIELDS.concat('id').join(','));
+      const { data } = await $api.query('jwt').setMask(UPDATABLE_FIELDS.concat('id')).user();
       Object.assign(fields, data);
     } catch (e) {
       throw new Error('Erreur dans la récupération de vos données utilisateur. '
@@ -355,12 +355,10 @@ export default {
         return;
       }
       try {
-        const { data: updatedUser } = await this.$api.users.patchUser(
-          this.id,
-          this.fields,
-          UPDATABLE_FIELDS.join(','),
-          { sendToken },
-        );
+        const { data: updatedUser } = await this.$api.query('users')
+          .setMask(UPDATABLE_FIELDS.join(','))
+          .edit(this.id, this.fields)
+          .setSendToken(sendToken);
         merge(this.fields, updatedUser);
         merge(this.old, updatedUser);
         if (sendToken) {
@@ -379,7 +377,7 @@ export default {
     },
     async deleteAccount() {
       try {
-        await this.$api.users.deleteUser(this.$auth.user.id);
+        await this.$api.query('users').delete(this.$auth.user.id);
         this.$auth.logout();
       } catch (e) {
         this.$toast.error('Une erreur est survenue lors de la suppression du compte');

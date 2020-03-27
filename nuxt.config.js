@@ -28,7 +28,6 @@ module.exports = {
     [
       '@fabnumdef/e-chauffeur_lib-vue',
       {
-        components: {},
         api: {
           campuses: 'campuses',
           rides: 'rides',
