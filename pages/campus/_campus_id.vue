@@ -9,7 +9,7 @@ export default {
     try {
       const { data: campus } = await $api
         .query('campuses')
-        .setMask('id,label,location(coordinates),defaultReservationScope')
+        .setMask('id,name,location(coordinates),defaultReservationScope')
         .get(params.campus_id);
       return {
         campus,

@@ -4,7 +4,7 @@
       class="section"
     >
       <div class="title">
-        Réservez votre e-Chauffeur dès maintenant !
+        Réservez votre e-Chauffeur à <span>{{ campus.name }}</span> dès maintenant !
       </div>
     </section>
     <section class="white-section">
@@ -345,5 +345,8 @@ export default {
   }
   .title {
     text-align: center;
+    span {
+      color: $blue-dark;
+    }
   }
 </style>
