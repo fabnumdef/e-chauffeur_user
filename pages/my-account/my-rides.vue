@@ -3,13 +3,13 @@
     <div class="columns">
       <div class="column is-6">
         <nav>
-          <FilterDropdown
+          <filter-dropdown
             type="year"
             :current="currents.year.toString()"
             :list="selects.years"
             @filter-results="setFilter"
           />
-          <FilterDropdown
+          <filter-dropdown
             type="month"
             :current="currents.month"
             :list="selects.months"
@@ -24,7 +24,7 @@
           v-if="rides === null || rides.length < 1"
           class="alert-message"
         >
-          Aucunes courses réalisées en {{ currents.month }} {{ currents.year }}
+          Aucunes courses réalisées en {{ currents.monthName }} {{ currents.year }}
         </p>
         <ul v-else>
           <li
@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import { DateTime } from 'luxon';
 import RideCard from '~/components/ride-card.vue';
 import FilterDropdown from '~/components/elements/filter-dropdown.vue';
 import FilterManager from '~/helpers/filter-manager';
@@ -96,6 +97,9 @@ export default {
         ...this.currents,
         [key]: value,
       };
+      this.currents.monthName = DateTime
+        .local(parseInt(this.currents.year, 10), parseInt(this.currents.month, 10))
+        .toLocaleString({ month: 'long' });
       this.fetchFilter();
     },
     async fetchFilter() {

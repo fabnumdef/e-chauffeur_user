@@ -1,18 +1,17 @@
-import { Settings, DateTime, Info } from 'luxon';
+import { DateTime, Info } from 'luxon';
 
 export default class {
   constructor(initYear) {
-    const locale = Settings.defaultLocale;
     const years = [];
     for (let year = initYear; year <= DateTime.local().year; year += 1) {
-      years.push(year);
+      years.push(year.toString());
     }
 
-    this.locale = locale;
     this.years = years;
-    this.months = Info.months('long', { locale });
-    this.currentYear = DateTime.local().year;
-    this.currentMonth = DateTime.local().toLocaleString({ month: 'long' });
+    this.months = Info.months('2-digit');
+    this.currentYear = DateTime.local().toLocaleString({ year: 'numeric' });
+    this.currentMonth = DateTime.local().toLocaleString({ month: '2-digit' });
+    this.currentMonthName = DateTime.local().toLocaleString({ month: 'long' });
   }
 
   getSelects() {
@@ -26,15 +25,15 @@ export default class {
     return {
       year: this.currentYear,
       month: this.currentMonth,
+      monthName: this.currentMonthName,
     };
   }
 
-  getFilter({ year, month }) {
-    const monthIndex = this.months.findIndex((currentMonth) => currentMonth === month) + 1;
-    const maxDays = DateTime.local(year, monthIndex).daysInMonth;
+  static getFilter({ year, month }) {
+    const dateTime = DateTime.local(parseInt(year, 10), parseInt(month, 10));
     return {
-      start: `${year}-${monthIndex}-1`,
-      end: `${year}-${monthIndex}-${maxDays}`,
+      start: dateTime.startOf('month').toISO(),
+      end: dateTime.endOf('month').toISO(),
     };
   }
 

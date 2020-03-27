@@ -4,21 +4,21 @@
       :id="type"
       @change="changeValue"
     >
-      <option hidden>
-        {{ current }}
-      </option>
       <option
-        v-for="(item, index) in list"
-        :key="index"
+        v-for="item in list"
+        :key="item"
         :value="item"
+        :selected="current === item"
       >
-        {{ item }}
+        {{ type === 'month' ? getMonthName(item) : item }}
       </option>
     </select>
   </div>
 </template>
 
 <script>
+import { Info } from 'luxon';
+
 export default {
   props: {
     type: {
@@ -34,9 +34,17 @@ export default {
       required: true,
     },
   },
+  computed: {
+    months() {
+      return Info.months('long');
+    },
+  },
   methods: {
     changeValue({ target }) {
       this.$emit('filter-results', { key: this.type, value: target.value });
+    },
+    getMonthName(id) {
+      return this.months[parseInt(id, 10) - 1];
     },
   },
 };
