@@ -35,7 +35,7 @@
             </l-icon>
           </l-marker>
 
-          <l-marker :lat-lng="carPosition">
+          <l-marker :lat-lng="carPosition" v-if="carPosition">
             <l-icon icon-url="/icon.svg" />
           </l-marker>
 
@@ -80,7 +80,7 @@
           </div>
         </div>
         <div class="is-strong">
-          {{ ride.driver.name }}
+          {{ ride.driver.firstname }}
         </div>
       </ec-box>
     </section>
@@ -165,7 +165,6 @@ export default {
   },
 
   beforeDestroy() {
-    this.$socket.disconnect();
     if (this.listener && navigator && navigator.geolocation && navigator.geolocation.clearWatch) {
       navigator.geolocation.clearWatch(this.listener);
     }
