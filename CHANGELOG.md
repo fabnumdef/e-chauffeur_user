@@ -2,6 +2,7 @@
 ## Current
 ### Features
 * migration to lib-vue 0.1.0.alpha.3
+* Added campus name information on ride creation
 ### Fix
 * Fix time selection in rides history
 * Fix follow-the-ride feature
