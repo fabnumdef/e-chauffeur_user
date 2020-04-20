@@ -38,7 +38,6 @@ module.exports = {
           ratings: 'ratings',
         },
         mockAxios: (process.env.MOCK_AXIOS || '').toLowerCase() === 'true',
-        withAuth: true,
         accountRoute: 'my-account',
         authPlugins: [
           { src: 'auth-renew', mode: 'client' },
