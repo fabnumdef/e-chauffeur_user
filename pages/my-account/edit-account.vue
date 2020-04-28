@@ -136,23 +136,14 @@
             </template>
             <div class="field has-addons">
               <div class="control is-expanded">
-                <phone-number-input
-                  id="phone"
-                  v-model="fields.phone.original"
-                  name="phone"
-                  default-country-code="FR"
-                  size="sm"
-                  color="#abb8cb"
-                  class="input-phone"
-                  valid-color="#23d160"
-                  :preferred-countries="['FR', 'BE', 'DE']"
-                  :translations="{
-                    countrySelectorLabel: 'Prefix',
-                    countrySelectorError: 'Choisir un pays',
-                    phoneNumberLabel: 'Tapez votre numéro de téléphone',
-                    example: 'Exemple :'
-                  }"
-                />
+                <client-only>
+                  <vue-tel-input
+                    v-model="fields.phone.original"
+                    name="phone"
+                    default-country="FR"
+                    :disabled-fetching-country="false"
+                  />
+                </client-only>
                 <p class="help is-danger">
                   {{ errors.first('email') }}
                 </p>
@@ -291,7 +282,7 @@
 
 <script>
 import merge from 'lodash.merge';
-import phoneNumberInput from 'vue-phone-number-input';
+import { VueTelInput } from 'vue-tel-input';
 import ecField from '~/components/form/field.vue';
 import helpButton from '~/components/help.vue';
 import modal from '~/components/modal.vue';
@@ -309,8 +300,8 @@ export default {
     ecPasswordConfirmation,
     helpButton,
     validationIconSwitch,
-    phoneNumberInput,
     modal,
+    VueTelInput,
   },
   async asyncData({
     redirect, $auth, $api, query: { token, email },
@@ -327,7 +318,7 @@ export default {
     }
     const fields = {};
     try {
-      const { data } = await $api.jwt.getUser(UPDATABLE_FIELDS.concat('id').join(','));
+      const { data } = await $api.query('jwt').setMask(UPDATABLE_FIELDS.concat('id')).user();
       Object.assign(fields, data);
     } catch (e) {
       throw new Error('Erreur dans la récupération de vos données utilisateur. '
@@ -364,12 +355,10 @@ export default {
         return;
       }
       try {
-        const { data: updatedUser } = await this.$api.users.patchUser(
-          this.id,
-          this.fields,
-          UPDATABLE_FIELDS.join(','),
-          { sendToken },
-        );
+        const { data: updatedUser } = await this.$api.query('users')
+          .setMask(UPDATABLE_FIELDS.join(','))
+          .edit(this.id, this.fields)
+          .setSendToken(sendToken);
         merge(this.fields, updatedUser);
         merge(this.old, updatedUser);
         if (sendToken) {
@@ -388,7 +377,7 @@ export default {
     },
     async deleteAccount() {
       try {
-        await this.$api.users.deleteUser(this.$auth.user.id);
+        await this.$api.query('users').delete(this.$auth.user.id);
         this.$auth.logout();
       } catch (e) {
         this.$toast.error('Une erreur est survenue lors de la suppression du compte');
@@ -435,12 +424,6 @@ export default {
   @media screen and (max-width: $desktop - 1) {
     form {
       padding: 10px;
-    }
-  }
-  .input-phone /deep/ {
-    .field.vue-input-ui .field-input, .country-selector .field-input[data-v-334d91fc] {
-      border: 1px solid $field-color;
-      border-radius: 0;
     }
   }
 

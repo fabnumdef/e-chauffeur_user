@@ -35,7 +35,10 @@
             </l-icon>
           </l-marker>
 
-          <l-marker :lat-lng="carPosition">
+          <l-marker
+            v-if="carPosition"
+            :lat-lng="carPosition"
+          >
             <l-icon icon-url="/icon.svg" />
           </l-marker>
 
@@ -80,7 +83,7 @@
           </div>
         </div>
         <div class="is-strong">
-          {{ ride.driver.name }}
+          {{ ride.driver.firstname }}
         </div>
       </ec-box>
     </section>
@@ -122,12 +125,18 @@ export default {
     store,
   }) {
     try {
-      const rideAPI = $api
-        .rides(null, 'id,departure(label,location(coordinates)),arrival(label,location(coordinates)),'
-                    + 'driver(id,name),car(id,model(label)),position,status,token');
+      const { data: ride } = await $api
+        .query('rides')
+        .setMask('id,departure(label,location(coordinates)),arrival(label,location(coordinates)),'
+          + 'driver(id,firstname),car(id,model(label)),position,status,token')
+        .get(rideId)
+        .authWithRideToken(token);
 
-      const { data: ride } = await rideAPI.getRide(rideId, token);
-      const { data: { position, date } } = await rideAPI.getDriverPosition(rideId, token);
+      const { data: { position, date } } = await $api.query('rides')
+        .setMask('driver,date,position')
+        .getDriverPosition(rideId)
+        .authWithRideToken(token);
+
       if (position) {
         store.commit('driver/setDriverPosition', {
           position,
@@ -165,7 +174,6 @@ export default {
   },
 
   beforeDestroy() {
-    this.$socket.disconnect();
     if (this.listener && navigator && navigator.geolocation && navigator.geolocation.clearWatch) {
       navigator.geolocation.clearWatch(this.listener);
     }

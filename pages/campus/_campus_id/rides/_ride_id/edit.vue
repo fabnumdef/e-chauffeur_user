@@ -171,6 +171,7 @@
 
 <script>
 import lGet from 'lodash.get';
+import merge from 'lodash.merge';
 import { DateTime } from 'luxon';
 import { DRAFTED } from '@fabnumdef/e-chauffeur_lib-vue/api/status/states';
 import searchPoi from '~/components/form/search-poi.vue';
@@ -179,6 +180,7 @@ import poiMap from '~/components/poi-map.vue';
 import helpButton from '~/components/help.vue';
 
 export default {
+  // @todo get POI before calling components, and pass data as parameters to prevent 1 querying
   components: {
     searchPoi,
     poiMap,
@@ -209,7 +211,7 @@ export default {
     },
   },
   async asyncData({ $api }) {
-    const { data } = await $api.jwt.getUser('gprd,phone(confirmed)');
+    const { data } = await $api.query('jwt').setMask('gprd,phone(confirmed)').user();
     return { user: data };
   },
   data() {
@@ -232,10 +234,12 @@ export default {
         this.loading = true;
         this.apiErrors = {};
         let data = {};
+        merge(ride, { campus: this.campus });
+        const rideQuery = this.$api.query('rides').setMask('id,status');
         if (ride.id) {
-          ({ data } = await this.$api.rides(this.campus.id, 'id,status').patchRide(ride.id, ride));
+          ({ data } = await rideQuery.edit(ride.id, ride));
         } else {
-          ({ data } = await this.$api.rides(this.campus.id, 'id,status').postRide(ride));
+          ({ data } = await rideQuery.create(ride));
         }
         this.$router.push({
           name: 'campus-campus_id-rides-ride_id-confirm',
