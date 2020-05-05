@@ -15,8 +15,7 @@ export const mutations = {
 
 export const actions = {
   async fetchCampuses({ commit }) {
-    const { data } = await this.$api.campuses.getCampuses('id,name,phone,defaultReservationScope');
-    console.log(data);
+    const { data } = await this.$api.query('campuses').setMask('id,name,phone(everybody)').list();
     commit('setCampuses', data);
   },
 };

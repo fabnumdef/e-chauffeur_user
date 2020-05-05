@@ -154,7 +154,6 @@
             <textarea
               id="ec-form-message"
               v-model="fields.message"
-              v-validate="'required'"
               class="textarea"
               name="message"
               :class="{ 'is-danger': errors.has('message') }"
@@ -258,7 +257,7 @@ export default {
       this.pending = true;
 
       try {
-        await this.$api.forms.postFormContact(this.fields);
+        await this.$api.query('forms').contact(this.fields);
         this.notification = {
           class: 'is-success',
           mess: 'votre message a bien été envoyé.',

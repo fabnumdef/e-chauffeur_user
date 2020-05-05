@@ -55,7 +55,7 @@
           @click="active = SHUTTLE"
         >
           <img
-            src="~/assets/images/bus.svg"
+            src="~/assets/images/transport.svg"
             alt="car"
           >
           <h2 class="title">
@@ -151,7 +151,7 @@ export default {
         background-color: rgba($light-gray, .5);
         .radio {
           background-color: $primary;
-          box-shadow: inset 0px 0px 0px 4px $light-gray;
+          box-shadow: inset 0 0 0 4px $light-gray;
         }
       }
       h2, h3 {

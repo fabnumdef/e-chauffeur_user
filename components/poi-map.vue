@@ -105,12 +105,12 @@ export default {
     },
   },
   async mounted() {
-    this.pois = (await this.$api.query('pois')
-      .setCampus(this.campus)
+    const { data } = await this.$api.query('pois')
       .setMask('label,location(coordinates),id')
       .list()
-      .setOffset(0)
-      .setLimit(30)).data;
+      .setLimit(1000)
+      .setFilter('campus', this.campus.id);
+    this.pois = data;
   },
   methods: {
     onClick(poi) {

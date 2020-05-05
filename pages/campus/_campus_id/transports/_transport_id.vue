@@ -17,7 +17,9 @@ export default {
   },
   async asyncData({ params, $api }) {
     try {
-      const { data: transport } = await $api.transports(null, FETCHED_DATA).getRide(params.transport_id);
+      const { data: transport } = await $api.query('rides')
+        .setMask(FETCHED_DATA)
+        .get(params.ride_id);
       return {
         transport,
       };

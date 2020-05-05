@@ -56,11 +56,9 @@
   </section>
 </template>
 <script>
-import errorsManagement from '~/helpers/mixins/errors-management';
-import toggleLoading from '~/helpers/mixins/toggle-loading';
+import lGet from 'lodash.get';
 
 export default {
-  mixins: [errorsManagement(), toggleLoading()],
   props: {
     isWhite: {
       type: Boolean,
@@ -69,6 +67,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       email: '',
       token: '',
     };
@@ -86,12 +85,18 @@ export default {
   },
   methods: {
     async sendToken() {
-      this.toggleLoading();
-      this.handleCommonErrorsBehavior(async () => {
-        await this.$api.query('users').setSendToken().create({ email: this.email });
-      });
-      // @todo manage domain names error
-      this.toggleLoading();
+      this.isLoading = true;
+      try {
+        await this.$api.query('users').create({ email: this.email }).setSendToken();
+        this.$toast.success('Un email a été envoyé. Pour poursuivre, entrez ci-dessous le code qu\'il contient.');
+      } catch ({ response }) {
+        const whitelistDomains = lGet(response, 'data.whitelistDomains', []);
+        this.$toast.error(`Une erreur est survenue lors de l'enregistrement de votre email. ${
+          whitelistDomains.length > 0 ? `Ce dernier doit être valide et finir par ${whitelistDomains.join(', ')}` : ''
+        }`);
+      } finally {
+        this.isLoading = false;
+      }
     },
     goToForm() {
       this.$router.push({
