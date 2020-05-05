@@ -20,11 +20,7 @@
             :icon-anchor="[24, 48]"
             class="icon"
           >
-            <fa-icon
-              :icon="['fas', 'map-marker-alt']"
-              class="is-primary"
-              size="4x"
-            />
+            <div class="marker-icon departure" />
             <b-tag
               class="tag"
               type="is-primary"
@@ -39,11 +35,7 @@
             :icon-anchor="[12, 48]"
             class="icon"
           >
-            <fa-icon
-              :icon="['fas', 'flag']"
-              class="is-primary"
-              size="4x"
-            />
+            <div class="marker-icon arrival" />
             <b-tag
               class="tag"
               type="is-primary"
@@ -58,11 +50,7 @@
             :icon-anchor="[12, 24]"
             class="icon"
           >
-            <fa-icon
-              :icon="['fas', 'map-pin']"
-              class="is-primary"
-              size="2x"
-            />
+            <div class="marker-icon" />
             <b-tag
               class="tag"
               type="is-primary"
@@ -117,8 +105,12 @@ export default {
     },
   },
   async mounted() {
-    this.pois = (await this.$api.pois(this.campus, 'label,location(coordinates),id')
-      .getPois({ offset: 0, limit: 1000 })).data;
+    this.pois = (await this.$api.query('pois')
+      .setCampus(this.campus)
+      .setMask('label,location(coordinates),id')
+      .list()
+      .setOffset(0)
+      .setLimit(30)).data;
   },
   methods: {
     onClick(poi) {
@@ -139,6 +131,28 @@ export default {
     &:hover .tag {
       opacity: 1;
       transition: $speed * 3;
+    }
+  }
+  .map {
+    margin: $gap 0;
+    height: 500px;
+    /deep/ .vue2leaflet-map {
+      z-index: 0;
+    }
+    .marker-icon {
+      margin: 0;
+      padding: 0;
+      background-color: $blue-medium;
+      border: 2px solid $white;
+      border-radius: 100%;
+      height: 15px;
+      width: 15px;
+      &.departure, &.arrival {
+        background-color: $red;
+      }
+      &:hover {
+        opacity: .8;
+      }
     }
   }
 </style>

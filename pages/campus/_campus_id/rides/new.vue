@@ -1,3 +1,3 @@
 <script>
-export { default } from './_ride_id/edit.vue';
+export { default } from './_id/edit.vue';
 </script>

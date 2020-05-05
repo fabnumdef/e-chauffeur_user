@@ -1,5 +1,9 @@
 <template>
-  <div class="field">
+  <div
+    class="field"
+    :type="getType(id)"
+    :message="getError(id, label)"
+  >
     <label
       v-if="label || $slots.label"
       :for="id"
@@ -16,7 +20,12 @@
 </template>
 
 <script>
+import errorManagementMixin from '~/helpers/mixins/errors-management';
+
 export default {
+  mixins: [
+    errorManagementMixin(),
+  ],
   props: {
     label: {
       type: String,

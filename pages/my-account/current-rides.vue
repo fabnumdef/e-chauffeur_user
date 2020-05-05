@@ -45,6 +45,7 @@ import {
 import Modal from '~/components/modal.vue';
 import RideCard from '~/components/ride-card.vue';
 import FilterManager from '~/helpers/filter-manager';
+import errorsManagement from '~/helpers/mixins/errors-management';
 
 const filterManager = new FilterManager(2019);
 const currents = filterManager.getCurrents();
@@ -84,15 +85,10 @@ const formatData = (data) => data.map((ride) => {
 
 const fetchRides = async (apiCall, userId) => {
   const { start, end } = filterManager.getFilter(currents);
-  const { data } = await apiCall(
-    start, end, {},
-    {
-      filter: {
-        userId,
-        current: true,
-      },
-    },
-  );
+  const { data } = await apiCall.list(start, end)
+    .setFilter('userId', userId)
+    .setFilter('current', true);
+
   return formatData(data);
 };
 
@@ -101,8 +97,9 @@ export default {
     RideCard,
     Modal,
   },
+  mixins: [errorsManagement()],
   async asyncData({ $api, $auth }) {
-    const rides = await fetchRides($api.rides(null, mask).getRides, $auth.user.id);
+    const rides = await fetchRides($api.query('rides').setMask(mask), $auth.user.id);
     return { rides };
   },
   data() {
@@ -119,18 +116,11 @@ export default {
       }
     },
     async deleteRide() {
-      try {
-        await this.$api.rides().mutateRide(
-          this.currentRide,
-          CANCEL_REQUESTED_CUSTOMER,
-        );
-        this.$toast.success('Course supprimée avec succès');
-      } catch (err) {
-        this.$toast.error('Une erreur est survenue lors de la suppression.');
-      }
-
+      this.handleCommonErrorsBehavior(async () => {
+        await this.$api.query('rides').mutate(this.currentRide, CANCEL_REQUESTED_CUSTOMER);
+      });
       this.toggleModal();
-      this.rides = await fetchRides(this.$api.rides(null, mask).getRides, this.$auth.user.id);
+      this.rides = await fetchRides(this.$api.query('rides').setMask(mask), this.$auth.user.id);
     },
   },
 };

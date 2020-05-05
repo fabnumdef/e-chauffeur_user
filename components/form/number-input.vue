@@ -53,7 +53,7 @@ export default {
   props: {
     value: {
       type: Number,
-      default: 0,
+      default: 1,
     },
     min: {
       type: [Number, String],
@@ -181,5 +181,8 @@ export default {
     border: 1px solid $white;
     border-radius: $gap;
     background: transparent;
+    .svg {
+      height: 10px;
+    }
   }
 </style>

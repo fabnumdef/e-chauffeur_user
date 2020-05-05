@@ -122,12 +122,11 @@ export default {
     store,
   }) {
     try {
-      const rideAPI = $api
-        .rides(null, 'id,departure(label,location(coordinates)),arrival(label,location(coordinates)),'
-                    + 'driver(id,name),car(id,model(label)),position,status,token');
+      const rideAPI = $api.query('rides')
+        .setMask('id,departure,arrival,driver(id,name),car(id,model),position,status,token');
 
-      const { data: ride } = await rideAPI.getRide(rideId, token);
-      const { data: { position, date } } = await rideAPI.getDriverPosition(rideId, token);
+      const { data: ride } = await rideAPI.get(rideId).authWithRideToken(token);
+      const { data: { position, date } } = await rideAPI.getDriverPosition(rideId).authWithRideToken(token);
       if (position) {
         store.commit('driver/setDriverPosition', {
           position,

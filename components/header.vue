@@ -50,7 +50,7 @@
                 v-for="campus of campuses"
                 :key="campus.id"
                 class="navbar-item"
-                :to="{name: 'campus-campus_id-rides-new', params: {campus_id: campus.id}}"
+                :to="{name: 'campus-campus_id-select-type', params: {campus_id: campus.id}}"
               >
                 {{ campus.name }}
               </nuxt-link>
@@ -118,10 +118,6 @@ export default {
         this.$toasted.success('À bientôt !');
         this.$router.push('/');
       }
-    },
-    async getCampuses() {
-      const { data } = await this.$api.campuses.getCampuses('id,name');
-      return data;
     },
   },
 };
