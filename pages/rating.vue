@@ -101,8 +101,6 @@
 </template>
 
 <script>
-import ecField from '~/components/form/field.vue';
-
 function resetData(_id) {
   return {
     uxGrade: null,
@@ -116,9 +114,6 @@ function resetData(_id) {
 
 export default {
   auth: false,
-  components: {
-    ecField,
-  },
   asyncData({ query }) {
     return {
       fields: resetData(query.rideId),

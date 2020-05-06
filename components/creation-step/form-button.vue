@@ -4,6 +4,7 @@
       type="submit"
       class="button is-primary"
       :disabled="disabled"
+      :loading="loading"
     >
       <slot>Valider</slot>
     </button>

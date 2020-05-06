@@ -1,8 +1,8 @@
 <template>
   <creation-step
     :previous-step="{
-      name: 'campus-campus_id-rides-ride_id-edit',
-      params: { campus_id: campus.id, ride_id: ride.id }
+      name: 'campus-rides-id-edit',
+      params: { campus: campus.id, id: ride.id }
     }"
   >
     <template #title>
@@ -40,7 +40,9 @@
             />
           </b-field>
         </fieldset>
-        <form-button :disabled="[departure, arrival].includes(null)" />
+        <form-button
+          :disabled="[departure, arrival].includes(null)"
+        />
       </form>
     </template>
     <template #footer>
@@ -92,10 +94,8 @@ export default {
   methods: {
     async submit() {
       if (
-        this.departure
-        && this.arrival
-        && window
-        && window.confirm('Veuillez vérifier les données avant de passer à l\'étape suivante.')
+        this.departure && this.arrival
+        && window && window.confirm('Veuillez vérifier les données avant de passer à l\'étape suivante.')
       ) {
         this.handleCommonErrorsBehavior(async () => {
           await this.$api.query('rides')
@@ -106,8 +106,8 @@ export default {
             });
 
           this.$router.push({
-            name: 'campus-campus_id-rides-ride_id-confirm',
-            params: { campus_id: this.campus.id, ride_id: this.ride.id },
+            name: 'campus-rides-id-confirm',
+            params: { campus: this.campus.id, id: this.ride.id },
           });
         });
       }

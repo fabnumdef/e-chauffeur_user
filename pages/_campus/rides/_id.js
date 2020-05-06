@@ -2,8 +2,9 @@ import abstractRoute from '~/helpers/abstracts/_id';
 
 export default abstractRoute({
   query: 'rides',
-  layout: 'ride-creation',
+  key: 'ride',
   mask: 'id,start,status,departure(id,label),arrival(id,label),luggage,passengersCount,userComments',
+  propsToPass: ['campus'],
   props: {
     campus: {
       type: Object,

@@ -20,12 +20,8 @@
 </template>
 
 <script>
-import errorManagementMixin from '~/helpers/mixins/errors-management';
 
 export default {
-  mixins: [
-    errorManagementMixin(),
-  ],
   props: {
     label: {
       type: String,
@@ -34,6 +30,26 @@ export default {
     id: {
       type: String,
       default: null,
+    },
+  },
+  methods: {
+    getError(path, label) {
+      const error = (this.errors || {})[path];
+      if (!error) {
+        return null;
+      }
+      switch (error.kind) {
+        case 'required':
+          return `Le champ ${label} est requis`;
+        default:
+          return `Le champ ${label} comporte une erreur`;
+      }
+    },
+    getType(path) {
+      if (!this.errors) {
+        return null;
+      }
+      return this.errors[path] ? 'is-danger' : 'is-success';
     },
   },
 };

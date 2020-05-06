@@ -12,7 +12,12 @@
       </div>
     </section>
     <section class="white-section">
-      <nuxt-link class="back-history-link" :to="previousStep">Précédent</nuxt-link>
+      <nuxt-link
+        class="back-history-link"
+        :to="previousStep"
+      >
+        Précédent
+      </nuxt-link>
       <slot
         v-if="$slots.alert"
         name="alert"
@@ -51,7 +56,7 @@ export default {
     text-decoration: underline;
     position: absolute;
     top: 415px;
-    left: 125px;
+    left: 150px;
   }
   .title, .subtitle {
     text-align: center;

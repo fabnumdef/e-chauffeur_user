@@ -1,7 +1,7 @@
 <template>
   <creation-step
     form-title="Planifier un trajet"
-    :previous-step="{ name: 'campus-campus_id-select-type', params: { campus_id: campus.id }}"
+    :previous-step="{ name: 'campus-select-type', params: { campus: campus.id }}"
   >
     <template #title>
       Réservez votre e-Chauffeur dès maintenant !
@@ -25,7 +25,7 @@
             Si vous souhaitez être notifié sur votre téléphone, vous devez
             <nuxt-link :to="{name: 'my-account-edit-account'}">
               renseigner et confirmer votre numéro de téléphone
-            </nuxt-link>.
+            </nuxt-link>
           </b-field>
 
           <b-field
@@ -93,7 +93,9 @@
             />
           </b-field>
         </fieldset>
-        <form-button :disabled="!ride.start" />
+        <form-button
+          :disabled="!ride.start"
+        />
       </form>
     </template>
     <template #footer>
@@ -103,16 +105,15 @@
 </template>
 
 <script>
-import lGet from 'lodash.get';
 import { DateTime } from 'luxon';
 import gprdWarning from '~/components/creation-step/gprd-warning.vue';
 import informationIcons from '~/components/informations-icons.vue';
 import creationStep from '~/components/creation-step/generic.vue';
 import formButton from '~/components/creation-step/form-button.vue';
 import numberInput from '~/components/form/number-input.vue';
+import errorsManagement from '~/helpers/mixins/errors-management';
 
 export default {
-  layout: 'ride-creation',
   components: {
     informationIcons,
     creationStep,
@@ -120,6 +121,9 @@ export default {
     formButton,
     numberInput,
   },
+  mixins: [
+    errorsManagement(),
+  ],
   props: {
     campus: {
       type: Object,
@@ -136,14 +140,8 @@ export default {
     },
   },
   async asyncData({ $api }) {
-    const { data } = await $api.jwt.getUser('gprd,phone(confirmed)');
+    const { data } = await $api.query('jwt').setMask('gprd,phone(confirmed)').user();
     return { user: data };
-  },
-  data() {
-    return {
-      apiErrors: null,
-      loading: false,
-    };
   },
   computed: {
     maxReservationDate() {
@@ -159,34 +157,22 @@ export default {
         ...this.ride,
         campus: this.campus,
       };
-      try {
-        this.loading = true;
-        this.apiErrors = {};
+      this.handleCommonErrorsBehavior(async () => {
         let data = {};
-        const rideQuery = this.$api.rides(this.campus.id, 'id,status');
+        const RideQuery = this.$api.query('rides').setMask('id,status').setCampus(this.campus.id);
         if (ride.id) {
-          ({ data } = await rideQuery.patchRide(ride.id, ride));
+          ({ data } = await RideQuery.edit(ride.id, ride));
         } else {
-          ({ data } = await rideQuery.postRide(ride));
+          ({ data } = await RideQuery.create(ride));
         }
         this.$router.push({
-          name: 'campus-campus_id-rides-ride_id-select-pois',
+          name: 'campus-rides-id-select-pois',
           params: {
-            campus_id: this.campus.id,
-            ride_id: data.id,
+            campus: this.campus.id,
+            id: data.id,
           },
         });
-      } catch ({ response }) {
-        if (response.status === 422) {
-          this.$toast.error('Erreur : Veuillez vérifier les données renseignées.');
-        } else {
-          this.$toast.error('Une erreur est survenue lors de la création de votre course. '
-            + 'Celle-ci n\'a pas été créée. Vérifiez vos informations puis réessayez.');
-          this.apiErrors = lGet(response, 'data', {});
-        }
-      } finally {
-        this.loading = false;
-      }
+      });
     },
   },
 };

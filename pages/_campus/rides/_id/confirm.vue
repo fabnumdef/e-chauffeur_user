@@ -1,8 +1,8 @@
 <template>
   <creation-step
     :previous-step="{
-      name: 'campus-campus_id-rides-ride_id-select-pois',
-      params: { campus_id: campus.id, ride_id: ride.id }
+      name: 'campus-rides-ride_id-select-pois',
+      params: { campus: campus.id, ride_id: ride.id }
     }"
   >
     <template #title>
@@ -95,6 +95,7 @@ import { DateTime } from 'luxon';
 import { CREATE } from '@fabnumdef/e-chauffeur_lib-vue/api/status/transitions';
 import creationStep from '~/components/creation-step/generic.vue';
 import formButton from '~/components/creation-step/form-button.vue';
+import errorsManagement from '~/helpers/mixins/errors-management';
 
 const FETCHED_DATA = 'id,start,status,departure(id,label),arrival(id,label),luggage,passengersCount,userComments';
 
@@ -103,6 +104,9 @@ export default {
     formButton,
     creationStep,
   },
+  mixins: [
+    errorsManagement(),
+  ],
   props: {
     campus: {
       type: Object,
@@ -111,19 +115,13 @@ export default {
   },
   async asyncData({ $api, params }) {
     try {
-      const { data: ride } = await $api.rides(null, FETCHED_DATA).getRide(params.ride_id);
+      const { data: ride } = await $api.query('rides').setMask(FETCHED_DATA).get(params.id);
       return {
         ride,
       };
     } catch (e) {
-      throw new Error(`Impossible de trouver ou accéder aux informations de la course "${params.ride_id}"`);
+      throw new Error(`Impossible de trouver ou accéder aux informations de la course "${params.id}"`);
     }
-  },
-  data() {
-    return {
-      apiErrors: null,
-      loading: false,
-    };
   },
   computed: {
     formattedStart() {
@@ -132,19 +130,10 @@ export default {
   },
   methods: {
     async submit() {
-      try {
-        this.loading = true;
-        this.apiErrors = {};
-        await this.$api.rides(this.campus.id, FETCHED_DATA).mutateRide(CREATE, this.ride);
-        this.$toast.success('Votre demande de course a bien été reçue, '
-            + 'nous allons la traiter dans les meilleurs délais.');
-        this.$router.push('/');
-      } catch (e) {
-        this.$toast.error('Une erreur est survenue lors de l\'envoi de votre course. '
-            + 'Celle-ci n\'a pas été créée. Vérifiez votre connexion puis réessayez');
-      } finally {
-        this.loading = false;
-      }
+      this.handleCommonErrorsBehavior(async () => this.$api.query('rides')
+        .setCampus(this.campus.id)
+        .setMask(FETCHED_DATA)
+        .mutate(this.ride.id, CREATE));
     },
   },
 };

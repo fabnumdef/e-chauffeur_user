@@ -12,8 +12,8 @@
       <div>
         <button
           class="select-button car"
-          :class="{ active: active === RIDE }"
-          @click="active = RIDE"
+          :class="{ selected: selected === RIDE }"
+          @click="selected = RIDE"
         >
           <img
             src="~/assets/images/car.svg"
@@ -33,11 +33,11 @@
         </button>
         <button
           class="select-button shuttle"
-          :class="{ active: active === TRANSPORT }"
-          @click="active = TRANSPORT"
+          :class="{ selected: selected === TRANSPORT }"
+          @click="selected = TRANSPORT"
         >
           <img
-            src="~/assets/images/shuttle.svg"
+            src="~/assets/images/transport.svg"
             alt="car"
           >
           <h2 class="title">
@@ -51,11 +51,11 @@
         </button>
         <button
           class="select-button bus"
-          :class="{ active: active === SHUTTLE }"
-          @click="active = SHUTTLE"
+          :class="{ selected: selected === SHUTTLE }"
+          @click="selected = SHUTTLE"
         >
           <img
-            src="~/assets/images/transport.svg"
+            src="~/assets/images/shuttle.svg"
             alt="car"
           >
           <h2 class="title">
@@ -87,11 +87,16 @@ import {
 } from '~/store/displacement';
 
 export default {
-  layout: 'ride-creation',
+  props: {
+    campus: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   data() {
     return {
-      active: null,
-      campusId: this.$route.params.campus_id,
+      selected: null,
+      campusId: this.campus.id,
       RIDE,
       SHUTTLE,
       TRANSPORT,
@@ -99,12 +104,10 @@ export default {
   },
   methods: {
     validateType() {
-      if (isValidType(this.active)) {
-        console.log(this.campusId, this.active);
-        const name = `campus-campus_id-${this.active}-new`;
+      if (isValidType(this.selected)) {
         this.$router.push({
-          name,
-          params: { campus_id: this.campusId },
+          name: `campus-${this.selected}-new`,
+          params: { campus: this.campusId },
         });
       } else {
         this.$toast.error('Veuillez selectionner un type de transports');
@@ -146,7 +149,7 @@ export default {
       &:hover {
         border-color: $primary;
       }
-      &.active {
+      &.selected {
         border-color: $primary;
         background-color: rgba($light-gray, .5);
         .radio {

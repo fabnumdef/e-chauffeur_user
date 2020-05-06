@@ -283,7 +283,6 @@
 <script>
 import merge from 'lodash.merge';
 import { VueTelInput } from 'vue-tel-input';
-import ecField from '~/components/form/field.vue';
 import helpButton from '~/components/help.vue';
 import modal from '~/components/modal.vue';
 import ecPassword from '~/components/form/password.vue';
@@ -295,7 +294,6 @@ const UPDATABLE_FIELDS = ['email', 'email_confirmed', 'firstname', 'lastname', '
 export default {
   auth: false,
   components: {
-    ecField,
     ecPassword,
     ecPasswordConfirmation,
     helpButton,

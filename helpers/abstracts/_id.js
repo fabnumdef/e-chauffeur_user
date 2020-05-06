@@ -1,12 +1,9 @@
-function passProps(props) {
-  return Object.keys(props).map((k) => ({ [k]: this[k] }));
-}
-
 export default ({
   id = 'id',
   query,
   mask,
   key,
+  propsToPass = [],
   props = {},
   layout = 'default',
   customGet = (cb) => cb,
@@ -15,7 +12,7 @@ export default ({
   layout,
   props,
   async asyncData({ $api, store, params }) {
-    const { data } = customGet(
+    const { data } = await customGet(
       customQuery(
         $api.query(query).setMask(mask),
         { store, params },
@@ -28,6 +25,11 @@ export default ({
     };
   },
   render(createElement) {
-    return createElement('nuxt-child', { attrs: { [key]: this[key], ...passProps(this.props) } });
+    return createElement('nuxt-child', {
+      attrs: {
+        [key]: this[key],
+        ...propsToPass.reduce((acc, k) => ({ ...acc, [k]: this[k] }), {}),
+      },
+    });
   },
 });

@@ -201,8 +201,8 @@ export default {
     redirectToRide() {
       if (this.$auth.loggedIn && this.campus.id) {
         this.$router.push({
-          name: 'campus-campus_id-select-type',
-          params: { campus_id: this.campus.id },
+          name: 'campus-select-type',
+          params: { campus: this.campus.id },
         });
       } else if (this.$auth.loggedIn) {
         this.$toast.error('Veuillez sélectionner une base');

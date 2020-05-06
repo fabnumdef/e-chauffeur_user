@@ -50,7 +50,7 @@
                 v-for="campus of campuses"
                 :key="campus.id"
                 class="navbar-item"
-                :to="{name: 'campus-campus_id-select-type', params: {campus_id: campus.id}}"
+                :to="{name: 'campus-select-type', params: { campus: campus.id }}"
               >
                 {{ campus.name }}
               </nuxt-link>

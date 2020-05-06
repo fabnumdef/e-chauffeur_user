@@ -203,14 +203,9 @@
 </template>
 
 <script>
-import ecField from '~/components/form/field.vue';
 
 export default {
   auth: false,
-  components: {
-    ecField,
-  },
-
   data() {
     return {
       fields: {

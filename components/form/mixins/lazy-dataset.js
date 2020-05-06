@@ -1,4 +1,3 @@
-import toggleLoading from '~/helpers/mixins/toggle-loading';
 import errorsManagementMixin from '~/helpers/mixins/errors-management';
 
 export default (entity, {
@@ -10,7 +9,6 @@ export default (entity, {
     .setSearchTerm(options.search)),
 } = {}) => ({
   mixins: [
-    toggleLoading(),
     errorsManagementMixin(),
   ],
   props: {
@@ -28,12 +26,10 @@ export default (entity, {
     if (this[key]) {
       return;
     }
-    this.toggleLoading(true);
     await this.handleCommonErrorsBehavior(async () => {
       const { data } = await listQuery.call(this, this.$api);
       this.list = data;
     });
-    this.toggleLoading(false);
   },
   computed: {
     getObjectValue() {
