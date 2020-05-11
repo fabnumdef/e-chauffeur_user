@@ -9,7 +9,7 @@
         <l-tile-layer url="//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
         <l-marker
-          v-for="poi in flavoredPois"
+          v-for="poi in flavoredMarkers"
           :key="poi.id"
           :lat-lng="poi.position"
           @click="onClick(poi)"
@@ -66,55 +66,37 @@
 </template>
 
 <script>
-import lGet from 'lodash.get';
+import setMap from '~/components/maps/mixins/set-map';
+
+const key = 'poi';
+const entity = 'pois';
+const mask = 'label,location(coordinates),id';
 
 export default {
+  mixins: [
+    setMap({
+      key,
+      initQuery: function query() {
+        return this.$api.query(entity)
+          .setMask(mask)
+          .list()
+          .setLimit(1000)
+          .setFilter('campus', this.campus.id);
+      },
+    }),
+  ],
   props: {
-    arrival: {
+    campus: {
       type: Object,
-      default: null,
+      required: true,
     },
     departure: {
       type: Object,
       default: null,
     },
-    campus: {
+    arrival: {
       type: Object,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      pois: [],
-    };
-  },
-  computed: {
-    mapCenter() {
-      const campusCenter = lGet(this.campus, 'location.coordinates', null);
-      if (!campusCenter) {
-        throw new Error('Impossible de déduire le centre de la carte');
-      }
-      const [lon, lat] = campusCenter;
-      return [lat, lon];
-    },
-    flavoredPois() {
-      return this.pois.map((poi) => ({
-        ...poi,
-        position: lGet(poi, 'location.coordinates', []).reverse(),
-      })).filter((poi) => poi.position.length > 0);
-    },
-  },
-  async mounted() {
-    const { data } = await this.$api.query('pois')
-      .setMask('label,location(coordinates),id')
-      .list()
-      .setLimit(1000)
-      .setFilter('campus', this.campus.id);
-    this.pois = data;
-  },
-  methods: {
-    onClick(poi) {
-      this.$emit('click', poi);
+      default: null,
     },
   },
 };

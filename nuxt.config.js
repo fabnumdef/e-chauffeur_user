@@ -61,6 +61,8 @@ module.exports = {
           users: 'users',
           pois: 'pois',
           ratings: 'ratings',
+          shuttles: 'shuttles',
+          shuttleFactories: 'shuttle-factories',
         },
         mockAxios: (process.env.MOCK_AXIOS || '').toLowerCase() === 'true',
         accountRoute: 'my-account',

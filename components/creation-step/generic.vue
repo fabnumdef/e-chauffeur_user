@@ -90,6 +90,10 @@ export default {
       border-radius: 13px;
       padding: $gap;
       box-sizing: border-box;
+      a {
+        text-decoration: underline;
+        font-weight: bold;
+      }
     }
     .fields-box {
       padding-bottom: 1em;
@@ -110,7 +114,7 @@ export default {
             border-color: $primary transparent transparent;
           }
         }
-        &__tags, &__single {
+        &__tags, &__single, &__input {
           background: transparent;
           color: $white;
           font-weight: bold;

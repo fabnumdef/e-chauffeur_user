@@ -1,13 +1,14 @@
 <template>
   <creation-step
-    form-title="Planifier un trajet"
+    form-title="Réservez un transport"
     :previous-step="{ name: 'campus-select-type', params: { campus: campus.id }}"
   >
     <template #title>
-      Réservez votre e-Chauffeur dès maintenant !
+      Réservez votre tranport dès maintenant !
     </template>
     <template #subtitle>
-      Sélectionner d'abord une date et renseigner des informations générales.
+      Une fois que vous aurez renseigné votre adresse de départ et d'arrivée,
+      nous vous proposerons les points de rencontre les plus proches.
     </template>
     <template
       v-if="!user.gprd"
@@ -36,7 +37,7 @@
             <client-only>
               <date-time
                 id="start"
-                v-model="ride.start"
+                v-model="transport.start"
                 :not-before="new Date()"
                 :not-after="maxReservationDate"
                 lang="fr"
@@ -52,15 +53,39 @@
           </b-field>
 
           <b-field
+            label="Lieu de départ"
+            label-for="departure"
+            class="departure"
+          >
+            <b-input
+              id="departure"
+              v-model="transport.wishedDeparture"
+              placeholder="Adresse de départ souhaitée"
+            />
+          </b-field>
+
+          <b-field
+            label="Lieu d'arrivée"
+            label-for="arrival"
+            class="arrival"
+          >
+            <b-input
+              id="arrival"
+              v-model="transport.wishedArrival"
+              placeholder="Adresse d'arrivée souhaitée"
+            />
+          </b-field>
+
+          <b-field
             label="Nombre de passagers"
             label-for="passengersCount"
             class="passengers"
           >
             <number-input
               id="passengersCount"
-              v-model="ride.passengersCount"
-              :min="1"
-              :max="10"
+              v-model="transport.passengersCount"
+              :min="8"
+              :max="55"
             />
           </b-field>
 
@@ -70,9 +95,9 @@
             class="luggage"
           >
             <b-switch
-              v-model="ride.luggage"
+              v-model="transport.luggage"
             >
-              <template v-if="ride.luggage">
+              <template v-if="transport.luggage">
                 Oui
               </template>
               <template v-else>
@@ -87,14 +112,14 @@
             class="comments"
           >
             <b-input
-              v-model="ride.userComments"
+              v-model="transport.userComments"
               maxlength="150"
               type="text"
             />
           </b-field>
         </fieldset>
         <form-button
-          :disabled="!ride.start"
+          :disabled="!transport.start || !transport.wishedDeparture || !transport.wishedArrival"
         />
       </form>
     </template>
@@ -129,13 +154,16 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    ride: {
+    transport: {
       type: Object,
       default: () => ({
         start: null,
+        wishedDeparture: null,
+        wishedArrival: null,
         luggage: false,
-        passengersCount: 1,
+        passengersCount: 8,
         userComments: null,
+        passengersList: [],
       }),
     },
   },
@@ -145,31 +173,31 @@ export default {
   },
   computed: {
     maxReservationDate() {
-      if (this.ride.campus) {
-        return DateTime.local().plus({ seconds: this.ride.campus.defaultReservationScope });
+      if (this.transport.campus) {
+        return DateTime.local().plus({ seconds: this.transport.campus.defaultReservationScope });
       }
       return false;
     },
   },
   methods: {
     async create() {
-      const ride = {
-        ...this.ride,
+      const transport = {
+        ...this.transport,
         campus: this.campus,
       };
       this.handleCommonErrorsBehavior(async () => {
-        let data = {};
+        let res;
         const RideQuery = this.$api.query('rides').setMask('id,status').setCampus(this.campus.id);
-        if (ride.id) {
-          ({ data } = await RideQuery.edit(ride.id, ride));
+        if (transport.id) {
+          res = await RideQuery.edit(transport.id, transport);
         } else {
-          ({ data } = await RideQuery.create(ride));
+          res = await RideQuery.create(transport);
         }
         this.$router.push({
-          name: 'campus-rides-id-select-pois',
+          name: 'campus-transports-id-passengers-list',
           params: {
             campus: this.campus.id,
-            id: data.id,
+            id: res.data.id,
           },
         });
       });
@@ -182,28 +210,33 @@ export default {
   .form {
     fieldset {
       display: grid;
-      grid-template-areas: 'start start' 'passengers luggages' 'comments comments';
-
+      grid-template-areas:
+        'start start'
+        'departure arrival'
+        'passengers luggages'
+        'comments comments'
+    ;
       .start {
         grid-area: start;
-
         .mx-datepicker {
           width: 100%;
         }
       }
-
+      .departure {
+        grid-area: departure;
+      }
+      .arrival {
+        grid-area: arrival;
+      }
       .passengers {
         grid-area: passengers;
       }
-
       .luggages {
         grid-area: luggages;
       }
-
       .comments {
         grid-area: comments;
       }
     }
   }
-
 </style>

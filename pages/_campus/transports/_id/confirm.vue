@@ -1,8 +1,8 @@
 <template>
   <creation-step
     :previous-step="{
-      name: 'campus-rides-id-select-pois',
-      params: { campus: campus.id, id: ride.id }
+      name: 'campus-transports-id-passengers-list',
+      params: { campus: campus.id, id: transport.id }
     }"
   >
     <template #title>
@@ -30,24 +30,24 @@
           </b-field>
 
           <b-field
-            label="Lieu de départ"
+            label="Lieu de départ souhaité"
             label-for="departure"
           >
             <input
               id="departure"
-              :value="ride.departure.label"
+              :value="transport.wishedDeparture"
               disabled
               class="input"
             >
           </b-field>
 
           <b-field
-            label="Lieu d'arrivée"
+            label="Lieu d'arrivée souhaité"
             label-for="arrival"
           >
             <input
               id="arrival"
-              :value="ride.arrival.label"
+              :value="transport.wishedArrival"
               disabled
               class="input"
             >
@@ -59,7 +59,19 @@
           >
             <input
               id="passengersCount"
-              :value="ride.passengersCount"
+              :value="transport.passengersCount"
+              class="input"
+              disabled
+            >
+          </b-field>
+
+          <b-field
+            label="Passagers"
+            label-for="passengersCount"
+          >
+            <input
+              id="passengersList"
+              :value="passengersList"
               class="input"
               disabled
             >
@@ -69,17 +81,17 @@
             label="Présence de bagages"
           >
             <input
-              :value="ride.luggage ? 'Oui':'Non'"
+              :value="transport.luggage ? 'Oui':'Non'"
               class="input"
               disabled
             >
           </b-field>
 
           <b-field
-            v-if="ride.userComments"
+            v-if="transport.userComments"
             label="Commentaires / motif"
           >
-            {{ ride.userComments }}
+            {{ transport.userComments }}
           </b-field>
         </fieldset>
         <form-button>
@@ -96,7 +108,7 @@ import { CREATE } from '@fabnumdef/e-chauffeur_lib-vue/api/status/transitions';
 import creationStep from '~/components/creation-step/generic.vue';
 import formButton from '~/components/creation-step/form-button.vue';
 import errorsManagement from '~/helpers/mixins/errors-management';
-import { MASK } from '~/pages/_campus/rides/_id';
+import { MASK } from '~/pages/_campus/transports/_id';
 
 export default {
   components: {
@@ -114,9 +126,9 @@ export default {
   },
   async asyncData({ $api, params }) {
     try {
-      const { data: ride } = await $api.query('rides').setMask(MASK).get(params.id);
+      const { data: transport } = await $api.query('rides').setMask(MASK).get(params.id);
       return {
-        ride,
+        transport,
       };
     } catch (e) {
       throw new Error(`Impossible de trouver ou accéder aux informations de la course "${params.id}"`);
@@ -124,7 +136,14 @@ export default {
   },
   computed: {
     formattedStart() {
-      return DateTime.fromISO(this.ride.start).toLocaleString(DateTime.DATETIME_MED);
+      return DateTime.fromISO(this.transport.start).toLocaleString(DateTime.DATETIME_MED);
+    },
+    passengersList() {
+      return this.transport.passengersList
+        .reduce((acc, passenger) => (acc
+          ? `${acc}, ${passenger.firstname || '--'} ${passenger.lastname || '--'}`
+          : `${passenger.firstname || '--'} ${passenger.lastname || '--'}`),
+        '');
     },
   },
   methods: {
@@ -134,7 +153,8 @@ export default {
           .setCampus(this.campus.id)
           .setMask(MASK)
           .mutate(this.ride.id, CREATE);
-        this.$toast.success('Votre course a été créée avec succès');
+        this.$toast.success('Votre transport a été créé avec succès, '
+          + 'la régulation reviendra vers vous pour confirmer les lieux de ramassages');
       });
     },
   },

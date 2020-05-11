@@ -61,7 +61,7 @@
 import creationStep from '~/components/creation-step/generic.vue';
 import searchPoi from '~/components/form/search-poi.vue';
 import formButton from '~/components/creation-step/form-button.vue';
-import poiMap from '~/components/poi-map.vue';
+import poiMap from '~/components/maps/pois.vue';
 import errorsManagement from '~/helpers/mixins/errors-management';
 
 export default {
@@ -135,12 +135,6 @@ export default {
 
 <style lang="scss" scoped>
   @import "~assets/css/head";
-  .title, .title + p {
-    text-align: center;
-    width: 50%;
-    margin: .5em auto 0;
-  }
-
   fieldset {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
