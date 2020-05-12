@@ -20,7 +20,11 @@
             :icon-anchor="[24, 48]"
             class="icon"
           >
-            <div class="marker-icon departure" />
+            <fa-icon
+              :icon="['fas', 'map-marker-alt']"
+              class="is-primary"
+              size="4x"
+            />
             <b-tag
               class="tag"
               type="is-primary"

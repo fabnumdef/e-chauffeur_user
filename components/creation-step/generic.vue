@@ -74,26 +74,27 @@ export default {
     }
 
     .form {
-    max-width: 800px;
-    margin: 0 auto;
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
       z-index: 20;
       opacity: 1;
-    .title {
-      text-align: center;
-    }
-    /deep/ .field {
-      margin: .5em;
-    }
-    &.blue-box {
-      background: $blue-dark;
-      border: 2px solid $primary;
-      border-radius: 13px;
-      padding: $gap;
-      box-sizing: border-box;
-      a {
-        text-decoration: underline;
-        font-weight: bold;
+      .title {
+        text-align: center;
       }
+      /deep/ .field {
+        margin: .5em;
+      }
+      &.blue-box {
+        background: $blue-dark;
+        border: 2px solid $primary;
+        border-radius: 13px;
+        padding: $gap;
+        box-sizing: border-box;
+        a {
+          text-decoration: underline;
+          font-weight: bold;
+        }
     }
     .fields-box {
       padding-bottom: 1em;

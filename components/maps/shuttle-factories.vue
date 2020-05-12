@@ -7,27 +7,32 @@
         :center="mapCenter"
       >
         <l-tile-layer url="//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <l-marker
-          v-for="stop in flavoredMarkers"
-          :key="stop.id"
-          :lat-lng="stop.position"
-          @click="onClick(stop)"
+        <template
+          v-for="(line, index) in flavoredMarkers"
         >
-<!--          <l-icon-->
-<!--            :icon-size="[48,48]"-->
-<!--            :icon-anchor="[24, 48]"-->
-<!--            :class="`line&#45;&#45;${stop.line.index}`"-->
-<!--          >-->
-<!--            <div class="marker-icon departure" />-->
-<!--            <b-tag-->
-<!--              class="tag"-->
-<!--              type="is-primary"-->
-<!--              size="is-medium"-->
-<!--            >-->
-<!--              {{ stop.label }}-->
-<!--            </b-tag>-->
-<!--          </l-icon>-->
-        </l-marker>
+          <l-geo-json
+            :key="`${line.id}-${index}`"
+            :geojson="line"
+            :options="line.options"
+            :options-style="line.style"
+            @click="onClick(line)"
+          />
+          <l-marker
+            v-for="({ label: lb, position }, i) in line.stops"
+            :key="`${line.id}--${i}`"
+            :lat-lng="position"
+            @click="onClick(line)"
+          >
+            <l-icon
+              :icon-anchor="[5,5]"
+            >
+              <l-tooltip
+                :content="lb"
+                :options="{ permanent: false }"
+              />
+            </l-icon>
+          </l-marker>
+        </template>
       </l-map>
     </client-only>
   </div>
@@ -36,21 +41,36 @@
 <script>
 import setMap from '~/components/maps/mixins/set-map';
 
+// @todo add programmatic color generation or extend this array
+const lineColors = ['#007aff', '#1abc9c', '#f1c40f', '#8e44ad', '#34495e', '#27ae60'];
+
 export default {
   mixins: [
     setMap({
       flavoredMarkers() {
-        return this.shuttleFactories.reduce((acc, shuttleFactory, i) => [
-          ...acc,
-          ...shuttleFactory.stops.map((stop) => ({
-            ...stop,
-            position: [...stop.location.coordinates.reverse()],
-            line: {
-              label: shuttleFactory.label,
-              index: i,
-            },
+        return this.shuttleFactories.map(({ id, label, stops }, index) => ({
+          id,
+          label,
+          index,
+          stops: stops.map((stop) => ({
+            id: stop.id,
+            label: stop.label,
+            position: [...stop.location.coordinates].reverse(),
           })),
-        ], []);
+          type: 'LineString',
+          coordinates: stops.map((stop) => stop.location.coordinates),
+          options: {
+            onEachFeature: (feature, layer) => layer.bindTooltip(
+              `<div>Ligne ${feature.label}</div>`,
+              { permanent: false, sticky: true },
+            ),
+          },
+          style: {
+            weight: 10,
+            color: lineColors[index],
+            className: 'line',
+          },
+        }));
       },
     }),
   ],
@@ -72,9 +92,41 @@ export default {
   /deep/ .is-primary {
     color: $primary;
   }
+
+  /deep/ .leaflet-interactive.line {
+    opacity: .6;
+    &:hover {
+      opacity: 1;
+    }
+  }
   /deep/ .leaflet-marker-icon {
+    border-radius: 100%;
+    background-color: white;
+    border: 1px solid;
+    color: black;
+    height: 2em;
+    width: 2em;
     .tag {
       opacity: 0;
+      margin-left: 2em;
+      &.color--0 {
+        background-color: #007aff;
+      }
+      &.color--0 {
+        background-color: #1abc9c;
+      }
+      &.color--0 {
+        background-color: #f1c40f;
+      }
+      &.color--0 {
+        background-color: #8e44ad;
+      }
+      &.color--0 {
+        background-color: #34495e;
+      }
+      &.color--0 {
+        background-color: #27ae60;
+      }
     }
     &:hover .tag {
       opacity: 1;

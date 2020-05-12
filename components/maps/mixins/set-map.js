@@ -11,9 +11,12 @@ export default ({
   },
 }) => ({
   data() {
-    return {
-      [key]: [],
-    };
+    if (key) {
+      return {
+        [key]: [],
+      };
+    }
+    return {};
   },
   async mounted() {
     if (initQuery) {

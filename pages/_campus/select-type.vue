@@ -106,7 +106,7 @@ export default {
     validateType() {
       if (isValidType(this.selected)) {
         this.$router.push({
-          name: `campus-${this.selected}-new`,
+          name: this.selected === SHUTTLE ? 'campus-shuttles-select-factory' : `campus-${this.selected}-new`,
           params: { campus: this.campusId },
         });
       } else {

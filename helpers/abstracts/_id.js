@@ -20,8 +20,6 @@ export default ({
       { store, params },
     );
 
-    console.log(data);
-
     return {
       [key]: data,
     };

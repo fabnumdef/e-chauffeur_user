@@ -1,6 +1,6 @@
 <template>
   <creation-step
-    form-title="Réservez un shuttle"
+    form-title="Réservez une navette"
     :previous-step="{ name: 'campus-select-type', params: { campus: campus.id }}"
   >
     <template #title>
@@ -18,7 +18,7 @@
     <template #form>
       <form
         class="form blue-box"
-        @submit.prevent="create"
+        @submit.prevent="submit"
       >
         <fieldset class="fields-box">
           <b-field v-if="!user.phone || !user.phone.confirmed">
@@ -63,7 +63,7 @@
             />
           </b-field>
         </fieldset>
-        <form-button />
+        <form-button :disabled="!date || !shuttleFactory" />
       </form>
     </template>
     <template #footer>
@@ -84,7 +84,8 @@ import creationStep from '~/components/creation-step/generic.vue';
 import formButton from '~/components/creation-step/form-button.vue';
 import errorsManagement from '~/helpers/mixins/errors-management';
 import shuttleFactoriesMap from '~/components/maps/shuttle-factories.vue';
-import { SHUTTLE_FACTORIES_MASK } from '~/pages/_campus/shuttles/_id';
+
+const SHUTTLE_FACTORIES_MASK = 'id,label,stops';
 
 export default {
   components: {
@@ -125,11 +126,15 @@ export default {
   },
   methods: {
     selectShuttleFactory(data) {
-      console.log('select factory', data);
       this.shuttleFactory = data;
     },
-    async create() {
-      console.log('create');
+    submit() {
+      this.$store.commit('shuttle/setFactory', this.shuttleFactory);
+      this.$router.push({
+        name: 'campus-shuttles-select-pois',
+        params: { campus: this.campus.id },
+        query: { start: DateTime.fromJSDate(this.date).toISO() },
+      });
     },
   },
 };

@@ -28,7 +28,7 @@ module.exports = {
   router: {
     middleware: ['auth'],
     extendRoutes(routes) {
-      const autoNewRoot = ['rides', 'shuttles', 'transports'];
+      const autoNewRoot = ['rides', 'transports'];
       autoNewRoot.forEach((r) => {
         addNewToCampusRoutes(routes.find(({ name }) => name === 'campus').children, 'campus', r);
       });

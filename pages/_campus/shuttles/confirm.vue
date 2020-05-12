@@ -1,6 +1,7 @@
 <template />
 
 <script>
+
 export default {
   name: 'Confirm',
 };
