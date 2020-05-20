@@ -10,10 +10,9 @@
       </section>
       <ec-footer class="footer" />
     </div>
-    <div id="left-shape"></div>
-    <div id="right-shape"></div>
+    <div id="left-shape" />
+    <div id="right-shape" />
   </div>
-
 </template>
 
 <script>

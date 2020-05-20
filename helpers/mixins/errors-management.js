@@ -5,15 +5,12 @@ export default () => ({
     };
   },
   methods: {
-    setErrors(errors = {}) {
-      this.errors = errors;
-    },
     async handleCommonErrorsBehavior(callback, ...customMessages) {
-      this.setErrors();
+      this.errors = null;
       try {
         await callback();
       } catch ({ message: errorMessage, response: { status, data: { errors, message } = {} } = {} }) {
-        this.setErrors(errors);
+        this.errors = errors;
         this.$toast.error([
           ...customMessages,
           [`Erreur ${status || ''}`, message || errorMessage].join(' : '),

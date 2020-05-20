@@ -152,7 +152,7 @@ export default {
         await this.$api.query('rides')
           .setCampus(this.campus.id)
           .setMask(MASK)
-          .mutate(this.ride.id, CREATE);
+          .mutate(this.transport.id, CREATE);
         this.$toast.success('Votre transport a été créé avec succès, '
           + 'la régulation reviendra vers vous pour confirmer les lieux de ramassages');
       });
