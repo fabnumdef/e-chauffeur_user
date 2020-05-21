@@ -77,70 +77,71 @@
 </template>
 
 <script>
-  import { DateTime } from 'luxon';
-  import creationStep from '~/components/creation-step/generic.vue';
-  import formButton from '~/components/creation-step/form-button.vue';
-  import errorsManagement from '~/helpers/mixins/errors-management';
+import { DateTime } from 'luxon';
+import creationStep from '~/components/creation-step/generic.vue';
+import formButton from '~/components/creation-step/form-button.vue';
+import errorsManagement from '~/helpers/mixins/errors-management';
 
-  export default {
-    components: {
-      formButton,
-      creationStep,
+export default {
+  components: {
+    formButton,
+    creationStep,
+  },
+  mixins: [
+    errorsManagement(),
+  ],
+  props: {
+    campus: {
+      type: Object,
+      default: () => ({}),
     },
-    mixins: [
-      errorsManagement(),
-    ],
-    props: {
-      campus: {
-        type: Object,
-        default: () => ({}),
-      },
-    },
-    async asyncData({ $api, params, query }) {
-      const { data: shuttle } = await $api.query('shuttles')
-        .setMask('id,passengers,shuttleFactory')
-        .setCampus(params.campus)
-        .get(query.shuttle)
-      const departure = shuttle.shuttleFactory.stops.find((stop) => stop.id === query.departure);
-      const arrival = shuttle.shuttleFactory.stops.find((stop) => stop.id === query.arrival);
+  },
+  async asyncData({ $api, params, query }) {
+    const { data: shuttle } = await $api.query('shuttles')
+      .setMask('id,passengers,shuttleFactory')
+      .setCampus(params.campus)
+      .get(query.shuttle);
+    const departure = shuttle.shuttleFactory.stops.find((stop) => stop.id === query.departure);
+    const arrival = shuttle.shuttleFactory.stops.find((stop) => stop.id === query.arrival);
+    return {
+      id: shuttle.id,
+      passengers: shuttle.passengers,
+      departure,
+      arrival,
+    };
+  },
+  computed: {
+    FULL_DATE() {
       return {
-        id: shuttle.id,
-        passengers: shuttle.passengers,
-        departure,
-        arrival,
-      }
+        weekday: 'short', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit',
+      };
     },
-    computed: {
-      FULL_DATE() {
-        return { weekday: 'short', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' }
-      },
+  },
+  methods: {
+    ISODateToLocaleString(date, format = {}) {
+      return DateTime.fromISO(date).toLocaleString(format);
     },
-    methods: {
-      ISODateToLocaleString(date, format = {}) {
-        return DateTime.fromISO(date).toLocaleString(format);
-      },
-      async submit() {
-        const { data: user } = await
-          this.$api.query('jwt').setMask('id,email,firstname,lastname,phone(original)').user();
-        console.log(user);
-        const payload = {
-          passengers: [
-            ...this.passengers,
-            {
-              ...user,
-              phone: user.phone.original,
-              departure: this.departure,
-              arrival: this.arrival,
-            }
-          ]
-        }
-        this.handleCommonErrorsBehavior(async () => {
-          await this.$api.query('shuttles').setCampus(this.campus.id).edit(this.id, payload);
-          this.$toast.success('Place réservée avec succès');
-        })
-      }
-    }
-  };
+    async submit() {
+      const { data: user } = await
+      this.$api.query('jwt').setMask('id,email,firstname,lastname,phone(original)').user();
+      const payload = {
+        passengers: [
+          ...this.passengers,
+          {
+            ...user,
+            phone: user.phone.original,
+            departure: this.departure,
+            arrival: this.arrival,
+          },
+        ],
+      };
+      this.handleCommonErrorsBehavior(async () => {
+        await this.$api.query('shuttles').setCampus(this.campus.id).edit(this.id, payload);
+        this.$toast.success('Place réservée avec succès');
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

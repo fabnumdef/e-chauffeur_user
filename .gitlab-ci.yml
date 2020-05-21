@@ -6,7 +6,7 @@ stages:
 
 include:
   - template: Dependency-Scanning.gitlab-ci.yml
-  - template: License-Management.gitlab-ci.yml
+  - template: License-Scanning.gitlab-ci.yml
 
 variables:
   DS_DISABLE_DIND: "true"
@@ -53,21 +53,6 @@ variables:
       - node_modules/
   before_script:
     - npm install
-
-retire-js-dependency_scanning:
-  only:
-    changes:
-      - package-lock.json
-
-gemnasium-dependency_scanning:
-  only:
-    changes:
-      - package-lock.json
-
-license_management:
-  only:
-    changes:
-      - package-lock.json
 
 lint:
   stage: lint
