@@ -83,9 +83,9 @@ export default {
       initQuery: function query() {
         return this.$api.query(entity)
           .setMask(mask)
+          .setCampus(this.campus.id)
           .list()
-          .setLimit(1000)
-          .setFilter('campus', this.campus.id);
+          .setLimit(1000);
       },
     }),
   ],

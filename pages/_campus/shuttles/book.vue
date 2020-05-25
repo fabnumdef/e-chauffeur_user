@@ -164,8 +164,8 @@ import formButton from '~/components/creation-step/form-button.vue';
 import errorsManagement from '~/helpers/mixins/errors-management';
 import shuttleFactoriesMap from '~/components/maps/shuttle-factories.vue';
 
-const SHUTTLE_FACTORIES_MASK = 'id,label,stops';
-const SHUTTLE_MASK = '*';
+const SHUTTLE_FACTORY_MASK = 'id,label,stops';
+const SHUTTLE_MASK = 'id,label,status,start,end,campus,shuttleFactory,passengers,comments,recurrence';
 
 export default {
   components: {
@@ -186,7 +186,7 @@ export default {
   async asyncData({ $api, params }) {
     const { data: user } = await $api.query('jwt').setMask('gprd,phone(confirmed)').user();
     const { data: shuttleFactories } = await $api.query('shuttleFactories')
-      .setMask(SHUTTLE_FACTORIES_MASK).setCampus(params.campus).list();
+      .setMask(SHUTTLE_FACTORY_MASK).setCampus(params.campus).list();
     return { user, shuttleFactories };
   },
   data() {

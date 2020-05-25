@@ -46,6 +46,7 @@ module.exports = {
     '~/plugins/validator.js',
     '~/plugins/multiselect.js',
     '~/plugins/buefy.js',
+    '~/plugins/components.js',
   ],
 
   modules: [

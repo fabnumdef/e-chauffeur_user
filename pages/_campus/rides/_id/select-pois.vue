@@ -100,6 +100,7 @@ export default {
         this.handleCommonErrorsBehavior(async () => {
           await this.$api.query('rides')
             .setMask('id,status')
+            .setCampus(this.campus.id)
             .edit(this.ride.id, {
               departure: this.departure,
               arrival: this.arrival,

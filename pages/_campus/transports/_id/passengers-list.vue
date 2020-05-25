@@ -72,15 +72,15 @@ export default {
       if (this.passengersString) {
         const passengersList = this.passengersString
           .split(',')
-          .map((slice) => slice
-            .toLowerCase()
-            .trim()
-            .split(' ')
-            .reduce((acc, str) => (
-              acc.firstname
-                ? { ...acc, lastname: str }
-                : { firstname: str }
-            ), {}));
+          .map((slice) => ({
+            name: slice
+              .toLowerCase()
+              .trim()
+              .split(' ')
+              .map((n) => n.charAt(0).toUpperCase() + n.slice(1))
+              .join(' '),
+          }));
+
         this.handleCommonErrorsBehavior(async () => {
           await this.$api.query('rides').edit(this.transport.id, { passengersList });
           this.$router.push({

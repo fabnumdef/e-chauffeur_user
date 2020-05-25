@@ -287,7 +287,6 @@ import helpButton from '~/components/help.vue';
 import modal from '~/components/modal.vue';
 import ecPassword from '~/components/form/password.vue';
 import ecPasswordConfirmation from '~/components/form/password-confirmation.vue';
-import ecField from '~/components/form/field.vue';
 
 import validationIconSwitch from '~/components/validation-icon-switch.vue';
 
@@ -300,7 +299,6 @@ export default {
     helpButton,
     validationIconSwitch,
     modal,
-    ecField,
     VueTelInput,
   },
   async asyncData({

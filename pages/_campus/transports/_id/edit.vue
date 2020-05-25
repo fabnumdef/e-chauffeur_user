@@ -59,7 +59,7 @@
           >
             <b-input
               id="departure"
-              v-model="transport.wishedDeparture"
+              v-model="transport.departure.address"
               placeholder="Adresse de départ souhaitée"
             />
           </b-field>
@@ -71,7 +71,7 @@
           >
             <b-input
               id="arrival"
-              v-model="transport.wishedArrival"
+              v-model="transport.arrival.address"
               placeholder="Adresse d'arrivée souhaitée"
             />
           </b-field>
@@ -119,7 +119,7 @@
           </b-field>
         </fieldset>
         <form-button
-          :disabled="!transport.start || !transport.wishedDeparture || !transport.wishedArrival"
+          :disabled="!transport.start || !transport.departure.address || !transport.arrival.address"
         />
       </form>
     </template>
@@ -158,8 +158,12 @@ export default {
       type: Object,
       default: () => ({
         start: null,
-        wishedDeparture: null,
-        wishedArrival: null,
+        departure: {
+          address: null,
+        },
+        arrival: {
+          address: null,
+        },
         luggage: false,
         passengersCount: 8,
         userComments: null,
@@ -187,7 +191,7 @@ export default {
       };
       this.handleCommonErrorsBehavior(async () => {
         let res;
-        const RideQuery = this.$api.query('rides').setMask('id,status').setCampus(this.campus.id);
+        const RideQuery = this.$api.query('rides').setMask('id').setCampus(this.campus.id);
         if (transport.id) {
           res = await RideQuery.edit(transport.id, transport);
         } else {

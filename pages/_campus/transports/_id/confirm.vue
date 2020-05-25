@@ -35,7 +35,7 @@
           >
             <input
               id="departure"
-              :value="transport.wishedDeparture"
+              :value="transport.departure.address"
               disabled
               class="input"
             >
@@ -47,7 +47,7 @@
           >
             <input
               id="arrival"
-              :value="transport.wishedArrival"
+              :value="transport.arrival.address"
               disabled
               class="input"
             >
@@ -126,7 +126,7 @@ export default {
   },
   async asyncData({ $api, params }) {
     try {
-      const { data: transport } = await $api.query('rides').setMask(MASK).get(params.id);
+      const { data: transport } = await $api.query('rides').setMask(MASK).setCampus(params.campus).get(params.id);
       return {
         transport,
       };
@@ -139,11 +139,7 @@ export default {
       return DateTime.fromISO(this.transport.start).toLocaleString(DateTime.DATETIME_MED);
     },
     passengersList() {
-      return this.transport.passengersList
-        .reduce((acc, passenger) => (acc
-          ? `${acc}, ${passenger.firstname || '--'} ${passenger.lastname || '--'}`
-          : `${passenger.firstname || '--'} ${passenger.lastname || '--'}`),
-        '');
+      return this.transport.passengersList.map(({ name }) => name).join(', ');
     },
   },
   methods: {

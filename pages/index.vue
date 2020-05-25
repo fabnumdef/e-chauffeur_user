@@ -103,13 +103,14 @@
             C'est nouveau
           </div>
           <p class="subtitle">
-            Les transports en commun sont disponibles à Paris !
+            Les transports en commun sont disponibles !
           </p>
-          <nuxt-link to="#">
-            <button class="button is-primary">
-              C'est parti !
-            </button>
-          </nuxt-link>
+          <button
+            class="button is-primary is-inverted"
+            @click="toggleModal"
+          >
+            C'est parti !
+          </button>
         </div>
       </section>
 

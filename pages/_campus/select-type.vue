@@ -27,30 +27,12 @@
           </h3>
           <p>
             Service e-Chauffeur historique,
-            vous pouvez reserver un vehicule jusqu'a huit places pour un trajet ponctuel ou recurent
+            vous pouvez réserver un véhicule jusqu'à huit places pour un trajet ponctuel ou récurent
           </p>
           <div class="radio" />
         </button>
         <button
           class="select-button shuttle"
-          :class="{ selected: selected === TRANSPORT }"
-          @click="selected = TRANSPORT"
-        >
-          <img
-            src="~/assets/images/transport.svg"
-            alt="car"
-          >
-          <h2 class="title">
-            Transport en commun
-          </h2>
-          <h3 class="title">
-            <strong>8 a 50 personnes</strong>
-          </h3>
-          <p>Service de transport collectif, permet de reserver ponctuellement un bus, jusqu'a 50 personnes.</p>
-          <div class="radio" />
-        </button>
-        <button
-          class="select-button bus"
           :class="{ selected: selected === SHUTTLE }"
           @click="selected = SHUTTLE"
         >
@@ -62,11 +44,29 @@
             Navette
           </h2>
           <h3 class="title">
-            <strong>8 a 50 personnes</strong>
+            <strong>8 à 50 personnes</strong>
           </h3>
           <p>
-            Service e-Navette, permet de reserver par arret une place disponible sur une ligne de bus mise a disposition
+            Service e-Navette, permet de réserver par arrêt une place disponible sur une ligne de bus mise à disposition
           </p>
+          <div class="radio" />
+        </button>
+        <button
+          class="select-button transport"
+          :class="{ selected: selected === TRANSPORT }"
+          @click="selected = TRANSPORT"
+        >
+          <img
+            src="~/assets/images/transport.svg"
+            alt="car"
+          >
+          <h2 class="title">
+            Transport en commun
+          </h2>
+          <h3 class="title">
+            <strong>8 à 50 personnes</strong>
+          </h3>
+          <p>Service de transport collectif, permet de réserver ponctuellement un bus, jusqu'à 50 personnes.</p>
           <div class="radio" />
         </button>
       </div>
@@ -110,7 +110,7 @@ export default {
           params: { campus: this.campusId },
         });
       } else {
-        this.$toast.error('Veuillez selectionner un type de transports');
+        this.$toast.error('Veuillez sélectionner un type de transport');
       }
     },
   },
@@ -137,7 +137,7 @@ export default {
     display: grid;
     grid-gap: 1.5em;
     grid-template-areas:
-      'car shuttle bus'
+      'car shuttle transport'
     ;
     button {
       position: relative;
@@ -182,8 +182,8 @@ export default {
       p {
         margin: 1em;
       }
-      &.bus {
-        grid-area: bus;
+      &.transport {
+        grid-area: transport;
         color: $green;
       }
       &.car {
