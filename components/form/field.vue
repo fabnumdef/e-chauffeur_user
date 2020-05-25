@@ -1,5 +1,9 @@
 <template>
-  <div class="field">
+  <div
+    class="field"
+    :type="getType(id)"
+    :message="getError(id, label)"
+  >
     <label
       v-if="label || $slots.label"
       :for="id"
@@ -16,6 +20,7 @@
 </template>
 
 <script>
+
 export default {
   props: {
     label: {
@@ -25,6 +30,26 @@ export default {
     id: {
       type: String,
       default: null,
+    },
+  },
+  methods: {
+    getError(path, label) {
+      const error = (this.errors || {})[path];
+      if (!error) {
+        return null;
+      }
+      switch (error.kind) {
+        case 'required':
+          return `Le champ ${label} est requis`;
+        default:
+          return `Le champ ${label} comporte une erreur`;
+      }
+    },
+    getType(path) {
+      if (!this.errors) {
+        return null;
+      }
+      return this.errors[path] ? 'is-danger' : 'is-success';
     },
   },
 };

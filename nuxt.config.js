@@ -1,3 +1,22 @@
+function addNewToCampusRoutes(routes, prepend, name) {
+  const routeParent = routes.find((r) => r.name === `${prepend}-${name}-id`);
+  if (!routeParent) {
+    return;
+  }
+
+  const routeEdit = routeParent.children.find((r) => r.name === `${prepend}-${name}-id-edit`);
+  if (!routeEdit) {
+    return;
+  }
+
+  routes.unshift({
+    name: `${prepend}-${name}-new`,
+    path: `${name}/new`,
+    component: routeEdit.component,
+    chunkName: routeEdit.chunkName,
+  });
+}
+
 module.exports = {
   head: {
     title: 'e-Chauffeur',
@@ -8,6 +27,12 @@ module.exports = {
 
   router: {
     middleware: ['auth'],
+    extendRoutes(routes) {
+      const autoNewRoot = ['rides', 'transports'];
+      autoNewRoot.forEach((r) => {
+        addNewToCampusRoutes(routes.find(({ name }) => name === 'campus').children, 'campus', r);
+      });
+    },
   },
 
   css: [
@@ -21,6 +46,7 @@ module.exports = {
     '~/plugins/validator.js',
     '~/plugins/multiselect.js',
     '~/plugins/buefy.js',
+    '~/plugins/components.js',
   ],
 
   modules: [
@@ -36,6 +62,8 @@ module.exports = {
           users: 'users',
           pois: 'pois',
           ratings: 'ratings',
+          shuttles: 'shuttles',
+          shuttleFactories: 'shuttle-factories',
         },
         mockAxios: (process.env.MOCK_AXIOS || '').toLowerCase() === 'true',
         accountRoute: 'my-account',

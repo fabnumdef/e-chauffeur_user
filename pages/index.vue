@@ -97,33 +97,25 @@
         </div>
       </section>
 
-      <section class="section white-section columns is-centered">
-        <div class="wrapper column is-9">
-          <div class="info blue">
-            <img
-              src="/calendar_icon.png"
-              alt="calendar-icon"
-            >
-            <p><strong>Choisissez vos dates et heures</strong></p>
-            <p>Planifiez votre réservation en sélectionnant vos dates, heures et le type de course</p>
+      <section class="section image-section columns">
+        <div class="column is-4">
+          <div class="title">
+            C'est nouveau
           </div>
-          <div class="info orange">
-            <img
-              src="/car_icon.png"
-              alt="car-icon"
-            >
-            <p><strong>Paramétrez votre réservation</strong></p>
-            <p>Signalez si vous êtes seul ou accompagné, la présence de bagages ou un passager spécial</p>
-          </div>
-          <div class="info green">
-            <img
-              src="/map_icon.png"
-              alt="map-icon"
-            >
-            <p><strong>Rendez-vous à votre point de rencontre</strong></p>
-            <p>Suivez votre chauffeur jusqu'au point de récupération, votre course va commencer</p>
-          </div>
+          <p class="subtitle">
+            Les transports en commun sont disponibles !
+          </p>
+          <button
+            class="button is-primary is-inverted"
+            @click="toggleModal"
+          >
+            C'est parti !
+          </button>
         </div>
+      </section>
+
+      <section class="section white-section columns is-centered">
+        <informations-icons />
       </section>
     </main>
     <modal
@@ -144,6 +136,7 @@
 import { mapGetters } from 'vuex';
 import ecHeader from '~/components/header.vue';
 import modal from '~/components/modal.vue';
+import informationsIcons from '~/components/informations-icons.vue';
 
 import searchCampus from '~/components/form/search-campus.vue';
 
@@ -154,6 +147,7 @@ export default {
     searchCampus,
     ecHeader,
     modal,
+    informationsIcons,
   },
 
   data() {
@@ -208,8 +202,8 @@ export default {
     redirectToRide() {
       if (this.$auth.loggedIn && this.campus.id) {
         this.$router.push({
-          name: 'campus-campus_id-rides-new',
-          params: { campus_id: this.campus.id },
+          name: 'campus-select-type',
+          params: { campus: this.campus.id },
         });
       } else if (this.$auth.loggedIn) {
         this.$toast.error('Veuillez sélectionner une base');
@@ -355,6 +349,7 @@ export default {
   .blue-section {
     text-align: center;
 
+
     .title {
       margin: .5em 0;
       font-weight: 500;
@@ -365,51 +360,25 @@ export default {
     }
   }
 
+  .image-section {
+    background: url("~assets/images/tc-background.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    text-align: center;
+    justify-content: center;
+    .title, .subtitle {
+      color: $primary;
+    }
+  }
+
   .wrapper {
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
     border-bottom: 1px solid $light-gray;
 
-    .info {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 3em;
 
-      p {
-        margin: 0;
-
-        strong {
-          display: block;
-          color: inherit;
-          font-size: 1.2em;
-          margin-top: 2em;
-        }
-      }
-
-    }
-
-    .info.blue {
-      color: $blue;
-
-      img {
-        margin-bottom: 1.5em;
-      }
-    }
-
-    .info.orange {
-      color: $orange;
-    }
-
-    .info.green {
-      color: $green;
-
-      img {
-        margin-bottom: 1.3em;
-      }
-    }
   }
 
   @media screen and (max-width: 600px) {

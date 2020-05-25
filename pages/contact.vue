@@ -154,7 +154,6 @@
             <textarea
               id="ec-form-message"
               v-model="fields.message"
-              v-validate="'required'"
               class="textarea"
               name="message"
               :class="{ 'is-danger': errors.has('message') }"
@@ -204,14 +203,9 @@
 </template>
 
 <script>
-import ecField from '~/components/form/field.vue';
 
 export default {
   auth: false,
-  components: {
-    ecField,
-  },
-
   data() {
     return {
       fields: {

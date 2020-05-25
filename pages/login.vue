@@ -71,14 +71,9 @@
 </template>
 
 <script>
-import ecField from '~/components/form/field.vue';
-
 export default {
   auth: false,
   layout: 'blue-background',
-  components: {
-    ecField,
-  },
   async asyncData() {
     return {
       user: {
