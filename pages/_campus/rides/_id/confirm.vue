@@ -135,6 +135,7 @@ export default {
           .setMask(MASK)
           .mutate(this.ride.id, CREATE);
         this.$toast.success('Votre course a été créée avec succès');
+        this.$router.push('/');
       });
     },
   },

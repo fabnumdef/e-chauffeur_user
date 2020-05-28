@@ -204,6 +204,17 @@ export default {
         grid-area: comments;
       }
     }
+
+    @media screen and (max-width: 600px) {
+      fieldset {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .field {
+          width: 100%;
+        }
+      }
+    }
   }
 
 </style>

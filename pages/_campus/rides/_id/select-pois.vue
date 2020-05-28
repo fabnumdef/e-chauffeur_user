@@ -141,4 +141,15 @@ export default {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 1em;
   }
+
+  @media screen and (max-width: 600px) {
+    fieldset {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .field {
+        width: 100%;
+      }
+    }
+  }
 </style>

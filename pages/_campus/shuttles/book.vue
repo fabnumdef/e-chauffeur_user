@@ -57,16 +57,17 @@
           >
             <vue-multiselect
               :value="shuttleFactory"
-              placeholder="Sélectionner une navette"
-              :options="shuttleFactories"
+              :placeholder="date && availableFactories.length === 0 ? 'Pas de navettes prévues' :
+                'Sélectionner une navette'"
+              :options="availableFactories"
               track-by="id"
               label="label"
-              :disabled="!date"
+              :disabled="!date || date && availableFactories.length === 0"
               @input="selectShuttleFactory"
             />
           </b-field>
 
-          <template v-if="shuttles && shuttles.length > 0">
+          <template v-if="date && availableFactories.length > 0">
             <template v-if="shuttleFactory">
               <b-field
                 label="Arrêt de départ"
@@ -121,7 +122,7 @@
                 </b-field>
 
                 <b-field
-                  label="Heure de passage estimée"
+                  label="Heure d'arrivée estimée"
                   label-for="end"
                   class="end"
                 >
@@ -135,12 +136,6 @@
               </template>
             </template>
           </template>
-          <div
-            v-else-if="shuttleFactory && date"
-            class="alert"
-          >
-            Pas de navettes prévues ce jour sur ce trajet
-          </div>
         </fieldset>
         <form-button :disabled="!date || !shuttleFactory || shuttles.length === 0" />
       </form>
@@ -187,7 +182,14 @@ export default {
     const { data: user } = await $api.query('jwt').setMask('gprd,phone(confirmed)').user();
     const { data: shuttleFactories } = await $api.query('shuttleFactories')
       .setMask(SHUTTLE_FACTORY_MASK).setCampus(params.campus).list();
-    return { user, shuttleFactories };
+
+    const { data: campus } = await $api.query('campuses').setMask('defaultReservationScope').get(params.campus);
+    const start = DateTime.local().toJSDate();
+    const end = DateTime.local().plus({ seconds: campus.defaultReservationScope }).toJSDate();
+    const { data: shuttles } = await $api.query('shuttles')
+      .setMask(SHUTTLE_MASK).setCampus(params.campus).list(start, end);
+
+    return { user, shuttleFactories, shuttles };
   },
   data() {
     return {
@@ -241,6 +243,17 @@ export default {
             };
           });
         }
+      }
+      return [];
+    },
+    availableFactories() {
+      if (this.date) {
+        const todayShuttles = this.shuttles.filter(({ start }) => start
+          <= DateTime.fromJSDate(this.date).endOf('day').toISO());
+
+        return this.shuttleFactories
+          .filter(({ id }) => todayShuttles
+            .find((shuttle) => shuttle.shuttleFactory.id === id));
       }
       return [];
     },
@@ -337,6 +350,17 @@ export default {
       .alert {
         font-weight: 700;
         text-align: center;
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+      fieldset {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .field {
+          width: 100%;
+        }
       }
     }
   }

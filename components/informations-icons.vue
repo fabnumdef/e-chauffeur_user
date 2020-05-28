@@ -45,16 +45,14 @@
       padding: 3em;
 
       p {
-        margin: 0;
+        margin: .5em;
 
         strong {
           display: block;
           color: inherit;
           font-size: 1.2em;
-          margin-top: 2em;
         }
       }
-
     }
 
     .info.blue {
@@ -74,6 +72,16 @@
 
       img {
         margin-bottom: 1.3em;
+      }
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    #informations-icons {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(3, 1fr);
+      .info {
+        padding: 1em;
       }
     }
   }
