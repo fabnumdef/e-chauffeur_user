@@ -151,6 +151,7 @@ export default {
           .mutate(this.transport.id, CREATE);
         this.$toast.success('Votre transport a été créé avec succès, '
           + 'la régulation reviendra vers vous pour confirmer les lieux de ramassages');
+        this.$router.push('/');
       });
     },
   },

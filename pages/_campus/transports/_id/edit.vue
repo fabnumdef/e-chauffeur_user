@@ -4,7 +4,7 @@
     :previous-step="{ name: 'campus-select-type', params: { campus: campus.id }}"
   >
     <template #title>
-      Réservez votre tranport dès maintenant !
+      Réservez votre transport dès maintenant !
     </template>
     <template #subtitle>
       Une fois que vous aurez renseigné votre adresse de départ et d'arrivée,
@@ -240,6 +240,17 @@ export default {
       }
       .comments {
         grid-area: comments;
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+      fieldset {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .field {
+          width: 100%;
+        }
       }
     }
   }

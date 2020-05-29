@@ -9,7 +9,7 @@
       </div>
     </section>
     <section class="white-section">
-      <div>
+      <div class="buttons">
         <button
           class="select-button car"
           :class="{ selected: selected === RIDE }"
@@ -123,7 +123,7 @@ export default {
 .section {
   text-align: center;
   .title, .subtitle {
-    width: 350px;
+    max-width: 350px;
     margin: auto;
   }
 }
@@ -131,7 +131,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  & > div {
+  .buttons {
     width: 50%;
     margin: 7em auto 2em;
     display: grid;
@@ -200,14 +200,17 @@ export default {
       display: block;
     }
   }
-}
-
-@media screen and (max-width: 600px) {
-  .white-section > div {
-    width: 80%;
-    grid-template-areas: 'car' 'shuttle' 'bus';
+  @media screen and (max-width: 600px) {
+    .buttons {
+      width: 80%;
+      margin: 7em auto 2em;
+      display: flex;
+      flex-direction: column;
+      button {
+        width: 100%;
+      }
+    }
   }
 }
-
 
 </style>

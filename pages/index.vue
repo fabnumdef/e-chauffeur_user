@@ -27,6 +27,7 @@
           />
         </div>
       </section>
+
       <section
         id="login-form"
         class="section white-section columns"
@@ -57,12 +58,6 @@
               >
             </div>
             <div>
-              <nuxt-link
-                class="button is-centered"
-                :to="{name: 'signup'}"
-              >
-                Inscription
-              </nuxt-link>
               <div class="button-wrapper">
                 <nuxt-link :to="{ name: 'reset-password' }">
                   Mot de passe oublié ?
@@ -79,25 +74,10 @@
         </div>
       </section>
 
-      <section class="section blue-section columns is-centered background">
-        <div class="column is-4">
-          <img
-            src="/logo_ec.svg"
-            alt="e-Chauffeur"
-          >
-          <div class="title">
-            Réservez votre <strong>e-Chauffeur</strong> dès maintenant
-          </div>
-          <button
-            class="button is-primary is-inverted"
-            @click="toggleModal"
-          >
-            C'est parti !
-          </button>
-        </div>
-      </section>
 
-      <section class="section image-section columns">
+      <section
+        class="section image-section columns"
+      >
         <div class="column is-4">
           <div class="title">
             C'est nouveau
@@ -202,7 +182,7 @@ export default {
     redirectToRide() {
       if (this.$auth.loggedIn && this.campus.id) {
         this.$router.push({
-          name: 'campus-select-type',
+          name: 'campus-shuttles-book',
           params: { campus: this.campus.id },
         });
       } else if (this.$auth.loggedIn) {
@@ -416,6 +396,7 @@ export default {
 
   .first-section {
     position: relative;
+    max-height: fit-content;
     @media screen and (min-width: $widescreen) {
       &:after {
         content: " ";
@@ -430,5 +411,20 @@ export default {
         z-index: 0;
       }
     }
+  }
+
+  .fade-slide-enter {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .fade-slide-leave-to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  .fade-slide-enter-active,
+  .fade-slide-leave-active {
+    transition: all 2s ease;
   }
 </style>

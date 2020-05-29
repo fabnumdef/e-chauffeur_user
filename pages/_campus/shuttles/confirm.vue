@@ -138,6 +138,7 @@ export default {
       this.handleCommonErrorsBehavior(async () => {
         await this.$api.query('shuttles').setCampus(this.campus.id).edit(this.id, payload);
         this.$toast.success('Place réservée avec succès');
+        this.$router.push('/');
       });
     },
   },
@@ -155,6 +156,17 @@ export default {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       margin-bottom: 1em;
+    }
+
+    @media screen and (max-width: 600px) {
+      fieldset, fieldset div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        div, .field {
+          width: 100%;
+        }
+      }
     }
   }
 </style>
